@@ -1,12 +1,11 @@
-import React from 'react'
-//import classnames from 'classnames';
+import React from 'react';
 
-const Button = ({ btnText }) => {
+const Button = ({ bg, btnText, textColor }) => {
   return (
-    <button>
-        {btnText}
+    <button className={`bg-${bg} py-4 px-7 text-${textColor}`}>
+      {btnText}
     </button>
-  )
+  );
 };
 
 export default Button;

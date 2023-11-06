@@ -19,7 +19,7 @@ function Home() {
       </div>
       <Routes>
         <Route path="/Login" element={<Login />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={Home} />
       </Routes>
     </Router>
     

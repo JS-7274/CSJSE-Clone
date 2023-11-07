@@ -1,4 +1,9 @@
+/*@tailwind base;
+@tailwind components;
+@tailwind utilities;*/
+
 /*styling for the login page, might have to change the .app name*/
+
 .App {
   text-align: center;
   display: flex;

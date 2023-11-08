@@ -75,3 +75,12 @@ CREATE TABLE Teachers_List (
     first_name varchar(15),
     last_name varchar(15)
 );
+
+# Code to change the accounts tables
+alter table schools_list rename schools_accounts;
+
+alter table teachers_list rename teachers_accounts;
+
+alter table teachers_accounts add password varchar(40);
+
+alter table schools_accounts add password varchar(40);

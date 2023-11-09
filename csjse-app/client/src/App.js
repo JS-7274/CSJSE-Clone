@@ -14,5 +14,7 @@ function App() {
     </Router>
   );
 }
+//Basically, (don't understand it too well myself) Router is needed for routes to work, routes let you set multiple route(s)
+    //the route lets you set a path (path='') and element lets you put whatever you wish in it (usually the function you export from that page) (element={})
 
 export default App;

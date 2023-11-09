@@ -1,13 +1,11 @@
 import React from "react";
 import Button from "../components/Button";
 //import "../index.css";
+import { Route, Link, Routes } from "react-router-dom";
 
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
-import Login from "./Login";
-
-function Home() {
+function Home() {  
   return (
-    <Router>
+      <>
       <div className="m-5">
         <div className="flex flex-row gap-5">
           <div className="basis-3/5">
@@ -19,11 +17,8 @@ function Home() {
           </div>
         </div>
       </div>
-      <Routes>
-        <Route path="/Login" element={<Login />} />
-        <Route path="/" element={Home} />
-      </Routes>
-    </Router>
+      
+      </>
     
   );
 }

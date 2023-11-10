@@ -1,7 +1,23 @@
-button {
-    border: none;
-    background-color: black;
-    padding: 20px;
-    border-radius: 10px;
-    cursor: pointer;
-  }
+/* HomePage.css */
+
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+}
+
+.header {
+  background-color: #fff;
+  padding: 10px;
+  color: #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 24px;
+}
+
+.buttons {
+  display: flex;
+}

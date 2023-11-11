@@ -10,7 +10,11 @@ export default function Login() {
     //passes in (e) as a parameter, e.preventDefault() forces the page to not reload on subission, console.log(email) puts whatever is input for email into the console, probably replace for actual login code
     const handleSubmit = (e) => {
         e.preventDefault();
+        //login logic here
         console.log(email);
+
+        //authentification logic here?
+        window.location.href = '/profile';
     }
 
     return (

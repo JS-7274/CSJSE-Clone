@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import "../styles/Profile.css";
 
 const Profile = ({ user }) => {
     const [activeTab, setActiveTab] = useState('Profile-Information');

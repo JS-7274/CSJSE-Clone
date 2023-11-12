@@ -2,7 +2,6 @@ import React from "react";
 import "../styles/Home.css";
 import { Link } from "react-router-dom";
 
-
 function Home() {  
   return (
     <div>
@@ -13,6 +12,14 @@ function Home() {
           <Link to="/Login" className="button">Login</Link>
         </div>
       </header>
+      <div className="hero">
+      
+      </div>
+      <div className="info-section">
+        <img>
+        
+        </img>
+      </div>
     </div>
   );
 }

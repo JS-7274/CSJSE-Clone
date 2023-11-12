@@ -18,6 +18,7 @@ export default function Login() {
     }
 
     return (
+        <div className="backgroundColor">
         <div className="login-container">
             <form className="login-form" onSubmit={handleSubmit}>
                 <h2>Login</h2>
@@ -46,6 +47,7 @@ export default function Login() {
                 <button type="submit" className="button">Log In</button>
                 <button className="button">Create Account</button>
             </form>
+        </div>
         </div>
     )
 }

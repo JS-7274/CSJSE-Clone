@@ -84,3 +84,7 @@ alter table teachers_list rename teachers_accounts;
 alter table teachers_accounts add password varchar(40);
 
 alter table schools_accounts add password varchar(40);
+
+alter table teachers_accounts add email varchar(25);
+
+alter table schools_accounts add email varchar(25);

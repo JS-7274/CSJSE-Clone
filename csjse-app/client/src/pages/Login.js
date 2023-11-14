@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import "../styles/AMLogin.css";
-import axios from 'axios'
+import axios from 'axios';
 
 export default function Login() {
     //creates two variables (email and pass) along with 2 functions to change them, useState being empty means they start off empty

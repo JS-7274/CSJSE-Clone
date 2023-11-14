@@ -2,7 +2,7 @@ const express = require('express')
 const mysql = require('mysql2')
 const bodyParser = require('body-parser')
 const app = express()
-const port = process.env.PORT || 3001
+const port = process.env.PORT || 5000
 
 app.use(bodyParser.json()) // Use JSON parser for incoming requests
 

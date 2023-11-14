@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import axios from 'axios'
 //import "../index.css";
 
 export default function Login() {
@@ -8,12 +9,29 @@ export default function Login() {
     const [pass, setPass] = useState('');
 
     //passes in (e) as a parameter, e.preventDefault() forces the page to not reload on subission, console.log(email) puts whatever is input for email into the console, probably replace for actual login code
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        
         //login logic here
-        console.log(email);
+        fetch('http://localhost:5000/api/login', {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json',
+            },      
+            body: JSON.stringify({email, pass}),
+
+        })      
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error during login:', error))
 
         //authentification logic here?
+        try {
+            const response = await axios.post('/api/login', {email, pass})
+            console.log(response.data) // Handle the response accordingly
+        } catch (error) {
+            console.error('Login failed:', error.reponse.data)
+        }
         window.location.href = '/profile';
     }
 

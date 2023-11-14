@@ -88,3 +88,8 @@ alter table schools_accounts add password varchar(40);
 alter table teachers_accounts add email varchar(25);
 
 alter table schools_accounts add email varchar(25);
+
+# How to add a new user
+CREATE USER 'team_user'@'localhost' IDENTIFIED BY 'TeamUser1234';
+GRANT ALL PRIVILEGES ON database.* TO 'team_user'@'localhost';
+FLUSH PRIVILEGES;

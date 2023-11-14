@@ -12,27 +12,27 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         
+        console.log(email)
+        console.log(pass)
         //login logic here
-        fetch('http://localhost:5000/api/login', {
+        const res = await fetch('http://localhost:5000/api/login', {
             method: 'POST', 
             headers: {
                 'Content-Type': 'application/json',
             },      
             body: JSON.stringify({email, pass}),
 
-        })      
+        })
+    
+        // Receives response
         .then(response => response.json())
-        .then(data => console.log(data))
         .catch(error => console.error('Error during login:', error))
+        console.log(res.success) // This is the information that you are checking for.
 
-        //authentification logic here?
-        try {
-            const response = await axios.post('/api/login', {email, pass})
-            console.log(response.data) // Handle the response accordingly
-        } catch (error) {
-            console.error('Login failed:', error.reponse.data)
+        // If response is successful, move to profile page.
+        if (res.success) {
+            window.location.href = '/profile';
         }
-        window.location.href = '/profile';
     }
 
     return (

@@ -1,9 +1,11 @@
 const express = require('express')
 const mysql = require('mysql2')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 const app = express()
 const port = process.env.PORT || 5000
 
+app.use(cors()) // Enable CORS for all routes
 app.use(bodyParser.json()) // Use JSON parser for incoming requests
 
 // Set up MySQL Connection
@@ -23,10 +25,12 @@ db.connect((err) => {
 })
 
 app.post('/api/login', (req, res) => {
-    const {email, password} = req.body
+    console.log('Received login request', req.body)
 
-    const sql = 'SELECT * FROM teachers_accounts WHERE email = ? AND password = ?'
-    db.query(sql, [email, password], (err, results) => {
+    const {email, pass} = req.body
+
+    const sql = "SELECT * FROM teachers_accounts WHERE email = ? AND password = ?;"
+    db.query(sql, [email, pass], (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Internal Server Error'})
         }
@@ -36,7 +40,7 @@ app.post('/api/login', (req, res) => {
             return res.json({success: true})
         } else {
             // Invalid credentials
-            return res.status(401).json({error: 'Invalid email or password'})
+            return res.json({success: false})
         }
     })
 })

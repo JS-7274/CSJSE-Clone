@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import axios from 'axios'
-//import "../index.css";
+import "../styles/AMLogin.css";
 
 export default function Login() {
     //creates two variables (email and pass) along with 2 functions to change them, useState being empty means they start off empty
@@ -36,18 +36,36 @@ export default function Login() {
     }
 
     return (
-        <div className="App">
-            <div className="auth-form-container">
+        <div className="backgroundColor">
+        <div className="login-container">
+            <form className="login-form" onSubmit={handleSubmit}>
                 <h2>Login</h2>
-                <form className="login-form" onSubmit={handleSubmit}>
-                    <label htmlFor="email">Email</label>
-                    <input value={email} onChange={(e) => setEmail(e.target.value)}type="email" placeholder="youremail@domain.com" id="email" name="email" />
-                    <label htmlFor="password">Password</label>
-                    <input value={pass} onChange={(e) => setPass(e.target.value)}type="password" placeholder="*******" id="password" name="password" />
-                    <button type="submit">Log In</button>
-                </form>
-                <button className="link-btn">Don't have an account? Register here</button>
-            </div>
+                <div className="form-group">
+                    <label className="label" htmlFor="email">Email</label>
+                    <input 
+                        className="input-field"
+                        value={email} 
+                        onChange={(e) => setEmail(e.target.value)}type="email" 
+                        placeholder="youremail@domain.com" 
+                        id="email" 
+                        name="email" 
+                    />
+                </div>
+                <div className="form-group">
+                    <label className="label" htmlFor="password">Password</label>
+                    <input 
+                        className="input-field"
+                        value={pass} 
+                        onChange={(e) => setPass(e.target.value)}type="password" 
+                        placeholder="*******" 
+                        id="password" 
+                        name="password" 
+                    />
+                </div>
+                <button type="submit" className="button">Log In</button>
+                <button className="button">Create Account</button>
+            </form>
+        </div>
         </div>
     )
 }

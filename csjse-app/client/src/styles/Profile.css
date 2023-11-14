@@ -1,0 +1,33 @@
+.profile-container {
+    display: flex;
+    background-color: #bdbdbd;
+  }
+  
+  .profile-greeting {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .sidebar {
+    width: 200px;
+    padding: 10px;
+    background-color: #f0f0f0;
+  }
+  
+  .sidebar button {
+    display: block;
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  
+  .profile-content {
+    position: flex;
+    border: 1px solid #ffffff;
+    background-color: #dddddd;
+    align-items: center;
+    padding: 5rem;
+    border: 1px solid white;
+    border-radius: 10px;
+    margin: 0.5rem;
+  }

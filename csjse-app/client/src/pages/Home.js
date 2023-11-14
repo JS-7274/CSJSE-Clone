@@ -1,5 +1,6 @@
 import React from "react";
 import "../styles/Home.css";
+import HeroImage from "../assets/teacher07.jpg";
 import { Link } from "react-router-dom";
 
 function Home() {  
@@ -16,9 +17,11 @@ function Home() {
       
       </div>
       <div className="info-section">
-        <img>
-        
-        </img>
+        {/*<img
+          src={HeroImage}
+          alt="teacher facing a room of students"
+          className="hero"
+    />*/}
       </div>
     </div>
   );

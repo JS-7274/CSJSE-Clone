@@ -9,7 +9,8 @@ function Home() {
       <header className="header">
         <div className="logo">Christian Schools Job Search</div>
         <div className="buttons">
-          <button className="button">Create Account</button>
+        <Link to="/SchoolCreateAcc" className="button">Create School Account</Link>
+          <Link to="/TeacherCreateAcc" className="button">Create Account</Link>
           <Link to="/Login" className="button">Login</Link>
         </div>
       </header>

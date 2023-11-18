@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import "../styles/AMLogin.css";
+import axios from 'axios';
 
 export default function Login() {
     //creates two variables (email and pass) along with 2 functions to change them, useState being empty means they start off empty
@@ -8,13 +9,30 @@ export default function Login() {
     const [pass, setPass] = useState('');
 
     //passes in (e) as a parameter, e.preventDefault() forces the page to not reload on subission, console.log(email) puts whatever is input for email into the console, probably replace for actual login code
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        console.log(email)
+        console.log(pass)
         //login logic here
-        console.log(email);
+        const res = await fetch('http://localhost:5000/api/login', {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json',
+            },      
+            body: JSON.stringify({email, pass}),
 
-        //authentification logic here?
-        window.location.href = '/profile';
+        })
+    
+        // Receives response
+        .then(response => response.json())
+        .catch(error => console.error('Error during login:', error))
+        console.log(res.success) // This is the information that you are checking for.
+
+        // If response is successful, move to profile page.
+        if (res.success) {
+            window.location.href = '/profile';
+        }
     }
 
     return (

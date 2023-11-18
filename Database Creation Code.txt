@@ -159,3 +159,4 @@ CREATE TABLE teachers_accounts (
     password varchar(40),
     email varchar(25)
 );
+FLUSH PRIVILEGES;

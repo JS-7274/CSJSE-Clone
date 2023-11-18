@@ -8,9 +8,22 @@ function Home() {
     <div>
       <header className="header">
         <div className="logo">Christian Schools Job Search</div>
+        
         <div className="buttons">
-          <button className="button">Create Account</button>
-          <Link to="/Login" className="button">Login</Link>
+          <div className="dropdown">
+            <button className="dropbtn">Create Account</button>
+            <div className="dropdown-content">
+              <Link>Teachers/Staff</Link>
+              <Link>Schools</Link>
+            </div>
+          </div>
+          <div className="dropdown">
+            <button className="dropbtn">Login</button>
+            <div className="dropdown-content">
+              <Link to="/Login">Teachers/Staff</Link>
+              <Link to="/Login">Schools</Link>
+            </div>
+          </div>
         </div>
       </header>
       <div className="hero">

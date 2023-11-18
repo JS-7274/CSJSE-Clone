@@ -24,9 +24,9 @@ const Profile = ({ user }) => {
                 <button onClick={() => handleTabClick('Resume')}>Resume</button>
             </div>
             <div className='profile-content'>
-                {activeTab === 'Profile' && (
+                {activeTab === 'Profile Information' && (
                     <div>
-                    <h2>General Information</h2>
+                    <h2>Profile Information</h2>
                     {/* Display general profile information here */}
                     </div>
                 )}

@@ -79,7 +79,7 @@
   position: relative;
   height: 400px;
   background-image:
-  linear-gradient(to bottom, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.30), rgba(38, 177, 112, 0.75)),
+  linear-gradient(to right, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.30), rgba(38, 177, 112, 0.75)),
   url("../assets/teacher07.jpg");
   background-position: center;
   background-size: cover;
@@ -108,4 +108,18 @@
 
 .info-section {
   display: flex;
+}
+
+img {
+  position: relative;
+  max-width: 500px;
+  min-height: 500px;
+  
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  border-radius: 10px;
 }

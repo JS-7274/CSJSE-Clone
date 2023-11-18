@@ -28,15 +28,25 @@ function Home() {
       </header>
       <div className="hero">
         {/*<div class="hero-content">
-          <h1>Where Faith Meets Vocation!</h1>
+          <h1>Where Educators Embrace Faith and Calling</h1>
   </div>*/}
       </div>
+      <div>
+        <p>
+        Where Educators Embrace Faith and Calling!
+
+Explore a specialized platform tailored for educators seeking fulfilling careers within Christian schools. We're dedicated to connecting passionate educators with opportunities that integrate teaching excellence with Christian values.
+        </p>
+      </div>
       <div className="info-section">
-        {/*<img
+        <img
           src={HeroImage}
           alt="teacher facing a room of students"
-          className="hero"
-    />*/}
+        />
+        <p>
+        Discover Purposeful Roles:
+Unlock a treasure trove of job listings from Christian schools committed to academic excellence infused with faith-based principles. Whether you're an educator, administrator, or support staff, find roles that let you nurture minds while fostering spiritual growth.
+        </p>
       </div>
     </div>
   );

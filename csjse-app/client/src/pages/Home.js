@@ -27,7 +27,9 @@ function Home() {
         </div>
       </header>
       <div className="hero">
-      
+        {/*<div class="hero-content">
+          <h1>Where Faith Meets Vocation!</h1>
+  </div>*/}
       </div>
       <div className="info-section">
         {/*<img

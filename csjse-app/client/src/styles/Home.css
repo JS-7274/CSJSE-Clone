@@ -3,7 +3,7 @@
 
 .header {
   background-color: #fff;
-  color: #000;
+  color: #01377d;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -88,7 +88,7 @@
   margin-top: 20px;
   margin-bottom: 20px;
   flex-direction: column;
-  align-items: left;
+  align-items: end;
   justify-content: end;
   text-align: end;
   border-radius: 10px;
@@ -97,9 +97,12 @@
 
 .hero-content {
   /* Styles for the content within the hero section */
-  /* This is just an example, style it according to your design */
-  width: 50%;
-  text-align: right;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(0, -50%);
+  width: 45%;
+  margin: 20px
 }
 
 .hero h1 {
@@ -108,6 +111,12 @@
 
 .info-section {
   display: flex;
+  margin-bottom: 20px;
+}
+
+.info-text{
+  flex-direction: column;
+
 }
 
 img {

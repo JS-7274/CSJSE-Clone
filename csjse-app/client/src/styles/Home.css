@@ -3,7 +3,6 @@
 
 .header {
   background-color: #fff;
-  padding: 10px;
   color: #000;
   display: flex;
   justify-content: space-between;
@@ -79,27 +78,28 @@
   position: relative;
   height: 400px;
   background-image:
-  linear-gradient(to right, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.30), rgba(38, 177, 112, 0.75)),
+  linear-gradient(to right, rgba(255, 255, 255, 0.15),  rgba(1, 55, 125, 0.90)),
   url("../assets/teacher07.jpg");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   color: #fff;
   display: flex;
-  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   justify-content: end;
   text-align: end;
-  width: 98%;
   border-radius: 10px;
+  padding: 20px;
 }
 
 .hero-content {
   /* Styles for the content within the hero section */
   /* This is just an example, style it according to your design */
-  max-width: 800px;
-  margin: 0 auto;
+  width: 50%;
+  text-align: right;
 }
 
 .hero h1 {
@@ -114,7 +114,6 @@ img {
   position: relative;
   max-width: 500px;
   min-height: 500px;
-  
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;

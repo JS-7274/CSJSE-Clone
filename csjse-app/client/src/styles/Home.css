@@ -102,7 +102,7 @@
   right: 0;
   transform: translate(0, -50%);
   width: 45%;
-  margin: 20px
+  margin: 20px;
 }
 
 .hero h1 {
@@ -111,18 +111,20 @@
 
 .info-section {
   display: flex;
-  margin-bottom: 20px;
+  max-width: 1080px;
+  margin: auto auto 20px auto;
+  align-items: center;
 }
 
 .info-text{
   flex-direction: column;
+  padding: 20px
 
 }
 
 img {
   position: relative;
-  max-width: 500px;
-  min-height: 500px;
+  max-width: 400px;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;

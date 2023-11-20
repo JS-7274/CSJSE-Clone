@@ -1,0 +1,7 @@
+Colors
+    Blue:
+        hex: #01377d
+        rgb: (1,55,125)
+    Green:
+        hex: #26b170
+        rgb: (38, 177, 112)

@@ -17,8 +17,8 @@ function Home() {
 					<div className="dropdown">
 						<button className="dropbtn">Create Account</button>
 						<div className="dropdown-content">
-							<Link>Teachers/Staff</Link>
-							<Link>Schools</Link>
+							<Link to="/TeacherCreateAcc">Teachers/Staff</Link>
+							<Link to="/SchoolCreateAcc">Schools</Link>
 						</div>
 					</div>
 					<div className="dropdown">

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/AMLogin.css";
+>>>>>>>>> Temporary merge branch 2
 
 export default function Login() {
 	//creates two variables (email and pass) along with 2 functions to change them, useState being empty means they start off empty
@@ -7,30 +8,32 @@ export default function Login() {
 	const [email, setEmail] = useState("");
 	const [pass, setPass] = useState("");
 
-	//passes in (e) as a parameter, e.preventDefault() forces the page to not reload on subission, console.log(email) puts whatever is input for email into the console, probably replace for actual login code
-	const handleSubmit = async (e) => {
-		e.preventDefault();
+    //passes in (e) as a parameter, e.preventDefault() forces the page to not reload on subission, console.log(email) puts whatever is input for email into the console, probably replace for actual login code
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        //login logic here
+        fetch('http://localhost:5000/api/login', {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json',
+            },      
+            body: JSON.stringify({email, pass}),
 
-		console.log(email);
-		console.log(pass);
-		//login logic here
-		const res = await fetch("http://localhost:5000/api/login", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ email, pass }),
-		})
-			// Receives response
-			.then((response) => response.json())
-			.catch((error) => console.error("Error during login:", error));
-		console.log(res.success); // This is the information that you are checking for.
+        })      
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error during login:', error))
 
-		// If response is successful, move to profile page.
-		if (res.success) {
-			window.location.href = "/profile";
-		}
-	};
+        //authentification logic here?
+        try {
+            const response = await axios.post('/api/login', {email, pass})
+            console.log(response.data) // Handle the response accordingly
+        } catch (error) {
+            console.error('Login failed:', error.reponse.data)
+        }
+        window.location.href = '/profile';
+    }
 
 	return (
 		<div className="backgroundColor">

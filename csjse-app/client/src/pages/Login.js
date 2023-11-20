@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../styles/AMLogin.css";
->>>>>>>>> Temporary merge branch 2
+import axios from "axios";
 
 export default function Login() {
 	//creates two variables (email and pass) along with 2 functions to change them, useState being empty means they start off empty
@@ -8,32 +8,31 @@ export default function Login() {
 	const [email, setEmail] = useState("");
 	const [pass, setPass] = useState("");
 
-    //passes in (e) as a parameter, e.preventDefault() forces the page to not reload on subission, console.log(email) puts whatever is input for email into the console, probably replace for actual login code
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        
-        //login logic here
-        fetch('http://localhost:5000/api/login', {
-            method: 'POST', 
-            headers: {
-                'Content-Type': 'application/json',
-            },      
-            body: JSON.stringify({email, pass}),
+	//passes in (e) as a parameter, e.preventDefault() forces the page to not reload on subission, console.log(email) puts whatever is input for email into the console, probably replace for actual login code
+	const handleSubmit = async (e) => {
+		e.preventDefault();
 
-        })      
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error('Error during login:', error))
+		//login logic here
+		fetch("http://localhost:5000/api/login", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ email, pass }),
+		})
+			.then((response) => response.json())
+			.then((data) => console.log(data))
+			.catch((error) => console.error("Error during login:", error));
 
-        //authentification logic here?
-        try {
-            const response = await axios.post('/api/login', {email, pass})
-            console.log(response.data) // Handle the response accordingly
-        } catch (error) {
-            console.error('Login failed:', error.reponse.data)
-        }
-        window.location.href = '/profile';
-    }
+		//authentification logic here?
+		try {
+			const response = await axios.post("/api/login", { email, pass });
+			console.log(response.data); // Handle the response accordingly
+		} catch (error) {
+			console.error("Login failed:", error.reponse.data);
+		}
+		window.location.href = "/profile";
+	};
 
 	return (
 		<div className="backgroundColor">

@@ -24,8 +24,8 @@ function Home() {
 					<div className="dropdown">
 						<button className="dropbtn">Login</button>
 						<div className="dropdown-content">
-							<Link to="/Login">Teachers/Staff</Link>
-							<Link to="/Login">Schools</Link>
+							<Link to="/TeacherLogin">Teachers/Staff</Link>
+							<Link to="/SchoolLogin">Schools</Link>
 						</div>
 					</div>
 				</div>

@@ -1,6 +1,7 @@
 import './App.css';
 import Home from "./pages/Home";
-import Login from './pages/Login';
+import TeacherLogin from './pages/TeacherLogin';
+import SchoolLogin from './pages/SchoolLogin';
 import Profile from './pages/Profile';
 import TeacherCreateAcc from './pages/TeacherCreateAcc';
 import SchoolCreateAcc from './pages/SchoolCreateAcc';
@@ -11,7 +12,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/Login" element={<Login />} />
+        <Route path="/TeacherLogin" element={<TeacherLogin />} />
+        <Route path="/SchoolLogin" element={<SchoolLogin />} />
         <Route path="/Profile" element={<Profile />} />
         <Route path="/SchoolCreateAcc" element={<SchoolCreateAcc />} />
         <Route path="/TeacherCreateAcc" element={<TeacherCreateAcc />} />

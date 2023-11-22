@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import "../styles/LoginandCreate.css";
-import axios from "axios";
 
-export default function Login() {
+export default function SchoolLogin() {
 	//creates two variables (email and pass) along with 2 functions to change them, useState being empty means they start off empty
 	//useState allows us to edit variables based on inputs we get to my understanding
 	const [email, setEmail] = useState("");
@@ -13,7 +12,7 @@ export default function Login() {
 		e.preventDefault();
 
 		//login logic here
-		const res = await fetch("http://localhost:5000/api/login", {
+		const res = await fetch("http://localhost:5000/api/slogin", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

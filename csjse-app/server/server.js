@@ -24,12 +24,35 @@ db.connect((err) => {
     console.log('Connected to MySQL')
 })
 
-app.post('/api/login', (req, res) => {
+// API for teacher login
+app.post('/api/tlogin', (req, res) => {
     console.log('Received login request', req.body)
 
     const {email, pass} = req.body
 
     const sql = "SELECT * FROM teachers_accounts WHERE email = ? AND password = ?;"
+    db.query(sql, [email, pass], (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Internal Server Error'})
+        }
+
+        if (results.length > 0) {
+            // Login successful
+            return res.json({success: true})
+        } else {
+            // Invalid credentials
+            return res.json({success: false})
+        }
+    })
+})
+
+//API for school login
+app.post('/api/slogin', (req, res) => {
+    console.log('Received login request', req.body)
+
+    const {email, pass} = req.body
+
+    const sql = "SELECT * FROM schools_accounts WHERE email = ? AND password = ?;"
     db.query(sql, [email, pass], (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Internal Server Error'})

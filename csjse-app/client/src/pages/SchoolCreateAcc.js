@@ -41,6 +41,11 @@ export default function SchoolCreateAcc() {
 		}
 	};
 
+	// Used for when the "Already have an Account?" button is clicked to redirect the user to the login page.
+	const handleAlreadyHaveAccount = () => {
+		window.location.href = "/SchoolLogin";
+	}
+
 	return (
 		//puts everything in a container to change bg color
 		<div className="backgroundColor">
@@ -103,7 +108,7 @@ export default function SchoolCreateAcc() {
 					<button type="submit" className="button">
 						Create Account
 					</button>
-					<button className="button">Already Have An Account?</button>
+					<button type="button" className="button" onClick={handleAlreadyHaveAccount}>Already Have An Account?</button>
 				</form>
 			</div>
 		</div>

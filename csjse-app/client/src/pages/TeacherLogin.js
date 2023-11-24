@@ -29,6 +29,11 @@ export default function TeacherLogin() {
 		}
 	};
 
+	// Used for changing the page to the Teacher Account Creation for whenever the 'Create Account' button is clicked on the Teacher login
+	const handleCreateAccount = () => {
+		window.location.href = "/TeacherCreateAcc";
+	}
+
 	return (
 		<div className="backgroundColor">
 			<div className="login-container">
@@ -65,7 +70,7 @@ export default function TeacherLogin() {
 					<button type="submit" className="button">
 						Log In
 					</button>
-					<button className="button">Create Account</button>
+					<button type="button" className="button" onClick={handleCreateAccount}>Create Account</button>
 				</form>
 			</div>
 		</div>

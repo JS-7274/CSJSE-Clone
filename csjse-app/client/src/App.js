@@ -7,6 +7,7 @@ import TeacherCreateAcc from './pages/TeacherCreateAcc';
 import SchoolCreateAcc from './pages/SchoolCreateAcc';
 import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+//Route contributed to by everyone
 function App() {
   return (
     <Router>

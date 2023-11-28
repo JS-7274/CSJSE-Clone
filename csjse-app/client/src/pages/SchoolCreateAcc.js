@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/LoginandCreate.css";
+//Page made by Josh with some code from others where specified
 
 //this function will be called to bring up a form to create a new account for a school
 
@@ -50,6 +51,7 @@ export default function SchoolCreateAcc() {
 		  }
 	};
 
+	// Made by
 	// Used for when the "Already have an Account?" button is clicked to redirect the user to the login page.
 	const handleAlreadyHaveAccount = () => {
 		window.location.href = "/SchoolLogin";
@@ -137,6 +139,7 @@ export default function SchoolCreateAcc() {
 					<button type="submit" className="button">
 						Create Account
 					</button>
+					{/* Made by */}
 					<button type="button" className="button" onClick={handleAlreadyHaveAccount}>Already Have An Account?</button>
 				</form>
 			</div>

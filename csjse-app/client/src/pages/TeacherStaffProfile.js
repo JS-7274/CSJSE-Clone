@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import "../styles/Profile.css";
+import "../styles/Profiles.css";
+import { TeacherStaffHeader } from "../components/Headers";
 
-const Profile = ({ user }) => {
+const TeacherStaffProfile = ({ user }) => {
 	const [activeTab, setActiveTab] = useState("Profile-Information");
 
 	/* useEffect(() => {
@@ -13,8 +14,9 @@ const Profile = ({ user }) => {
 	};
 
 	return (
-		<>
-			<div className="profile-container">
+		<div>
+			<TeacherStaffHeader></TeacherStaffHeader>
+			<div className="">
 				<div className="profile-greeting">Hello, {/*{user.username} */}</div>
 			</div>
 			<div className="profile-container">
@@ -46,8 +48,8 @@ const Profile = ({ user }) => {
 					)}
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 
-export default Profile;
+export default TeacherStaffProfile;

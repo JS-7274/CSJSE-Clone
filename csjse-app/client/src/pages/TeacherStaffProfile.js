@@ -16,9 +16,7 @@ const TeacherStaffProfile = ({ user }) => {
 	return (
 		<div>
 			<TeacherStaffHeader></TeacherStaffHeader>
-			<div className="">
-				<div className="profile-greeting">Hello, {/*{user.username} */}</div>
-			</div>
+
 			<div className="profile-container">
 				<div className="sidebar">
 					<button onClick={() => handleTabClick("Profile Information")}>

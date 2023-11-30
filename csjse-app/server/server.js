@@ -68,7 +68,8 @@ app.post('/api/slogin', (req, res) => {
     })
 })
 
-//api to handle requests from teachers to create account
+//Api to handle requests from teachers to create account
+// Made by Josh
 app.post('/api/tCreateAccount', (req, res) => {
     console.log('Received account creation request', req.body);
 
@@ -108,7 +109,8 @@ app.post('/api/tCreateAccount', (req, res) => {
     });
 });
 
-//api to handle requests from schools to create account
+//Api to handle requests from schools to create account
+// Made by Josh
 app.post('/api/sCreateAccount', (req, res) => {
     console.log('Received account creation request', req.body);
 

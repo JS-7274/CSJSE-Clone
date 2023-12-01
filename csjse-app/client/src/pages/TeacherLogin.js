@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/LoginandCreate.css";
+// Page made by Josh and Matthew
 
 export default function TeacherLogin() {
 	//creates two variables (email and pass) along with 2 functions to change them, useState being empty means they start off empty

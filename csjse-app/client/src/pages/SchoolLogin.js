@@ -19,26 +19,26 @@ export default function SchoolLogin() {
 			},
 			body: JSON.stringify({ email, pass }),
 		})
-		.then((response) => response.json())
-		.catch(error => console.error('Error during login:', error))
-		console.log(res.success) // This is the information that you are checking for.
+			.then((response) => response.json())
+			.catch((error) => console.error("Error during login:", error));
+		console.log(res.success); // This is the information that you are checking for.
 
 		//authentification logic here?
 		if (res.success) {
-		window.location.href = "/profile";
+			window.location.href = "/schoolprofile";
 		}
 	};
 
 	// Used for changing the page to the School Account Creation for whenever the 'Create Account' button is clicked on the school login
 	const handleCreateAccount = () => {
 		window.location.href = "/SchoolCreateAcc";
-	}
+	};
 
 	return (
 		<div className="backgroundColor">
 			<div className="login-container">
 				<form className="login-form" onSubmit={handleSubmit}>
-					<h2>Login</h2>
+					<h2>School Login</h2>
 					<div className="form-group">
 						<label className="label" htmlFor="email">
 							Email
@@ -70,7 +70,13 @@ export default function SchoolLogin() {
 					<button type="submit" className="button">
 						Log In
 					</button>
-					<button type="button" className="button" onClick={handleCreateAccount}>Create Account</button>
+					<button
+						type="button"
+						className="button"
+						onClick={handleCreateAccount}
+					>
+						Create Account
+					</button>
 				</form>
 			</div>
 		</div>

@@ -21,7 +21,7 @@ export default function TeacherCreateAcc() {
 			// Display an error message or handle the mismatch
 			console.error("Password and Confirm Password do not match");
 			return;
-		  } else {
+		} else {
 			//creates an object to pass the user data to backend
 			const userData = {
 				firstName,
@@ -42,23 +42,23 @@ export default function TeacherCreateAcc() {
 			})
 				// Receives response
 				.then((response) => response.json())
-				.catch((error) => console.error("Error during account creation:", error));
-				console.log(res.success); // This is the information that you are checking for.
+				.catch((error) =>
+					console.error("Error during account creation:", error)
+				);
+			console.log(res.success); // This is the information that you are checking for.
 
 			//If response is successful, move to profile page.
 			if (res.success) {
-				window.location.href = "/profile";
+				window.location.href = "/teacherstaffprofile";
 			}
-		  }
-
-		
+		}
 	};
 
-	// Made by 
+	// Made by
 	// Used for when the "Already have an Account?" button is clicked to redirect the user to the login page.
 	const handleAlreadyHaveAccount = () => {
 		window.location.href = "/TeacherLogin";
-	}
+	};
 
 	return (
 		//puts everything in a container to change bg color
@@ -68,7 +68,7 @@ export default function TeacherCreateAcc() {
 				{/*creates a form that will take in the function 'handleSubmit' when the form receives a submti request*/}
 				<form className="login-form" onSubmit={handleSubmit}>
 					{/*Sets the header to 'Create Teacher Account' and uses styling for header 2*/}
-					<h2>Create Teacher Account</h2>
+					<h2>Create Teacher or Staff Account</h2>
 					{/*Creates a container for a specific items in the form*/}
 					<div className="form-group">
 						{/*creates a label that says 'First Name'*/}
@@ -160,7 +160,13 @@ export default function TeacherCreateAcc() {
 						Create Account
 					</button>
 					{/* Made by */}
-					<button type="button" className="button" onClick={handleAlreadyHaveAccount}>Already Have An Account?</button>
+					<button
+						type="button"
+						className="button"
+						onClick={handleAlreadyHaveAccount}
+					>
+						Already Have An Account?
+					</button>
 				</form>
 			</div>
 		</div>

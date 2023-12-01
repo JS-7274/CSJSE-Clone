@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../styles/Profiles.css";
 import { TeacherStaffHeader } from "../components/Headers";
 
 const TeacherStaffProfile = ({ user }) => {
 	const [activeTab, setActiveTab] = useState("Profile-Information");
-
-	/* useEffect(() => {
-        handleTabClick('Profile Information');
-    }, []); */
 
 	const handleTabClick = (tab) => {
 		setActiveTab(tab);
@@ -19,11 +15,24 @@ const TeacherStaffProfile = ({ user }) => {
 
 			<div className="profile-container">
 				<div className="sidebar">
-					<button onClick={() => handleTabClick("Profile Information")}>
+					<button
+						className={activeTab === "Profile Information" ? "active" : ""}
+						onClick={() => handleTabClick("Profile Information")}
+					>
 						Profile Information
 					</button>
-					<button onClick={() => handleTabClick("Testimony")}>Testimony</button>
-					<button onClick={() => handleTabClick("Resume")}>Resume</button>
+					<button
+						className={activeTab === "Testimony" ? "active" : ""}
+						onClick={() => handleTabClick("Testimony")}
+					>
+						Testimony
+					</button>
+					<button
+						className={activeTab === "Resume" ? "active" : ""}
+						onClick={() => handleTabClick("Resume")}
+					>
+						Resume
+					</button>
 				</div>
 				<div className="profile-content">
 					{activeTab === "Profile Information" && (

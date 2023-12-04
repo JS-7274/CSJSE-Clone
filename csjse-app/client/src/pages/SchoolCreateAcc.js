@@ -15,13 +15,12 @@ export default function SchoolCreateAcc() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-
 		// Check if the password and confirmation match
 		if (pass !== confirmPass) {
 			// Display an error message or handle the mismatch
 			console.error("Password and Confirm Password do not match");
 			return;
-		  } else {
+		} else {
 			//creates an object to pass the user data to backend
 			const userData = {
 				schoolName,
@@ -41,21 +40,23 @@ export default function SchoolCreateAcc() {
 			})
 				// Receives response
 				.then((response) => response.json())
-				.catch((error) => console.error("Error during account creation:", error));
+				.catch((error) =>
+					console.error("Error during account creation:", error)
+				);
 			console.log(res.success); // This is the information that you are checking for.
 
 			//If response is successful, move to profile page.
 			if (res.success) {
-				window.location.href = "/profile";
+				window.location.href = "/schoolprofile";
 			}
-		  }
+		}
 	};
 
 	// Made by
 	// Used for when the "Already have an Account?" button is clicked to redirect the user to the login page.
 	const handleAlreadyHaveAccount = () => {
 		window.location.href = "/SchoolLogin";
-	}
+	};
 
 	return (
 		//puts everything in a container to change bg color
@@ -140,7 +141,13 @@ export default function SchoolCreateAcc() {
 						Create Account
 					</button>
 					{/* Made by */}
-					<button type="button" className="button" onClick={handleAlreadyHaveAccount}>Already Have An Account?</button>
+					<button
+						type="button"
+						className="button"
+						onClick={handleAlreadyHaveAccount}
+					>
+						Already Have An Account?
+					</button>
 				</form>
 			</div>
 		</div>

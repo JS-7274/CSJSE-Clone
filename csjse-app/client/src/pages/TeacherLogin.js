@@ -20,20 +20,20 @@ export default function TeacherLogin() {
 			},
 			body: JSON.stringify({ email, pass }),
 		})
-		.then((response) => response.json())
-		.catch(error => console.error('Error during login:', error))
-		console.log(res.success) // This is the information that you are checking for.
+			.then((response) => response.json())
+			.catch((error) => console.error("Error during login:", error));
+		console.log(res.success); // This is the information that you are checking for.
 
 		//authentification logic here?
 		if (res.success) {
-			window.location.href = "/profile";
+			window.location.href = "/teacherstaffprofile";
 		}
 	};
 
 	// Used for changing the page to the Teacher Account Creation for whenever the 'Create Account' button is clicked on the Teacher login
 	const handleCreateAccount = () => {
 		window.location.href = "/TeacherCreateAcc";
-	}
+	};
 
 	return (
 		// Puts everything in a container to change bg color
@@ -43,7 +43,7 @@ export default function TeacherLogin() {
 				{/*Creates a form using the login-form styling and the handleSubmit functoin when the form is submitted*/}
 				<form className="login-form" onSubmit={handleSubmit}>
 					{/*Creates a header with the text "Login"*/}
-					<h2>Login</h2>
+					<h2>Teacher & Staff Login</h2>
 					{/*Creates a container for a specific item in the form*/}
 					<div className="form-group">
 						{/*Names the item "Email" with the given styling*/}
@@ -82,7 +82,13 @@ export default function TeacherLogin() {
 						Log In
 					</button>
 					{/*Creates a button that will use the handleCreateAccount function to send someone to the create account page for their specified account type with the text "Create Account" displayed*/}
-					<button type="button" className="button" onClick={handleCreateAccount}>Create Account</button>
+					<button
+						type="button"
+						className="button"
+						onClick={handleCreateAccount}
+					>
+						Create Account
+					</button>
 				</form>
 			</div>
 		</div>

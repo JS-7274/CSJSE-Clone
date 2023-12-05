@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import "../styles/LoginandCreate.css";
+import "../styles/FailedLogin.css";
+import LoginFailed from "../components/FailedLogin";
 
 export default function SchoolLogin() {
 	//creates two variables (email and pass) along with 2 functions to change them, useState being empty means they start off empty
 	//useState allows us to edit variables based on inputs we get to my understanding
 	const [email, setEmail] = useState("");
 	const [pass, setPass] = useState("");
+
+	//Creates a variable to manage whether a component appears or not (appears if someone fails login)
+	const [showFailedLogin, setFailedLogin] = useState(false);
 
 	//passes in (e) as a parameter, e.preventDefault() forces the page to not reload on subission, console.log(email) puts whatever is input for email into the console, probably replace for actual login code
 	const handleSubmit = async (e) => {
@@ -21,11 +26,14 @@ export default function SchoolLogin() {
 		})
 			.then((response) => response.json())
 			.catch((error) => console.error("Error during login:", error));
-		console.log(res.success); // This is the information that you are checking for.
+		console.log(res.success); 
 
-		//authentification logic here?
+		//If login successful, go to profile page
 		if (res.success) {
 			window.location.href = "/schoolprofile";
+		}else{
+			//Show component if login failed
+			setFailedLogin(true);
 		}
 	};
 
@@ -39,6 +47,8 @@ export default function SchoolLogin() {
 		<div className="backgroundColor">
 			{/*Another container to change style*/}
 			<div className="login-container">
+				{/*Shows a component that tells the user the information entered is incorrect if the login attempt failed*/}
+				{showFailedLogin && <LoginFailed onClose={() => setFailedLogin(false)} />}
 				{/*Creates a form using the login-form styling and the handleSubmit functoin when the form is submitted*/}
 				<form className="login-form" onSubmit={handleSubmit}>
 					{/*Creates a header with the text "Login"*/}

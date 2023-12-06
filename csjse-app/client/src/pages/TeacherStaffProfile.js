@@ -3,7 +3,7 @@ import "../styles/Profiles.css";
 import { TeacherStaffHeader } from "../components/Headers";
 
 const TeacherStaffProfile = ({ user }) => {
-	const [activeTab, setActiveTab] = useState("Profile-Information");
+	const [activeTab, setActiveTab] = useState("Testimony");
 
 	const handleTabClick = (tab) => {
 		setActiveTab(tab);
@@ -16,16 +16,16 @@ const TeacherStaffProfile = ({ user }) => {
 			<div className="profile-container">
 				<div className="sidebar">
 					<button
-						className={activeTab === "Profile Information" ? "active" : ""}
-						onClick={() => handleTabClick("Profile Information")}
-					>
-						Profile Information
-					</button>
-					<button
 						className={activeTab === "Testimony" ? "active" : ""}
 						onClick={() => handleTabClick("Testimony")}
 					>
 						Testimony
+					</button>
+					<button
+						className={activeTab === "Profile Information" ? "active" : ""}
+						onClick={() => handleTabClick("Profile Information")}
+					>
+						Profile Information
 					</button>
 					<button
 						className={activeTab === "Resume" ? "active" : ""}
@@ -35,16 +35,16 @@ const TeacherStaffProfile = ({ user }) => {
 					</button>
 				</div>
 				<div className="profile-content">
-					{activeTab === "Profile Information" && (
-						<div>
-							<h2>Profile Information</h2>
-							{/* Display general profile information here */}
-						</div>
-					)}
 					{activeTab === "Testimony" && (
 						<div>
 							<h2>Testimony</h2>
 							{/* Display testimony here */}
+						</div>
+					)}
+					{activeTab === "Profile Information" && (
+						<div>
+							<h2>Profile Information</h2>
+							{/* Display general profile information here */}
 						</div>
 					)}
 					{activeTab === "Resume" && (

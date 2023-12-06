@@ -52,6 +52,7 @@ export default function TeacherLogin() {
 							placeholder="youremail@domain.com"
 							id="email"
 							name="email"
+							required
 						/>
 					</div>
 					<div className="form-group">
@@ -66,6 +67,7 @@ export default function TeacherLogin() {
 							placeholder="*******"
 							id="password"
 							name="password"
+							required
 						/>
 					</div>
 					<button type="submit" className="button">

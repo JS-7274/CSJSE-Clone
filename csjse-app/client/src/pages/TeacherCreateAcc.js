@@ -65,7 +65,7 @@ export default function TeacherCreateAcc() {
 		<div className="backgroundColor">
 			{/*another container to style the form*/}
 			<div className="login-container">
-				{/*creates a form that will take in the function 'handleSubmit' when the form receives a submti request*/}
+				{/*creates a form that will take in the function 'handleSubmit' when the form receives a submti request, while keeping the styling from the login*/}
 				<form className="login-form" onSubmit={handleSubmit}>
 					{/*Sets the header to 'Create Teacher Account' and uses styling for header 2*/}
 					<h2>Create Teacher or Staff Account</h2>

@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import "../styles/LoginandCreate.css";
+import "../styles/FailedLogin.css";
+import LoginFailed from "../components/FailedLogin";
 
 export default function SchoolLogin() {
 	//creates two variables (email and pass) along with 2 functions to change them, useState being empty means they start off empty
 	//useState allows us to edit variables based on inputs we get to my understanding
 	const [email, setEmail] = useState("");
 	const [pass, setPass] = useState("");
+
+	//Creates a variable to manage whether a component appears or not (appears if someone fails login)
+	const [showFailedLogin, setFailedLogin] = useState(false);
 
 	//passes in (e) as a parameter, e.preventDefault() forces the page to not reload on subission, console.log(email) puts whatever is input for email into the console, probably replace for actual login code
 	const handleSubmit = async (e) => {
@@ -21,11 +26,14 @@ export default function SchoolLogin() {
 		})
 			.then((response) => response.json())
 			.catch((error) => console.error("Error during login:", error));
-		console.log(res.success); // This is the information that you are checking for.
+		console.log(res.success); 
 
-		//authentification logic here?
+		//If login successful, go to profile page
 		if (res.success) {
 			window.location.href = "/schoolprofile";
+		}else{
+			//Show component if login failed
+			setFailedLogin(true);
 		}
 	};
 
@@ -35,14 +43,23 @@ export default function SchoolLogin() {
 	};
 
 	return (
+		// Puts everything in a container to change bg color
 		<div className="backgroundColor">
+			{/*Another container to change style*/}
 			<div className="login-container">
+				{/*Shows a component that tells the user the information entered is incorrect if the login attempt failed*/}
+				{showFailedLogin && <LoginFailed onClose={() => setFailedLogin(false)} />}
+				{/*Creates a form using the login-form styling and the handleSubmit functoin when the form is submitted*/}
 				<form className="login-form" onSubmit={handleSubmit}>
+					{/*Creates a header with the text "Login"*/}
 					<h2>School Login</h2>
+					{/*Creates a container for a specific item in the form*/}
 					<div className="form-group">
+						{/*Names the item "Email" with the given styling*/}
 						<label className="label" htmlFor="email">
 							Email
 						</label>
+						{/*Creates an input field that will take in text of type email and give it the id email*/}
 						<input
 							className="input-field"
 							value={email}
@@ -55,9 +72,11 @@ export default function SchoolLogin() {
 						/>
 					</div>
 					<div className="form-group">
+						{/*Creates a label with the text "Password"*/}
 						<label className="label" htmlFor="password">
 							Password
 						</label>
+						{/*Creates an input that will take in a text of type password and give it the id password*/}
 						<input
 							className="input-field"
 							value={pass}
@@ -69,9 +88,11 @@ export default function SchoolLogin() {
 							required
 						/>
 					</div>
+					{/*Creates a button that will serve as the sign to submit the fields given using the styling from "button" with the text "Log In" displayed*/}
 					<button type="submit" className="button">
 						Log In
 					</button>
+					{/*Creates a button that will use the handleCreateAccount function to send someone to the create account page for their specified account type with the text "Create Account" displayed*/}
 					<button
 						type="button"
 						className="button"
@@ -84,10 +105,3 @@ export default function SchoolLogin() {
 		</div>
 	);
 }
-//<div className = "App"> gives the div the name App which lets it reference a style in app.css
-//<div className = "auth...container"> gives the div that name to apply stylings from app.css
-//<h2>Login</h2> header for the login form
-//<form className='login-form'...> start of a form element  and takes in the handle submit function from above
-//<label htmlfor-"email"> marks a html element taking a form input, 'thmlfor="email"' gives it the id 'email'
-//<input value={email}... creates an input element that will take in an email (variable made earlier) then calls the setEmail function to what is input
-//<button type="submit"... creates a button html element, type="submit" makes it trigger a submit of the form on click, the >Log In< gives the button the text "Log In"

@@ -31,14 +31,12 @@
   white-space: nowrap;
 }
 
-/* The container <div> - needed to position the dropdown content */
+/* Position of the dropdown content */
 .dropdown {
   position: relative;
-  /*display: inline-block;*/
   float: right;
 } 
 
-/* Dropdown Content (Hidden by Default) */
 .dropdown-content {
   display: none;
   position: absolute;
@@ -58,14 +56,14 @@
   display: block;
 }
 
-/* Change color of dropdown links on hover */
+/* Change color of links in dropdown when hovering over them */
 .dropdown-content a:hover {
   background-color: #ddd;
   border-radius: 10px;
 
 }
 
-/* Show the dropdown menu on hover */
+/* Show the dropdown menu when hovering over the dropdown button */
 .dropdown:hover .dropdown-content {
   display: block;
 }
@@ -77,11 +75,11 @@
   position: relative;
   height: 400px;
   background-image:
-  linear-gradient(to right, rgba(255, 255, 255, 0.15),  rgba(1, 55, 125, 0.90)),
+  linear-gradient(to right, rgba(255, 255, 255, 0.15),  rgba(1, 55, 125, 0.90)), /* Gradient over hero image */
   url("../assets/teacher07.jpg");
   background-position: center;
   background-size: cover;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; /* only one copy of the image */
   color: #fff;
   display: flex;
   margin-top: 20px;
@@ -95,7 +93,6 @@
 }
 
 .hero-content {
-  /* Styles for the content within the hero section */
   position: absolute;
   top: 50%;
   right: 0;

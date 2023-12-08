@@ -159,3 +159,11 @@ CREATE TABLE teachers_accounts (
     password varchar(40),
     email varchar(25)
 );
+
+DROP TABLE IF EXISTS schools_accounts;
+CREATE TABLE schools_accounts (
+    school_id int,
+    school_name varchar(30),
+    password varchar(40),
+    email varchar(25)
+);

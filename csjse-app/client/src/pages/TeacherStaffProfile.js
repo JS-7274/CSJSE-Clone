@@ -1,13 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/Profiles.css";
 import { TeacherStaffHeader } from "../components/Headers";
 
 const TeacherStaffProfile = ({ user }) => {
-	const [activeTab, setActiveTab] = useState("Testimony");
+	const [activeTab, setActiveTab] = useState("Welcome");
 
 	const handleTabClick = (tab) => {
 		setActiveTab(tab);
 	};
+
+	/* Opens welcome tab in side menu when page is first opened */
+
+	useEffect(() => {
+		setActiveTab("Welcome");
+	}, []);
 
 	return (
 		<div>
@@ -16,10 +22,10 @@ const TeacherStaffProfile = ({ user }) => {
 			<div className="profile-container">
 				<div className="sidebar">
 					<button
-						className={activeTab === "Testimony" ? "active" : ""}
-						onClick={() => handleTabClick("Testimony")}
+						className={activeTab === "Welcome" ? "active" : ""}
+						onClick={() => handleTabClick("Welcome")}
 					>
-						Testimony
+						Welcome
 					</button>
 					<button
 						className={activeTab === "Profile Information" ? "active" : ""}
@@ -33,12 +39,18 @@ const TeacherStaffProfile = ({ user }) => {
 					>
 						Resume
 					</button>
+					<button
+						className={activeTab === "Testimony" ? "active" : ""}
+						onClick={() => handleTabClick("Testimony")}
+					>
+						Testimony
+					</button>
 				</div>
 				<div className="profile-content">
-					{activeTab === "Testimony" && (
+					{activeTab === "Welcome" && (
 						<div>
-							<h2>Testimony</h2>
-							{/* Display testimony here */}
+							<h2>Welcome to your profile!</h2>
+							{/* Display welcome message here */}
 						</div>
 					)}
 					{activeTab === "Profile Information" && (
@@ -51,6 +63,12 @@ const TeacherStaffProfile = ({ user }) => {
 						<div>
 							<h2>Resume</h2>
 							{/* Display resume here */}
+						</div>
+					)}
+					{activeTab === "Testimony" && (
+						<div>
+							<h2>Testimony</h2>
+							{/* Display testimony here */}
 						</div>
 					)}
 				</div>

@@ -67,7 +67,7 @@ const SchoolProfile = ({ user }) => {
 					)}
 					{activeTab === "Job Postings" && (
 						<div>
-							<h2>Description</h2>
+							<h2>Job Postings</h2>
 							{/* Display job postings here */}
 						</div>
 					)}

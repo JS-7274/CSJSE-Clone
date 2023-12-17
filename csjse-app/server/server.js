@@ -5,6 +5,9 @@ const cors = require('cors')
 const app = express()
 const port = process.env.PORT || 5000
 
+// This document will establish a connection to the database as well as
+// create all the APIs that the frontend will call to interact with the database
+
 app.use(cors()) // Enable CORS for all routes
 app.use(bodyParser.json()) // Use JSON parser for incoming requests
 
@@ -69,7 +72,6 @@ app.post('/api/slogin', (req, res) => {
 })
 
 //Api to handle requests from teachers to create account
-// Made by Josh
 app.post('/api/tCreateAccount', (req, res) => {
     console.log('Received account creation request', req.body);
 
@@ -110,7 +112,6 @@ app.post('/api/tCreateAccount', (req, res) => {
 });
 
 //Api to handle requests from schools to create account
-// Made by Josh
 app.post('/api/sCreateAccount', (req, res) => {
     console.log('Received account creation request', req.body);
 

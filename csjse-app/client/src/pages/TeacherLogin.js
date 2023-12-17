@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import "../styles/LoginandCreate.css";
 import "../styles/FailedLogin.css";
 import LoginFailed from "../components/FailedLogin";
-// Page made by Josh and Matthew
-
 export default function TeacherLogin() {
 	//creates two variables (email and pass) along with 2 functions to change them, useState being empty means they start off empty
 	//useState allows us to edit variables based on inputs we get to my understanding

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "../styles/LoginandCreate.css";
-//Page made by Josh with some code from others where specified
 
 //This function will be called to bring up a form to create a new account for a teacher
 
@@ -54,7 +53,6 @@ export default function TeacherCreateAcc() {
 		}
 	};
 
-	// Made by
 	// Used for when the "Already have an Account?" button is clicked to redirect the user to the login page.
 	const handleAlreadyHaveAccount = () => {
 		window.location.href = "/TeacherLogin";

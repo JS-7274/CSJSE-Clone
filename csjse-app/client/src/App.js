@@ -10,7 +10,6 @@ import Schools from "./pages/Schools";
 import Jobs from "./pages/Jobs";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-//Route contributed to by everyone
 function App() {
 	return (
 		<Router>

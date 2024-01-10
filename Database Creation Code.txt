@@ -92,7 +92,7 @@ alter table schools_accounts add email varchar(25);
 # How to add a new user
 # Go to the Command Line
 CREATE USER 'team_user'@'localhost' IDENTIFIED BY 'TeamUser1234';
-GRANT ALL PRIVILEGES ON database.* TO 'team_user'@'localhost';
+GRANT ALL PRIVILEGES ON csjse.* TO 'team_user'@'localhost';
 FLUSH PRIVILEGES;
 
 #Update tables for auto incrementing IDs, had to replace them

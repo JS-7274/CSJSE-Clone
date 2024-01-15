@@ -25,7 +25,7 @@ export default function TeacherLogin() {
 		})
 			.then((response) => response.json())
 			.catch((error) => console.error("Error during login:", error));
-		console.log(res.success); 
+		console.log(res.success);
 
 		//If login successful, go to profile page
 		if (res.success) {
@@ -47,7 +47,9 @@ export default function TeacherLogin() {
 			{/*Another container to change style*/}
 			<div className="login-container">
 				{/*Shows a component that tells the user the information entered is incorrect if the login attempt failed*/}
-				{showFailedLogin && <LoginFailed onClose={() => setFailedLogin(false)} />}
+				{showFailedLogin && (
+					<LoginFailed onClose={() => setFailedLogin(false)} />
+				)}
 				{/*Creates a form using the login-form styling and the handleSubmit functoin when the form is submitted*/}
 				<form className="login-form" onSubmit={handleSubmit}>
 					{/*Creates a header with the text "Login"*/}

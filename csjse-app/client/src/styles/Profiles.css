@@ -9,6 +9,7 @@
 .side {
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between;
 }
 
 .sidebar {
@@ -61,7 +62,7 @@ button.logout {
 	display: block;
 	width: 100%;
 	padding: 8px 16px;
-	background-color: #cd0001;
+	background-color: #01377d;
 	color: #fff;
 	cursor: pointer;
 	text-decoration: none;
@@ -72,12 +73,34 @@ button.logout {
 }
 
 button.logout:hover {
-	background-color: #960606;
+	background-color: #26b170;
+	color: #fff;
+}
+
+button.deactivate {
+	position: flex;
+	align-items: flex-end;
+	display: block;
+	width: 100%;
+	padding: 8px 16px;
+	background-color: #cd0001;
+	color: #fff;
+	cursor: pointer;
+	text-decoration: none;
+	font-size: 16px;
+	font-weight: normal;
+	text-align: center;
+	white-space: nowrap;
+}
+
+button.deactivate:hover {
+	background-color: #8e0000;
 	color: #fff;
 }
 
 .profile-content {
 	position: flex;
+	align-items: stretch;
 	width: 100%;
 	background-color: #f5f5f5;
 	align-items: center;

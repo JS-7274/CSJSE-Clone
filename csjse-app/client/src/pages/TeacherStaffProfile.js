@@ -32,23 +32,32 @@ const TeacherStaffProfile = ({ user }) => {
 							className={activeTab === "Profile Information" ? "active" : ""}
 							onClick={() => handleTabClick("Profile Information")}
 						>
-							Profile Information
+							Login Information
 						</button>
 						<button
 							className={activeTab === "Resume" ? "active" : ""}
 							onClick={() => handleTabClick("Resume")}
 						>
-							Resume
+							Profile Inforamtion
 						</button>
 						<button
 							className={activeTab === "Testimony" ? "active" : ""}
 							onClick={() => handleTabClick("Testimony")}
 						>
-							Testimony
+							References
+						</button>
+						<button
+							className={activeTab === "Testimony" ? "active" : ""}
+							onClick={() => handleTabClick("Testimony")}
+						>
+							Optional Uploads
 						</button>
 					</div>
 					<div className="sidebar">
 						<button className="logout">Logout</button>
+					</div>
+					<div className="sidebar">
+						<button className="deactivate">Deactivate Account</button>
 					</div>
 				</div>
 
@@ -59,21 +68,27 @@ const TeacherStaffProfile = ({ user }) => {
 							{/* Display welcome message here */}
 						</div>
 					)}
+					{activeTab === "Login Information" && (
+						<div>
+							<h2>Login Information</h2>
+							{/* Display general profile information here */}
+						</div>
+					)}
 					{activeTab === "Profile Information" && (
 						<div>
 							<h2>Profile Information</h2>
 							{/* Display general profile information here */}
 						</div>
 					)}
-					{activeTab === "Resume" && (
+					{activeTab === "References" && (
 						<div>
-							<h2>Resume</h2>
+							<h2>References</h2>
 							{/* Display resume here */}
 						</div>
 					)}
-					{activeTab === "Testimony" && (
+					{activeTab === "Optional Uploads" && (
 						<div>
-							<h2>Testimony</h2>
+							<h2>Optional Uploads</h2>
 							{/* Display testimony here */}
 						</div>
 					)}

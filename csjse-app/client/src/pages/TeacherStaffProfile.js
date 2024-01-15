@@ -20,32 +20,38 @@ const TeacherStaffProfile = ({ user }) => {
 			<TeacherStaffHeader></TeacherStaffHeader>
 
 			<div className="profile-container">
-				<div className="sidebar">
-					<button
-						className={activeTab === "Welcome" ? "active" : ""}
-						onClick={() => handleTabClick("Welcome")}
-					>
-						Welcome
-					</button>
-					<button
-						className={activeTab === "Profile Information" ? "active" : ""}
-						onClick={() => handleTabClick("Profile Information")}
-					>
-						Profile Information
-					</button>
-					<button
-						className={activeTab === "Resume" ? "active" : ""}
-						onClick={() => handleTabClick("Resume")}
-					>
-						Resume
-					</button>
-					<button
-						className={activeTab === "Testimony" ? "active" : ""}
-						onClick={() => handleTabClick("Testimony")}
-					>
-						Testimony
-					</button>
+				<div className="side">
+					<div className="sidebar">
+						<button
+							className={activeTab === "Welcome" ? "active" : ""}
+							onClick={() => handleTabClick("Welcome")}
+						>
+							Welcome
+						</button>
+						<button
+							className={activeTab === "Profile Information" ? "active" : ""}
+							onClick={() => handleTabClick("Profile Information")}
+						>
+							Profile Information
+						</button>
+						<button
+							className={activeTab === "Resume" ? "active" : ""}
+							onClick={() => handleTabClick("Resume")}
+						>
+							Resume
+						</button>
+						<button
+							className={activeTab === "Testimony" ? "active" : ""}
+							onClick={() => handleTabClick("Testimony")}
+						>
+							Testimony
+						</button>
+					</div>
+					<div className="sidebar">
+						<button className="logout">Logout</button>
+					</div>
 				</div>
+
 				<div className="profile-content">
 					{activeTab === "Welcome" && (
 						<div>

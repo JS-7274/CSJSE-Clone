@@ -1,3 +1,6 @@
+/* App.js */
+/*  */
+
 import "./App.css";
 import Home from "./pages/Home";
 import TeacherLogin from "./pages/TeacherLogin";

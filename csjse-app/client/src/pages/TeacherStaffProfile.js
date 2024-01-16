@@ -29,28 +29,28 @@ const TeacherStaffProfile = ({ user }) => {
 							Welcome
 						</button>
 						<button
-							className={activeTab === "Profile Information" ? "active" : ""}
-							onClick={() => handleTabClick("Profile Information")}
+							className={activeTab === "Login Information" ? "active" : ""}
+							onClick={() => handleTabClick("Login Information")}
 						>
 							Login Information
 						</button>
 						<button
-							className={activeTab === "Resume" ? "active" : ""}
-							onClick={() => handleTabClick("Resume")}
+							className={activeTab === "Profile Information" ? "active" : ""}
+							onClick={() => handleTabClick("Profile Information")}
 						>
-							Profile Inforamtion
+							Profile Information{" "}
 						</button>
 						<button
-							className={activeTab === "Testimony" ? "active" : ""}
-							onClick={() => handleTabClick("Testimony")}
+							className={activeTab === "References" ? "active" : ""}
+							onClick={() => handleTabClick("References")}
 						>
-							References
+							References{" "}
 						</button>
 						<button
-							className={activeTab === "Testimony" ? "active" : ""}
-							onClick={() => handleTabClick("Testimony")}
+							className={activeTab === "Optional Documents" ? "active" : ""}
+							onClick={() => handleTabClick("Optional Documents")}
 						>
-							Optional Uploads
+							Optional Documents{" "}
 						</button>
 					</div>
 					<div className="sidebar">

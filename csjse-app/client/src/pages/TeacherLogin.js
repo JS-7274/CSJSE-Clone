@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "../styles/LoginandCreate.css";
 import "../styles/FailedLogin.css";
 import LoginFailed from "../components/FailedLogin";
+import { Link } from "react-router-dom";
+
 export default function TeacherLogin() {
 	//creates two variables (email and pass) along with 2 functions to change them, useState being empty means they start off empty
 	//useState allows us to edit variables based on inputs we get to my understanding
@@ -102,6 +104,7 @@ export default function TeacherLogin() {
 						Create Account
 					</button>
 				</form>
+				<Link to="/">Back to Home</Link>
 			</div>
 		</div>
 	);

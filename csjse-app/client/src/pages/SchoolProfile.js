@@ -9,6 +9,11 @@ const SchoolProfile = ({ user }) => {
 		setActiveTab(tab);
 	};
 
+	// Handles logout button redirection functionality.
+	const handleLogout = () => {
+		window.location.href = "/";
+	}
+
 	/* Opens welcome tab in side menu when page is first opened */
 
 	useEffect(() => {
@@ -44,6 +49,12 @@ const SchoolProfile = ({ user }) => {
 						onClick={() => handleTabClick("Job Postings")}
 					>
 						Job Postings
+					</button>
+					<button 
+							className="logout"
+							onClick={handleLogout}
+						>
+							Logout
 					</button>
 				</div>
 				<div className="profile-content">

@@ -5,9 +5,10 @@ import DiscoverImage from "../assets/teacher04(resize).jpg";
 import CommunityImage from "../assets/teacher02(resize).jpg";
 import ResourcesImage from "../assets/teacher03(resize).jpg";
 import PowerImage from "../assets/teacher01(resize).jpg";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 function Home() {
+	const history = useHistory();
 	return (
 		<div>
 			<header className="header">

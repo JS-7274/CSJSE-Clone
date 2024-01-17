@@ -9,10 +9,11 @@ import SchoolCreateAcc from "./pages/SchoolCreateAcc";
 import Schools from "./pages/Schools";
 import Jobs from "./pages/Jobs";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import process from 'process';
 
 function App() {
 	return (
-		<Router>
+		<Router basename={process.env.PUBLIC_URL}>
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/TeacherLogin" element={<TeacherLogin />} />

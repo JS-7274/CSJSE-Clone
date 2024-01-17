@@ -47,17 +47,19 @@ const TeacherStaffProfile = ({ user }) => {
 							References{" "}
 						</button>
 						<button
-							className={activeTab === "Optional Documents" ? "active" : ""}
-							onClick={() => handleTabClick("Optional Documents")}
+							className={activeTab === "Optional Uploads" ? "active" : ""}
+							onClick={() => handleTabClick("Optional Uploads")}
 						>
-							Optional Documents{" "}
+							Optional Uploads{" "}
 						</button>
 					</div>
-					<div className="sidebar">
-						<button className="logout">Logout</button>
-					</div>
-					<div className="sidebar">
-						<button className="deactivate">Deactivate Account</button>
+					<div>
+						<div className="sidebar">
+							<button className="logout">Logout</button>
+						</div>
+						<div className="sidebar">
+							<button className="deactivate">Deactivate Account</button>
+						</div>
 					</div>
 				</div>
 
@@ -72,12 +74,51 @@ const TeacherStaffProfile = ({ user }) => {
 						<div>
 							<h2>Login Information</h2>
 							{/* Display general profile information here */}
+							<div>
+								<label>Email</label>
+							</div>
+							<div>
+								<label>Password</label>
+							</div>
 						</div>
 					)}
 					{activeTab === "Profile Information" && (
 						<div>
 							<h2>Profile Information</h2>
 							{/* Display general profile information here */}
+							<div>
+								<label>First Name</label>
+							</div>
+							<div>
+								<label>Last Name</label>
+							</div>
+							<div>
+								<label>Looking for a Job?</label>
+							</div>
+							<div>
+								<label>Phone Number</label>
+							</div>
+							<div>
+								<label>Home Church</label>
+							</div>
+							<div>
+								<label>Education</label>
+							</div>
+							<div>
+								<label>Experience</label>
+							</div>
+							<div>
+								<label>Certifications</label>
+							</div>
+							<div>
+								<label>Why Christian Ed?</label>
+							</div>
+							<div>
+								<label>Resume</label>
+							</div>
+							<div>
+								<label>Testimony</label>
+							</div>
 						</div>
 					)}
 					{activeTab === "References" && (

@@ -9,6 +9,11 @@ const TeacherStaffProfile = ({ user }) => {
 		setActiveTab(tab);
 	};
 
+	// Handles the logout button functionality.
+	const handleLogout = () => {
+		window.location.href = "/";
+	}
+
 	/* Opens welcome tab in side menu when page is first opened */
 
 	useEffect(() => {
@@ -54,7 +59,12 @@ const TeacherStaffProfile = ({ user }) => {
 						</button>
 					</div>
 					<div className="sidebar">
-						<button className="logout">Logout</button>
+						<button 
+							className="logout"
+							onClick={handleLogout}
+						>
+							Logout
+						</button>
 					</div>
 					<div className="sidebar">
 						<button className="deactivate">Deactivate Account</button>

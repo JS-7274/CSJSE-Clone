@@ -8,6 +8,7 @@ import PowerImage from "../assets/teacher01(resize).jpg";
 import { Link } from "react-router-dom";
 
 function Home() {
+	
 	return (
 		<div>
 			<header className="header">
@@ -15,14 +16,14 @@ function Home() {
 
 				<div className="buttons">
 					<div className="dropdown">
-						<button className="dropbtn">Create Account</button>
+					<button className="dropbtn">Create Account</button>
 						<div className="dropdown-content">
 							<Link to="/TeacherCreateAcc">Teachers/Staff</Link>
 							<Link to="/SchoolCreateAcc">Schools</Link>
 						</div>
 					</div>
 					<div className="dropdown">
-						<button className="dropbtn">Login</button>
+					<button className="dropbtn">Login</button>
 						<div className="dropdown-content">
 							<Link to="/TeacherLogin">Teachers/Staff</Link>
 							<Link to="/SchoolLogin">Schools</Link>

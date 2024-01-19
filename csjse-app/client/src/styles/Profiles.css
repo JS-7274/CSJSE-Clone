@@ -60,6 +60,8 @@ button.logout {
 	position: flex;
 	align-items: flex-end;
 	display: block;
+	border: none;
+	border-radius: 10px;
 	width: 100%;
 	padding: 8px 16px;
 	background-color: #01377d;
@@ -70,6 +72,7 @@ button.logout {
 	font-weight: normal;
 	text-align: center;
 	white-space: nowrap;
+	margin-bottom: 5px;
 }
 
 button.logout:hover {
@@ -81,6 +84,8 @@ button.deactivate {
 	position: flex;
 	align-items: flex-end;
 	display: block;
+	border: none;
+	border-radius: 10px;
 	width: 100%;
 	padding: 8px 16px;
 	background-color: #cd0001;

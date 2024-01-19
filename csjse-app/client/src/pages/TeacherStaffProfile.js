@@ -58,12 +58,11 @@ const TeacherStaffProfile = ({ user }) => {
 							Optional Uploads{" "}
 						</button>
 					</div>
-					<div className="sidebar">
+					<div className="">
 						<button className="logout" onClick={handleLogout}>
 							Logout
 						</button>
-					</div>
-					<div className="sidebar">
+
 						<button className="deactivate">Deactivate Account</button>
 					</div>
 				</div>

@@ -9,11 +9,6 @@ const TeacherStaffProfile = ({ user }) => {
 		setActiveTab(tab);
 	};
 
-	// Handles the logout button functionality.
-	const handleLogout = () => {
-		window.location.href = "/";
-	};
-
 	/* Opens welcome tab in side menu when page is first opened */
 
 	useEffect(() => {
@@ -25,49 +20,32 @@ const TeacherStaffProfile = ({ user }) => {
 			<TeacherStaffHeader></TeacherStaffHeader>
 
 			<div className="profile-container">
-				<div className="side">
-					<div className="sidebar">
-						<button
-							className={activeTab === "Welcome" ? "active" : ""}
-							onClick={() => handleTabClick("Welcome")}
-						>
-							Welcome
-						</button>
-						<button
-							className={activeTab === "Login Information" ? "active" : ""}
-							onClick={() => handleTabClick("Login Information")}
-						>
-							Login Information
-						</button>
-						<button
-							className={activeTab === "Profile Information" ? "active" : ""}
-							onClick={() => handleTabClick("Profile Information")}
-						>
-							Profile Information{" "}
-						</button>
-						<button
-							className={activeTab === "References" ? "active" : ""}
-							onClick={() => handleTabClick("References")}
-						>
-							References{" "}
-						</button>
-						<button
-							className={activeTab === "Optional Uploads" ? "active" : ""}
-							onClick={() => handleTabClick("Optional Uploads")}
-						>
-							Optional Uploads{" "}
-						</button>
-					</div>
-					<div className="sidebar">
-						<button className="logout" onClick={handleLogout}>
-							Logout
-						</button>
-					</div>
-					<div className="sidebar">
-						<button className="deactivate">Deactivate Account</button>
-					</div>
+				<div className="sidebar">
+					<button
+						className={activeTab === "Welcome" ? "active" : ""}
+						onClick={() => handleTabClick("Welcome")}
+					>
+						Welcome
+					</button>
+					<button
+						className={activeTab === "Profile Information" ? "active" : ""}
+						onClick={() => handleTabClick("Profile Information")}
+					>
+						Profile Information
+					</button>
+					<button
+						className={activeTab === "Resume" ? "active" : ""}
+						onClick={() => handleTabClick("Resume")}
+					>
+						Resume
+					</button>
+					<button
+						className={activeTab === "Testimony" ? "active" : ""}
+						onClick={() => handleTabClick("Testimony")}
+					>
+						Testimony
+					</button>
 				</div>
-
 				<div className="profile-content">
 					{activeTab === "Welcome" && (
 						<div>
@@ -75,66 +53,21 @@ const TeacherStaffProfile = ({ user }) => {
 							{/* Display welcome message here */}
 						</div>
 					)}
-					{activeTab === "Login Information" && (
-						<div>
-							<h2>Login Information</h2>
-							{/* Display general profile information here */}
-							<div>
-								<label>Email</label>
-							</div>
-							<div>
-								<label>Password</label>
-							</div>
-						</div>
-					)}
 					{activeTab === "Profile Information" && (
 						<div>
 							<h2>Profile Information</h2>
 							{/* Display general profile information here */}
-							<div>
-								<label>First Name</label>
-							</div>
-							<div>
-								<label>Last Name</label>
-							</div>
-							<div>
-								<label>Looking for a Job?</label>
-							</div>
-							<div>
-								<label>Phone Number</label>
-							</div>
-							<div>
-								<label>Home Church</label>
-							</div>
-							<div>
-								<label>Education</label>
-							</div>
-							<div>
-								<label>Experience</label>
-							</div>
-							<div>
-								<label>Certifications</label>
-							</div>
-							<div>
-								<label>Why Christian Ed?</label>
-							</div>
-							<div>
-								<label>Resume</label>
-							</div>
-							<div>
-								<label>Testimony</label>
-							</div>
 						</div>
 					)}
-					{activeTab === "References" && (
+					{activeTab === "Resume" && (
 						<div>
-							<h2>References</h2>
+							<h2>Resume</h2>
 							{/* Display resume here */}
 						</div>
 					)}
-					{activeTab === "Optional Uploads" && (
+					{activeTab === "Testimony" && (
 						<div>
-							<h2>Optional Uploads</h2>
+							<h2>Testimony</h2>
 							{/* Display testimony here */}
 						</div>
 					)}

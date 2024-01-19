@@ -9,11 +9,6 @@ const SchoolProfile = ({ user }) => {
 		setActiveTab(tab);
 	};
 
-	// Handles logout button redirection functionality.
-	const handleLogout = () => {
-		window.location.href = "/";
-	};
-
 	/* Opens welcome tab in side menu when page is first opened */
 
 	useEffect(() => {
@@ -25,38 +20,31 @@ const SchoolProfile = ({ user }) => {
 			<SchoolHeader></SchoolHeader>
 
 			<div className="profile-container">
-				<div className="side">
-					<div className="sidebar">
-						<button
-							className={activeTab === "Welcome" ? "active" : ""}
-							onClick={() => handleTabClick("Welcome")}
-						>
-							Welcome
-						</button>
-						<button
-							className={activeTab === "Profile Information" ? "active" : ""}
-							onClick={() => handleTabClick("Profile Information")}
-						>
-							Profile Information
-						</button>
-						<button
-							className={activeTab === "Description" ? "active" : ""}
-							onClick={() => handleTabClick("Description")}
-						>
-							Description
-						</button>
-						<button
-							className={activeTab === "Job Postings" ? "active" : ""}
-							onClick={() => handleTabClick("Job Postings")}
-						>
-							Job Postings
-						</button>
-					</div>
-					<div className="sidebar">
-						<button className="logout" onClick={handleLogout}>
-							Logout
-						</button>
-					</div>
+				<div className="sidebar">
+					<button
+						className={activeTab === "Welcome" ? "active" : ""}
+						onClick={() => handleTabClick("Welcome")}
+					>
+						Welcome
+					</button>
+					<button
+						className={activeTab === "Profile Information" ? "active" : ""}
+						onClick={() => handleTabClick("Profile Information")}
+					>
+						Profile Information
+					</button>
+					<button
+						className={activeTab === "Description" ? "active" : ""}
+						onClick={() => handleTabClick("Description")}
+					>
+						Description
+					</button>
+					<button
+						className={activeTab === "Job Postings" ? "active" : ""}
+						onClick={() => handleTabClick("Job Postings")}
+					>
+						Job Postings
+					</button>
 				</div>
 				<div className="profile-content">
 					{activeTab === "Welcome" && (

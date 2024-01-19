@@ -1,23 +1,18 @@
 {
-	"sqltools.connections": [
-		{
-			"mysqlOptions": {
-				"authProtocol": "default",
-				"enableSsl": "Disabled"
-			},
-			"previewLimit": 50,
-			"server": "localhost",
-			"port": 3306,
-			"driver": "MySQL",
-			"name": "CSJSE Project",
-			"database": "csjse",
-			"username": "team_user"
-		}
-	],
-	"prettier.useTabs": true,
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"editor.formatOnSave": true,
-	"[sql]": {
-		"editor.defaultFormatter": "mtxr.sqltools"
-	}
+  "sqltools.connections": [
+    {
+      "mysqlOptions": {
+        "authProtocol": "default",
+        "enableSsl": "Disabled"
+      },
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 3306,
+      "driver": "MySQL",
+      "name": "CSJSE Project",
+      "database": "csjse",
+      "username": "team_user"
+    }
+  ],
+  "prettier.useTabs": true
 }

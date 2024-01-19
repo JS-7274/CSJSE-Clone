@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "../styles/LoginandCreate.css";
 import "../styles/FailedLogin.css";
 import LoginFailed from "../components/FailedLogin";
-import { Link } from "react-router-dom";
 
 export default function SchoolLogin() {
 	//creates two variables (email and pass) along with 2 functions to change them, useState being empty means they start off empty
@@ -27,12 +26,12 @@ export default function SchoolLogin() {
 		})
 			.then((response) => response.json())
 			.catch((error) => console.error("Error during login:", error));
-		console.log(res.success);
+		console.log(res.success); 
 
 		//If login successful, go to profile page
 		if (res.success) {
 			window.location.href = "/schoolprofile";
-		} else {
+		}else{
 			//Show component if login failed
 			setFailedLogin(true);
 		}
@@ -49,9 +48,7 @@ export default function SchoolLogin() {
 			{/*Another container to change style*/}
 			<div className="login-container">
 				{/*Shows a component that tells the user the information entered is incorrect if the login attempt failed*/}
-				{showFailedLogin && (
-					<LoginFailed onClose={() => setFailedLogin(false)} />
-				)}
+				{showFailedLogin && <LoginFailed onClose={() => setFailedLogin(false)} />}
 				{/*Creates a form using the login-form styling and the handleSubmit functoin when the form is submitted*/}
 				<form className="login-form" onSubmit={handleSubmit}>
 					{/*Creates a header with the text "Login"*/}
@@ -104,7 +101,6 @@ export default function SchoolLogin() {
 						Create Account
 					</button>
 				</form>
-				<Link to="/">Back to Home</Link>
 			</div>
 		</div>
 	);

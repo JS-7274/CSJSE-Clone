@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "../styles/LoginandCreate.css";
-import { Link } from "react-router-dom";
 
 //This function will be called to bring up a form to create a new account for a teacher
 
@@ -167,7 +166,6 @@ export default function TeacherCreateAcc() {
 						Already Have An Account?
 					</button>
 				</form>
-				<Link to="/">Back to Home</Link>
 			</div>
 		</div>
 	);

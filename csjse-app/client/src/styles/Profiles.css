@@ -56,7 +56,7 @@
 	color: #fff;
 }
 
-button.logout {
+button.normal-button {
 	position: flex;
 	align-items: flex-end;
 	display: block;
@@ -72,10 +72,11 @@ button.logout {
 	font-weight: normal;
 	text-align: center;
 	white-space: nowrap;
+	margin-top: 5px;
 	margin-bottom: 5px;
 }
 
-button.logout:hover {
+button.normal-button:hover {
 	background-color: #26b170;
 	color: #fff;
 }
@@ -112,4 +113,34 @@ button.deactivate:hover {
 	padding: 20px;
 	margin-left: 20px;
 	border-radius: 10px;
+}
+
+.section-header {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+}
+
+.section-header button {
+	width: fit-content;
+	height: fit-content;
+}
+
+.form-group {
+	margin-bottom: 20px;
+}
+
+label {
+	display: block;
+	font-size: 14px;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+.input-field {
+	width: 95%;
+	padding: 8px;
+	font-size: 14px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
 }

@@ -59,7 +59,7 @@ const TeacherStaffProfile = ({ user }) => {
 						</button>
 					</div>
 					<div className="">
-						<button className="logout" onClick={handleLogout}>
+						<button className="normal-button" onClick={handleLogout}>
 							Logout
 						</button>
 
@@ -88,40 +88,49 @@ const TeacherStaffProfile = ({ user }) => {
 					)}
 					{activeTab === "Profile Information" && (
 						<div>
-							<h2>Profile Information</h2>
-							{/* Display general profile information here */}
-							<div>
+							<div className="section-header">
+								<h2>Profile Information</h2>
+								<button className="normal-button">Edit</button>
+							</div>
+							<div className="form-group">
 								<label>First Name</label>
+								<input className="input-field" type="text" value="" disabled />
 							</div>
-							<div>
+							<div className="form-group">
 								<label>Last Name</label>
+								<input className="input-field" type="text" value="" disabled />
 							</div>
-							<div>
+							<div className="form-group">
 								<label>Looking for a Job?</label>
+								<input className="" type="radio" value="" disabled />
 							</div>
-							<div>
+							<div className="form-group">
 								<label>Phone Number</label>
+								<input className="input-field" type="text" value="" disabled />
 							</div>
-							<div>
+							<div className="form-group">
 								<label>Home Church</label>
+								<input className="input-field" type="text" value="" disabled />
 							</div>
-							<div>
+							<div className="form-group">
 								<label>Education</label>
 							</div>
-							<div>
+							<div className="form-group">
 								<label>Experience</label>
 							</div>
-							<div>
+							<div className="form-group">
 								<label>Certifications</label>
 							</div>
-							<div>
+							<div className="form-group">
 								<label>Why Christian Ed?</label>
 							</div>
-							<div>
+							<div className="form-group">
 								<label>Resume</label>
+								<input className="" type="file" value="" disabled />
 							</div>
-							<div>
+							<div className="form-group">
 								<label>Testimony</label>
+								<input className="input-field" type="text" value="" disabled />
 							</div>
 						</div>
 					)}

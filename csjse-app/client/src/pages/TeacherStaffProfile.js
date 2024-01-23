@@ -76,13 +76,25 @@ const TeacherStaffProfile = ({ user }) => {
 					)}
 					{activeTab === "Login Information" && (
 						<div>
-							<h2>Login Information</h2>
-							{/* Display general profile information here */}
-							<div>
-								<label>Email</label>
+							<div className="section-header">
+								<h2>Login Information</h2>
+								<div className="header-buttons">
+									<button>Edit</button>
+									<input type="submit" value="Save" disabled />
+								</div>
 							</div>
-							<div>
+							<div className="form-group">
+								<label>Email</label>
+								<input className="input-field" type="email" value="" disabled />
+							</div>
+							<div className="form-group">
 								<label>Password</label>
+								<input
+									className="input-field"
+									type="password"
+									value=""
+									disabled
+								/>
 							</div>
 						</div>
 					)}
@@ -90,7 +102,10 @@ const TeacherStaffProfile = ({ user }) => {
 						<div>
 							<div className="section-header">
 								<h2>Profile Information</h2>
-								<button className="normal-button">Edit</button>
+								<div className="header-buttons">
+									<button>Edit</button>
+									<input type="submit" value="Save" disabled />
+								</div>
 							</div>
 							<div className="form-group">
 								<label>First Name</label>
@@ -102,7 +117,24 @@ const TeacherStaffProfile = ({ user }) => {
 							</div>
 							<div className="form-group">
 								<label>Looking for a Job?</label>
-								<input className="" type="radio" value="" disabled />
+								<label className="radio-label">
+									<input
+										type="radio"
+										id="looking-for-job"
+										value="Yes"
+										disabled
+									/>
+									Yes
+								</label>
+								<label className="radio-label">
+									<input
+										type="radio"
+										id="looking-for-job"
+										value="No"
+										disabled
+									/>
+									No
+								</label>
 							</div>
 							<div className="form-group">
 								<label>Phone Number</label>
@@ -112,7 +144,7 @@ const TeacherStaffProfile = ({ user }) => {
 								<label>Home Church</label>
 								<input className="input-field" type="text" value="" disabled />
 							</div>
-							<div className="form-group">
+							{/*<div className="form-group">
 								<label>Education</label>
 							</div>
 							<div className="form-group">
@@ -123,7 +155,7 @@ const TeacherStaffProfile = ({ user }) => {
 							</div>
 							<div className="form-group">
 								<label>Why Christian Ed?</label>
-							</div>
+					</div>*/}
 							<div className="form-group">
 								<label>Resume</label>
 								<input className="" type="file" value="" disabled />
@@ -136,14 +168,24 @@ const TeacherStaffProfile = ({ user }) => {
 					)}
 					{activeTab === "References" && (
 						<div>
-							<h2>References</h2>
-							{/* Display resume here */}
+							<div className="section-header">
+								<h2>References</h2>
+								<div className="header-buttons">
+									<button>Edit</button>
+									<input type="submit" value="Save" disabled />
+								</div>
+							</div>
 						</div>
 					)}
 					{activeTab === "Optional Uploads" && (
 						<div>
-							<h2>Optional Uploads</h2>
-							{/* Display testimony here */}
+							<div className="section-header">
+								<h2>Optional Uploads</h2>
+								<div className="header-buttons">
+									<button>Edit</button>
+									<input type="submit" value="Save" disabled />
+								</div>
+							</div>
 						</div>
 					)}
 				</div>

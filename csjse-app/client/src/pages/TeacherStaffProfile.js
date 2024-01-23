@@ -175,6 +175,69 @@ const TeacherStaffProfile = ({ user }) => {
 									<input type="submit" value="Save" disabled />
 								</div>
 							</div>
+							<h3>Reference 1</h3>
+							<div className="form-group">
+								<label>Name</label>
+								<input className="input-field" type="text" value="" disabled />
+							</div>
+							<div className="form-group">
+								<label>Relationship</label>
+								<input className="input-field" type="text" value="" disabled />
+							</div>
+							<div className="form-group">
+								<label>Phone Number</label>
+								<input className="input-field" type="text" value="" disabled />
+							</div>
+							<div className="form-group">
+								<label>Email</label>
+								<input className="input-field" type="text" value="" disabled />
+							</div>
+							<div className="form-group">
+								<label>Address</label>
+								<input className="input-field" type="text" value="" disabled />
+							</div>
+							<h3>Reference 2</h3>
+							<div className="form-group">
+								<label>Name</label>
+								<input className="input-field" type="text" value="" disabled />
+							</div>
+							<div className="form-group">
+								<label>Relationship</label>
+								<input className="input-field" type="text" value="" disabled />
+							</div>
+							<div className="form-group">
+								<label>Phone Number</label>
+								<input className="input-field" type="text" value="" disabled />
+							</div>
+							<div className="form-group">
+								<label>Email</label>
+								<input className="input-field" type="text" value="" disabled />
+							</div>
+							<div className="form-group">
+								<label>Address</label>
+								<input className="input-field" type="text" value="" disabled />
+							</div>
+							<h3>Reference 3</h3>
+							<div className="form-group">
+								<label>Name</label>
+								<input className="input-field" type="text" value="" disabled />
+							</div>
+							<div className="form-group">
+								<label>Relationship</label>
+								<input className="input-field" type="text" value="" disabled />
+							</div>
+							<div className="form-group">
+								<label>Phone Number</label>
+								<input className="input-field" type="text" value="" disabled />
+							</div>
+							<div className="form-group">
+								<label>Email</label>
+								<input className="input-field" type="text" value="" disabled />
+							</div>
+							<div className="form-group">
+								<label>Address</label>
+								<input className="input-field" type="text" value="" disabled />
+							</div>
 						</div>
 					)}
 					{activeTab === "Optional Uploads" && (
@@ -185,6 +248,14 @@ const TeacherStaffProfile = ({ user }) => {
 									<button>Edit</button>
 									<input type="submit" value="Save" disabled />
 								</div>
+							</div>
+							<div className="form-group">
+								<label>Cover Letter</label>
+								<input className="" type="file" value="" disabled />
+							</div>
+							<div className="form-group">
+								<label>Headshot</label>
+								<input className="" type="file" value="" disabled />
 							</div>
 						</div>
 					)}

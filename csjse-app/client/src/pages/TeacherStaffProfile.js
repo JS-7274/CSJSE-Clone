@@ -250,6 +250,10 @@ const TeacherStaffProfile = ({ user }) => {
 								</div>
 							</div>
 							<div className="form-group">
+								<label>References</label>
+								<input className="" type="file" value="" disabled />
+							</div>
+							<div className="form-group">
 								<label>Cover Letter</label>
 								<input className="" type="file" value="" disabled />
 							</div>

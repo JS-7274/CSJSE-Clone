@@ -123,10 +123,15 @@ button.deactivate:hover {
 	text-align: center;
 }
 
-.profile-content {
+.profile-content,
+.welcome-message {
 	background-color: #f5f5f5;
 	padding-right: 20px;
 	border-radius: 10px;
+}
+
+.welcome-message {
+	margin-bottom: 20px;
 }
 
 .section-header {

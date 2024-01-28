@@ -61,7 +61,7 @@ const TeacherStaffProfile = ({ user }) => {
 					</div>
 				</div>
 				<div className="content">
-					<div>
+					<div className="welcome-message">
 						<h2>Hello [name]. Welcome to your profile!</h2>
 					</div>
 					<div className="profile-content">

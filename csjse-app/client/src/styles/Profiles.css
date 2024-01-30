@@ -172,7 +172,8 @@ input[type="submit"]:disabled {
 	cursor: default;
 }
 
-.form-group {
+.form-group,
+h3 {
 	margin-bottom: 20px;
 	margin-left: 20px;
 	margin-right: 20px;

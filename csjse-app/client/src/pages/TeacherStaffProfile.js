@@ -1,3 +1,4 @@
+// Importing necessary dependencies and components
 import React, { useState, useEffect } from "react";
 import "../styles/Profiles.css";
 import { TeacherStaffHeader } from "../components/Headers";
@@ -6,31 +7,36 @@ import ProfileInfo from "../components/ProfileInfo";
 import References from "../components/References";
 import OptionalUploads from "../components/OptionalUploads";
 
+// Functional component for Teacher/Staff profile
 const TeacherStaffProfile = ({ user }) => {
+	// State to manage active tab
 	const [activeTab, setActiveTab] = useState("Login Information");
 
+	// Function to handle tab click
 	const handleTabClick = (tab) => {
 		setActiveTab(tab);
 	};
 
 	// Handles the logout button functionality.
 	const handleLogout = () => {
-		window.location.href = "/";
+		window.location.href = "/"; // Redirects to the home page upon logout
 	};
 
-	/* Opens welcome tab in side menu when page is first opened */
-
+	/*
+	useEffect hook to set the active tab to "Login Information"
+	when the component is first mounted
+	 */
 	useEffect(() => {
 		setActiveTab("Login Information");
 	}, []);
 
 	return (
 		<div>
-			<TeacherStaffHeader></TeacherStaffHeader>
-
+			<TeacherStaffHeader></TeacherStaffHeader> {/* Header component */}
 			<div className="profile-container">
 				<div className="side">
 					<div className="sidebar">
+						{/* Tab buttons for different sections */}
 						<button
 							className={activeTab === "Login Information" ? "active" : ""}
 							onClick={() => handleTabClick("Login Information")}
@@ -57,19 +63,23 @@ const TeacherStaffProfile = ({ user }) => {
 						</button>
 					</div>
 					<div>
+						{/* Logout button */}
 						<button className="normal-button" onClick={handleLogout}>
 							Logout
 						</button>
 
+						{/* Deactivate account button */}
 						<button className="deactivate">Deactivate Account</button>
 					</div>
 				</div>
 
 				<div className="content">
 					<div className="welcome-message">
+						{/* Welcome message */}
 						<h2>Hello [name]. Welcome to your profile!</h2>
 					</div>
 					<div className="profile-content">
+						{/* Render different components based on active tab */}
 						{activeTab === "Login Information" && <LoginInfo></LoginInfo>}
 						{activeTab === "Profile Information" && <ProfileInfo></ProfileInfo>}
 						{activeTab === "References" && <References></References>}

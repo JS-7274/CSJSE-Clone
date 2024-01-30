@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function ProfileInfo() {
+export default function SchoolProfileInfo() {
 	// State for managing editing mode
 	const [isEditing, setIsEditing] = useState(false);
 	// State for tracking email input value
@@ -25,15 +25,6 @@ export default function ProfileInfo() {
 		setEmail(event.target.value); // Update email state with user input
 	};
 
-	// Function to handle password input change
-	const handleFirstNameChange = (event) => {
-		setPassword(event.target.value); // Update password state with user input
-	};
-
-	const handleLastNameChange = (event) => {
-		setPassword(event.target.value); // Update password state with user input
-	};
-
 	const handleLookingChange = (event) => {
 		setPassword(event.target.value); // Update password state with user input
 	};
@@ -42,17 +33,7 @@ export default function ProfileInfo() {
 		setPassword(event.target.value); // Update password state with user input
 	};
 
-	const handleHomeChurchChange = (event) => {
-		setPassword(event.target.value); // Update password state with user input
-	};
-
-	const handleResumeChange = (event) => {
-		setPassword(event.target.value); // Update password state with user input
-	};
 	const handlePasswordChange = (event) => {
-		setPassword(event.target.value); // Update password state with user input
-	};
-	const handleTestimonyChange = (event) => {
 		setPassword(event.target.value); // Update password state with user input
 	};
 
@@ -79,21 +60,18 @@ export default function ProfileInfo() {
 				</div>
 			</div>
 			<div className="form-group">
-				<label>First Name</label>
+				<label>School Name</label>
 				<input className="input-field" type="text" value="" disabled />
 			</div>
+
 			<div className="form-group">
-				<label>Last Name</label>
-				<input className="input-field" type="text" value="" disabled />
-			</div>
-			<div className="form-group">
-				<label>Looking for a Job?</label>
+				<label>Are you hiring?</label>
 				<label className="radio-label">
-					<input type="radio" id="looking-for-job" value="Yes" disabled />
+					<input type="radio" id="are-you-hiring" value="Yes" disabled />
 					Yes
 				</label>
 				<label className="radio-label">
-					<input type="radio" id="looking-for-job" value="No" disabled />
+					<input type="radio" id="are-you-hiring" value="No" disabled />
 					No
 				</label>
 			</div>
@@ -124,19 +102,6 @@ export default function ProfileInfo() {
 					disabled={!isEditing}
 					onChange={handlePasswordChange}
 				/>
-			</div>
-			<div className="form-group">
-				<label>Home Church</label>
-				<input className="input-field" type="text" value="" disabled />
-			</div>
-
-			<div className="form-group">
-				<label>Resume</label>
-				<input className="" type="file" value="" disabled />
-			</div>
-			<div className="form-group">
-				<label>Testimony</label>
-				<input className="input-field" type="text" value="" disabled />
 			</div>
 		</div>
 	);

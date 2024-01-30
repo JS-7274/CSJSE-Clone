@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Profiles.css";
 import { TeacherStaffHeader } from "../components/Headers";
-import LoginInfo from "../components/LoginInfo";
 import ProfileInfo from "../components/ProfileInfo";
 import References from "../components/References";
 import OptionalUploads from "../components/OptionalUploads";
@@ -10,7 +9,7 @@ import OptionalUploads from "../components/OptionalUploads";
 // Functional component for Teacher/Staff profile
 const TeacherStaffProfile = ({ user }) => {
 	// State to manage active tab
-	const [activeTab, setActiveTab] = useState("Login Information");
+	const [activeTab, setActiveTab] = useState("Profile Information");
 
 	// Function to handle tab click
 	const handleTabClick = (tab) => {
@@ -27,7 +26,7 @@ const TeacherStaffProfile = ({ user }) => {
 	when the component is first mounted
 	 */
 	useEffect(() => {
-		setActiveTab("Login Information");
+		setActiveTab("Profile Information");
 	}, []);
 
 	return (
@@ -37,12 +36,7 @@ const TeacherStaffProfile = ({ user }) => {
 				<div className="side">
 					<div className="sidebar">
 						{/* Tab buttons for different sections */}
-						<button
-							className={activeTab === "Login Information" ? "active" : ""}
-							onClick={() => handleTabClick("Login Information")}
-						>
-							Login Information
-						</button>
+
 						<button
 							className={activeTab === "Profile Information" ? "active" : ""}
 							onClick={() => handleTabClick("Profile Information")}
@@ -80,7 +74,6 @@ const TeacherStaffProfile = ({ user }) => {
 					</div>
 					<div className="profile-content">
 						{/* Render different components based on active tab */}
-						{activeTab === "Login Information" && <LoginInfo></LoginInfo>}
 						{activeTab === "Profile Information" && <ProfileInfo></ProfileInfo>}
 						{activeTab === "References" && <References></References>}
 						{activeTab === "Optional Uploads" && (

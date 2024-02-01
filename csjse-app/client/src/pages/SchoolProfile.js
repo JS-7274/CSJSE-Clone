@@ -66,7 +66,7 @@ const SchoolProfile = ({ user }) => {
 						{/* Welcome message */}
 						<h2>Hello [name]. Welcome to your profile!</h2>
 					</div>
-					<div className="profile-content">
+					<div>
 						{activeTab === "Profile Information" && (
 							<SchoolProfileInfo></SchoolProfileInfo>
 						)}

@@ -38,7 +38,7 @@ export default function SchoolProfileInfo() {
 	};
 
 	return (
-		<div>
+		<div className="profile-content">
 			<div className="section-header">
 				<h2>Profile Information</h2>
 				{/* Header buttons */}

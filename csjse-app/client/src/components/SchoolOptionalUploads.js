@@ -22,7 +22,7 @@ export default function SchoolOptionalUploads() {
 	};
 
 	return (
-		<div>
+		<div className="profile-content">
 			<div className="section-header">
 				<h2>Optional Uploads</h2>
 				<div className="header-buttons">

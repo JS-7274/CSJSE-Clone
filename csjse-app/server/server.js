@@ -3,6 +3,7 @@ const mysql = require('mysql2')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const app = express()
+const dotenv = require('dotenv');
 const port = process.env.PORT || 5000
 
 // This document will establish a connection to the database as well as
@@ -11,12 +12,14 @@ const port = process.env.PORT || 5000
 app.use(cors()) // Enable CORS for all routes
 app.use(bodyParser.json()) // Use JSON parser for incoming requests
 
+dotenv.config({ path: './.env'} );
+
 // Set up MySQL Connection
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'team_user',
-    password: 'TeamUser1234',
-    database: 'csjse'
+    host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE
 })
 
 // Connect MySQL

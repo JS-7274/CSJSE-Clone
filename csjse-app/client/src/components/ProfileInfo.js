@@ -7,8 +7,20 @@ export default function ProfileInfo() {
 	const [email, setEmail] = useState("");
 	// State for tracking password input value
 	const [password, setPassword] = useState("");
-
-	//need to add state for tracking all other values
+	// State for tracking first name input value
+	const [firstName, setFirstName] = useState("");
+	// State for tracking last name input value
+	const [lastName, setLastName] = useState("");
+	// State for tracking whether user is looking for a job
+	const [looking, setLooking] = useState("");
+	// State for tracking phone number input value
+	const [phoneNumber, setPhoneNumber] = useState("");
+	// State for tracking home church input value
+	const [homeChurch, setHomeChurch] = useState("");
+	// State for tracking resume file
+	const [resume, setResume] = useState("");
+	// State for tracking testimony input value
+	const [testimony, setTestimony] = useState("");
 
 	// Function to toggle editing mode
 	const toggleEditing = () => {
@@ -20,44 +32,13 @@ export default function ProfileInfo() {
 		setIsEditing(false); // Disable editing mode
 	};
 
-	// Function to handle email input change
-	const handleEmailChange = (event) => {
-		setEmail(event.target.value); // Update email state with user input
-	};
-
-	// Function to handle password input change
-	const handleFirstNameChange = (event) => {
-		setPassword(event.target.value); // Update password state with user input
-	};
-
-	const handleLastNameChange = (event) => {
-		setPassword(event.target.value); // Update password state with user input
-	};
-
-	const handleLookingChange = (event) => {
-		setPassword(event.target.value); // Update password state with user input
-	};
-
-	const handlePhoneNumberChange = (event) => {
-		setPassword(event.target.value); // Update password state with user input
-	};
-
-	const handleHomeChurchChange = (event) => {
-		setPassword(event.target.value); // Update password state with user input
-	};
-
-	const handleResumeChange = (event) => {
-		setPassword(event.target.value); // Update password state with user input
-	};
-	const handlePasswordChange = (event) => {
-		setPassword(event.target.value); // Update password state with user input
-	};
-	const handleTestimonyChange = (event) => {
-		setPassword(event.target.value); // Update password state with user input
+	// Function to handle input changes
+	const handleInputChange = (event, setter) => {
+		setter(event.target.value);
 	};
 
 	return (
-		<div className="profile-content">
+		<div>
 			<div className="section-header">
 				<h2>Profile Information</h2>
 				{/* Header buttons */}
@@ -80,63 +61,106 @@ export default function ProfileInfo() {
 			</div>
 			<div className="form-group">
 				<label>First Name</label>
-				<input className="input-field" type="text" value="" disabled />
+				<input
+					className="input-field"
+					type="text"
+					value={firstName}
+					disabled={!isEditing}
+					onChange={(event) => handleInputChange(event, setFirstName)}
+				/>
 			</div>
 			<div className="form-group">
 				<label>Last Name</label>
-				<input className="input-field" type="text" value="" disabled />
+				<input
+					className="input-field"
+					type="text"
+					value={lastName}
+					disabled={!isEditing}
+					onChange={(event) => handleInputChange(event, setLastName)}
+				/>
 			</div>
 			<div className="form-group">
 				<label>Looking for a Job?</label>
 				<label className="radio-label">
-					<input type="radio" id="looking-for-job" value="Yes" disabled />
+					<input
+						type="radio"
+						id="looking-for-job"
+						value="Yes"
+						disabled={!isEditing}
+						onChange={(event) => handleInputChange(event, setLooking)}
+					/>
 					Yes
 				</label>
 				<label className="radio-label">
-					<input type="radio" id="looking-for-job" value="No" disabled />
+					<input
+						type="radio"
+						id="looking-for-job"
+						value="No"
+						disabled={!isEditing}
+						onChange={(event) => handleInputChange(event, setLooking)}
+					/>
 					No
 				</label>
 			</div>
 			<div className="form-group">
 				<label>Phone Number</label>
-				<input className="input-field" type="text" value="" disabled />
+				<input
+					className="input-field"
+					type="text"
+					value={phoneNumber}
+					disabled={!isEditing}
+					onChange={(event) => handleInputChange(event, setPhoneNumber)}
+				/>
 			</div>
 			<div className="form-group">
 				<label>Email</label>
-				{/* Input field for email, enabled based on editing state */}
 				<input
 					className="input-field"
 					type="email"
 					value={email}
 					disabled={!isEditing}
-					onChange={handleEmailChange}
+					onChange={(event) => handleInputChange(event, setEmail)}
 				/>
 			</div>
-
-			{/* Form group for password */}
 			<div className="form-group">
 				<label>Password</label>
-				{/* Input field for password, enabled based on editing state */}
 				<input
 					className="input-field"
 					type="password"
 					value={password}
 					disabled={!isEditing}
-					onChange={handlePasswordChange}
+					onChange={(event) => handleInputChange(event, setPassword)}
 				/>
 			</div>
 			<div className="form-group">
 				<label>Home Church</label>
-				<input className="input-field" type="text" value="" disabled />
+				<input
+					className="input-field"
+					type="text"
+					value={homeChurch}
+					disabled={!isEditing}
+					onChange={(event) => handleInputChange(event, setHomeChurch)}
+				/>
 			</div>
-
 			<div className="form-group">
 				<label>Resume</label>
-				<input className="" type="file" value="" disabled />
+				<input
+					className=""
+					type="file"
+					value={resume}
+					disabled={!isEditing}
+					onChange={(event) => handleInputChange(event, setResume)}
+				/>
 			</div>
 			<div className="form-group">
 				<label>Testimony</label>
-				<input className="input-field" type="text" value="" disabled />
+				<input
+					className="input-field"
+					type="text"
+					value={testimony}
+					disabled={!isEditing}
+					onChange={(event) => handleInputChange(event, setTestimony)}
+				/>
 			</div>
 		</div>
 	);

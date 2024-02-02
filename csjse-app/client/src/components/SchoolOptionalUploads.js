@@ -3,7 +3,6 @@ import React, { useState } from "react";
 export default function SchoolOptionalUploads() {
 	// State for managing editing mode
 	const [isEditing, setIsEditing] = useState(false);
-
 	const [schoolPhoto, setSchoolPhoto] = useState("");
 
 	// Function to toggle editing mode
@@ -16,9 +15,8 @@ export default function SchoolOptionalUploads() {
 		setIsEditing(false); // Disable editing mode
 	};
 
-	// Function to handle password input change
-	const handleSchoolPhotoChange = (event) => {
-		setSchoolPhoto(event.target.value); // Update password state with user input
+	const handleInputChange = (event, setter) => {
+		setter(event.target.value);
 	};
 
 	return (
@@ -49,7 +47,7 @@ export default function SchoolOptionalUploads() {
 					type="file"
 					value={schoolPhoto}
 					disabled={!isEditing}
-					onChange={handleSchoolPhotoChange}
+					onChange={(event) => handleInputChange(event, setSchoolPhoto)}
 				/>
 			</div>
 		</div>

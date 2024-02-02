@@ -18,14 +18,8 @@ export default function OptionalUploads() {
 		setIsEditing(false); // Disable editing mode
 	};
 
-	// Function to handle email input change
-	const handleCoverLetterChange = (event) => {
-		setCoverLetter(event.target.value); // Update email state with user input
-	};
-
-	// Function to handle password input change
-	const handleHeadshotChange = (event) => {
-		setHeadshot(event.target.value); // Update password state with user input
+	const handleInputChange = (event, setter) => {
+		setter(event.target.value);
 	};
 
 	return (
@@ -56,7 +50,7 @@ export default function OptionalUploads() {
 					type="file"
 					value={coverLetter}
 					disabled={!isEditing}
-					onChange={handleCoverLetterChange}
+					onChange={(event) => handleInputChange(event, setCoverLetter)}
 				/>
 			</div>
 			<div className="form-group">
@@ -65,7 +59,7 @@ export default function OptionalUploads() {
 					type="file"
 					value={headshot}
 					disabled={!isEditing}
-					onChange={handleHeadshotChange}
+					onChange={(event) => handleInputChange(event, setHeadshot)}
 				/>
 			</div>
 		</div>

@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 
 export default function References() {
+	// State for managing editing mode
 	const [isEditing, setIsEditing] = useState(false);
+	// State for tracking reference 1 details
 	const [R1Name, setR1Name] = useState("");
 	const [R1Relationship, setR1Relationship] = useState("");
 	const [R1RelationType, setR1RelationType] = useState("");
 	const [R1PhoneNumber, setR1PhoneNumber] = useState("");
 	const [R1Email, setR1Email] = useState("");
+	// State for tracking reference 2 details
 	const [R2Name, setR2Name] = useState("");
 	const [R2Relationship, setR2Relationship] = useState("");
 	const [R2RelationType, setR2RelationType] = useState("");
 	const [R2PhoneNumber, setR2PhoneNumber] = useState("");
 	const [R2Email, setR2Email] = useState("");
+	// State for tracking reference 3 details
 	const [R3Name, setR3Name] = useState("");
 	const [R3Relationship, setR3Relationship] = useState("");
 	const [R3RelationType, setR3RelationType] = useState("");
@@ -32,6 +36,7 @@ export default function References() {
 	const handleInputChange = (event, setter) => {
 		setter(event.target.value);
 	};
+
 	return (
 		<div>
 			<div className="section-header">
@@ -53,6 +58,7 @@ export default function References() {
 					/>
 				</div>
 			</div>
+			{/* Reference 1 */}
 			<h3>Reference 1</h3>
 			<div className="form-group">
 				<label>Name</label>
@@ -69,9 +75,9 @@ export default function References() {
 				<input
 					className="input-field"
 					type="text"
-					value={setR1Relationship}
+					value={R1Relationship}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setR2Relationship)}
+					onChange={(event) => handleInputChange(event, setR1Relationship)}
 				/>
 			</div>
 			<div className="form-group">
@@ -128,6 +134,7 @@ export default function References() {
 				/>
 			</div>
 
+			{/* Reference 2 */}
 			<h3>Reference 2</h3>
 			<div className="form-group">
 				<label>Name</label>
@@ -203,6 +210,7 @@ export default function References() {
 				/>
 			</div>
 
+			{/* Reference 3 */}
 			<h3>Reference 3</h3>
 			<div className="form-group">
 				<label>Name</label>
@@ -273,7 +281,7 @@ export default function References() {
 					className="input-field"
 					type="text"
 					value={R3Email}
-					ddisabled={!isEditing}
+					disabled={!isEditing}
 					onChange={(event) => handleInputChange(event, setR3Email)}
 				/>
 			</div>

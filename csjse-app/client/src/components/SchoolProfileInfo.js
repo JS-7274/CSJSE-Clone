@@ -9,12 +9,10 @@ export default function SchoolProfileInfo() {
 	const [password, setPassword] = useState("");
 	// State for tracking first name input value
 	const [name, setName] = useState("");
-	// State for tracking whether user is looking for a job
+	// State for tracking whether user is hiring
 	const [hiring, setHiring] = useState("");
 	// State for tracking phone number input value
 	const [phoneNumber, setPhoneNumber] = useState("");
-
-	//need to add state for tracking all other values
 
 	// Function to toggle editing mode
 	const toggleEditing = () => {
@@ -26,6 +24,7 @@ export default function SchoolProfileInfo() {
 		setIsEditing(false); // Disable editing mode
 	};
 
+	// Function to handle input changes
 	const handleInputChange = (event, setter) => {
 		setter(event.target.value);
 	};
@@ -65,6 +64,7 @@ export default function SchoolProfileInfo() {
 
 			<div className="form-group">
 				<label>Are you hiring?</label>
+				{/* Radio buttons for hiring, enabled based on editing state */}
 				<label className="radio-label">
 					<input
 						type="radio"

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 export default function SchoolOptionalUploads() {
 	// State for managing editing mode
 	const [isEditing, setIsEditing] = useState(false);
+	// State for tracking school photo
 	const [schoolPhoto, setSchoolPhoto] = useState("");
 
 	// Function to toggle editing mode
@@ -15,6 +16,7 @@ export default function SchoolOptionalUploads() {
 		setIsEditing(false); // Disable editing mode
 	};
 
+	// Function to handle input changes
 	const handleInputChange = (event, setter) => {
 		setter(event.target.value);
 	};
@@ -41,6 +43,7 @@ export default function SchoolOptionalUploads() {
 				</div>
 			</div>
 
+			{/* Form group for school photo */}
 			<div className="form-group">
 				<label>School Photo</label>
 				<input

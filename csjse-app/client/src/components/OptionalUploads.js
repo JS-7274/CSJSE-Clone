@@ -3,9 +3,9 @@ import React, { useState } from "react";
 export default function OptionalUploads() {
 	// State for managing editing mode
 	const [isEditing, setIsEditing] = useState(false);
-	// State for tracking email input value
+	// State for tracking cover letter file
 	const [coverLetter, setCoverLetter] = useState("");
-	// State for tracking password input value
+	// State for tracking headshot file
 	const [headshot, setHeadshot] = useState("");
 
 	// Function to toggle editing mode
@@ -18,6 +18,7 @@ export default function OptionalUploads() {
 		setIsEditing(false); // Disable editing mode
 	};
 
+	// Function to handle input changes
 	const handleInputChange = (event, setter) => {
 		setter(event.target.value);
 	};
@@ -44,6 +45,7 @@ export default function OptionalUploads() {
 				</div>
 			</div>
 
+			{/* Form group for cover letter */}
 			<div className="form-group">
 				<label>Cover Letter</label>
 				<input
@@ -53,6 +55,7 @@ export default function OptionalUploads() {
 					onChange={(event) => handleInputChange(event, setCoverLetter)}
 				/>
 			</div>
+			{/* Form group for headshot */}
 			<div className="form-group">
 				<label>Headshot</label>
 				<input

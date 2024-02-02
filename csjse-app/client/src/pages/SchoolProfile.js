@@ -6,30 +6,33 @@ import SchoolProfileInfo from "../components/SchoolProfileInfo";
 import JobListings from "../components/JobListings";
 
 const SchoolProfile = ({ user }) => {
+	// State to track the active tab
 	const [activeTab, setActiveTab] = useState("Profile Information");
 
+	// Function to handle tab click
 	const handleTabClick = (tab) => {
 		setActiveTab(tab);
 	};
 
-	// Handles logout button redirection functionality.
+	// Handles logout button redirection functionality
 	const handleLogout = () => {
 		window.location.href = "/";
 	};
 
-	/* Opens welcome tab in side menu when page is first opened */
-
+	// Sets the active tab to "Profile Information" when the component is first mounted
 	useEffect(() => {
 		setActiveTab("Profile Information");
 	}, []);
 
 	return (
 		<div>
+			{/* School Header */}
 			<SchoolHeader></SchoolHeader>
 
 			<div className="profile-container">
 				<div className="side">
 					<div className="sidebar">
+						{/* Buttons for different tabs */}
 						<button
 							className={activeTab === "Profile Information" ? "active" : ""}
 							onClick={() => handleTabClick("Profile Information")}
@@ -61,12 +64,12 @@ const SchoolProfile = ({ user }) => {
 					</div>
 				</div>
 				<div className="content">
-					{" "}
+					{/* Welcome message */}
 					<div className="welcome-message">
-						{/* Welcome message */}
 						<h2>Hello [name]. Welcome to your profile!</h2>
 					</div>
 					<div>
+						{/* Renders different components based on the active tab */}
 						{activeTab === "Profile Information" && (
 							<SchoolProfileInfo></SchoolProfileInfo>
 						)}

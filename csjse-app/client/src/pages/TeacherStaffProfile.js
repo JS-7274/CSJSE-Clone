@@ -1,44 +1,42 @@
+// Importing necessary dependencies and components
 import React, { useState, useEffect } from "react";
 import "../styles/Profiles.css";
 import { TeacherStaffHeader } from "../components/Headers";
+import ProfileInfo from "../components/ProfileInfo";
+import References from "../components/References";
+import OptionalUploads from "../components/OptionalUploads";
 
+// Functional component for Teacher/Staff profile
 const TeacherStaffProfile = ({ user }) => {
-	const [activeTab, setActiveTab] = useState("Welcome");
+	// State to manage active tab
+	const [activeTab, setActiveTab] = useState("Profile Information");
 
+	// Function to handle tab click
 	const handleTabClick = (tab) => {
 		setActiveTab(tab);
 	};
 
 	// Handles the logout button functionality.
 	const handleLogout = () => {
-		window.location.href = "/";
+		window.location.href = "/"; // Redirects to the home page upon logout
 	};
 
-	/* Opens welcome tab in side menu when page is first opened */
-
+	/*
+	useEffect hook to set the active tab to "Login Information"
+	when the component is first mounted
+	 */
 	useEffect(() => {
-		setActiveTab("Welcome");
+		setActiveTab("Profile Information");
 	}, []);
 
 	return (
 		<div>
-			<TeacherStaffHeader></TeacherStaffHeader>
-
+			<TeacherStaffHeader></TeacherStaffHeader> {/* Header component */}
 			<div className="profile-container">
 				<div className="side">
 					<div className="sidebar">
-						<button
-							className={activeTab === "Welcome" ? "active" : ""}
-							onClick={() => handleTabClick("Welcome")}
-						>
-							Welcome
-						</button>
-						<button
-							className={activeTab === "Login Information" ? "active" : ""}
-							onClick={() => handleTabClick("Login Information")}
-						>
-							Login Information
-						</button>
+						{/* Tab buttons for different sections */}
+
 						<button
 							className={activeTab === "Profile Information" ? "active" : ""}
 							onClick={() => handleTabClick("Profile Information")}
@@ -58,86 +56,30 @@ const TeacherStaffProfile = ({ user }) => {
 							Optional Uploads{" "}
 						</button>
 					</div>
-					<div className="sidebar">
-						<button className="logout" onClick={handleLogout}>
+					<div>
+						{/* Logout button */}
+						<button className="normal-button" onClick={handleLogout}>
 							Logout
 						</button>
-					</div>
-					<div className="sidebar">
+
+						{/* Deactivate account button */}
 						<button className="deactivate">Deactivate Account</button>
 					</div>
 				</div>
 
-				<div className="profile-content">
-					{activeTab === "Welcome" && (
-						<div>
-							<h2>Welcome to your profile!</h2>
-							{/* Display welcome message here */}
-						</div>
-					)}
-					{activeTab === "Login Information" && (
-						<div>
-							<h2>Login Information</h2>
-							{/* Display general profile information here */}
-							<div>
-								<label>Email</label>
-							</div>
-							<div>
-								<label>Password</label>
-							</div>
-						</div>
-					)}
-					{activeTab === "Profile Information" && (
-						<div>
-							<h2>Profile Information</h2>
-							{/* Display general profile information here */}
-							<div>
-								<label>First Name</label>
-							</div>
-							<div>
-								<label>Last Name</label>
-							</div>
-							<div>
-								<label>Looking for a Job?</label>
-							</div>
-							<div>
-								<label>Phone Number</label>
-							</div>
-							<div>
-								<label>Home Church</label>
-							</div>
-							<div>
-								<label>Education</label>
-							</div>
-							<div>
-								<label>Experience</label>
-							</div>
-							<div>
-								<label>Certifications</label>
-							</div>
-							<div>
-								<label>Why Christian Ed?</label>
-							</div>
-							<div>
-								<label>Resume</label>
-							</div>
-							<div>
-								<label>Testimony</label>
-							</div>
-						</div>
-					)}
-					{activeTab === "References" && (
-						<div>
-							<h2>References</h2>
-							{/* Display resume here */}
-						</div>
-					)}
-					{activeTab === "Optional Uploads" && (
-						<div>
-							<h2>Optional Uploads</h2>
-							{/* Display testimony here */}
-						</div>
-					)}
+				<div className="content">
+					<div className="welcome-message">
+						{/* Welcome message */}
+						<h2>Hello [name]. Welcome to your profile!</h2>
+					</div>
+					<div className="profile-content">
+						{/* Render different components based on active tab */}
+						{activeTab === "Profile Information" && <ProfileInfo></ProfileInfo>}
+						{activeTab === "References" && <References></References>}
+						{activeTab === "Optional Uploads" && (
+							<OptionalUploads></OptionalUploads>
+						)}
+					</div>
 				</div>
 			</div>
 		</div>

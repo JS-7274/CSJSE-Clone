@@ -14,7 +14,11 @@ function TeacherStaffHeader() {
 
 	return (
 		<div className="header">
-			<div className="logo">Christian Schools Job Search</div>
+			<div className="logo">
+				<NavLink to="/" className="title">
+					Christian Schools Job Search
+				</NavLink>
+			</div>
 
 			<div className="menu">
 				<NavLink
@@ -51,7 +55,11 @@ function SchoolHeader() {
 
 	return (
 		<div className="header">
-			<div className="logo">Christian Schools Job Search</div>
+			<div className="logo">
+				<NavLink to="/" className="title">
+					Christian Schools Job Search
+				</NavLink>
+			</div>
 
 			<div className="menu">
 				<NavLink

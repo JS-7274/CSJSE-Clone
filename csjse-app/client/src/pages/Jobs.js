@@ -1,14 +1,19 @@
 import React from "react";
 import { TeacherStaffHeader } from "../components/Headers";
 import "../styles/Jobs.css";
+import "@fortawesome/fontawesome-free/css/all.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { fas } from "@fortawesome/free-solid-svg-icons";
 
 function Jobs() {
 	return (
 		<div>
 			<TeacherStaffHeader></TeacherStaffHeader>
 			<div className="search-bar">
-				Search
 				{/*add hamburger icon and searcch icon*/}
+				<FontAwesomeIcon icon={fas.faBars} />
+				<p>Search</p>
+				<FontAwesomeIcon icon={fas.faMagnifyingGlass} />{" "}
 			</div>
 			<div className="info-display">
 				<div className="job-navigation">

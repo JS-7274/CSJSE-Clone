@@ -25,12 +25,12 @@
 	align-items: stretch;
 }
 
-.job-navigation {
+.teacher-navigation {
 	width: 200px;
 	border-radius: 10px;
 }
 
-.job-navigation button {
+.teacher-navigation button {
 	position: relative;
 	display: block;
 	border: 1px solid #fff;
@@ -47,29 +47,29 @@
 }
 
 /* Sets the top corners of the top item to be rounded */
-.job-navigation button:nth-child(1) {
+.teacher-navigation button:nth-child(1) {
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
 }
 
 /* Sets the bottom corners of the bottom item to be rounded */
-.job-navigation button:nth-last-child(1) {
+.teacher-navigation button:nth-last-child(1) {
 	border-bottom-left-radius: 10px;
 	border-bottom-right-radius: 10px;
 	border-bottom: none;
 }
 
-.job-navigation button:hover {
+.teacher-navigation button:hover {
 	background-color: #26b170;
 	color: #fff;
 }
 
-.job-navigation button.active {
+.teacher-navigation button.active {
 	background-color: #01377d;
 	color: #fff;
 }
 
-.job-info {
+.teacher-info {
 	display: flex;
 	flex-direction: column;
 	width: 100%;

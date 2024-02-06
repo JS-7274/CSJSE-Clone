@@ -48,6 +48,8 @@ export default function TeacherLogin() {
 		<div className="backgroundColor">
 			{/*Another container to change style*/}
 			<div className="login-container">
+				{showFailedLogin && <div className="overlay" />}
+
 				{/*Shows a component that tells the user the information entered is incorrect if the login attempt failed*/}
 				{showFailedLogin && (
 					<LoginFailed onClose={() => setFailedLogin(false)} />
@@ -72,6 +74,7 @@ export default function TeacherLogin() {
 							id="email"
 							name="email"
 							required
+							disabled={showFailedLogin}
 						/>
 					</div>
 					<div className="form-group">
@@ -89,10 +92,11 @@ export default function TeacherLogin() {
 							id="password"
 							name="password"
 							required
+							disabled={showFailedLogin}
 						/>
 					</div>
 					{/*Creates a button that will serve as the sign to submit the fields given using the styling from "button" with the text "Log In" displayed*/}
-					<button type="submit" className="button">
+					<button type="submit" className="button" disabled={showFailedLogin}>
 						Log In
 					</button>
 					{/*Creates a button that will use the handleCreateAccount function to send someone to the create account page for their specified account type with the text "Create Account" displayed*/}
@@ -100,6 +104,7 @@ export default function TeacherLogin() {
 						type="button"
 						className="button"
 						onClick={handleCreateAccount}
+						disabled={showFailedLogin}
 					>
 						Create Account
 					</button>

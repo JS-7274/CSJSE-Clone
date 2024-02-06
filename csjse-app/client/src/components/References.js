@@ -96,6 +96,16 @@ export default function References() {
 					<input
 						type="radio"
 						id="type-of-relationship"
+						value="professional"
+						disabled={!isEditing}
+						onChange={(event) => handleInputChange(event, setR1RelationType)}
+					/>
+					Pastoral
+				</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						id="type-of-relationship"
 						value="academic"
 						disabled={!isEditing}
 						onChange={(event) => handleInputChange(event, setR1RelationType)}
@@ -172,6 +182,16 @@ export default function References() {
 					<input
 						type="radio"
 						id="type-of-relationship"
+						value="professional"
+						disabled={!isEditing}
+						onChange={(event) => handleInputChange(event, setR1RelationType)}
+					/>
+					Pastoral
+				</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						id="type-of-relationship"
 						value="academic"
 						disabled={!isEditing}
 						onChange={(event) => handleInputChange(event, setR2RelationType)}
@@ -243,6 +263,16 @@ export default function References() {
 						onChange={(event) => handleInputChange(event, setR3RelationType)}
 					/>
 					Professional
+				</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						id="type-of-relationship"
+						value="professional"
+						disabled={!isEditing}
+						onChange={(event) => handleInputChange(event, setR1RelationType)}
+					/>
+					Pastoral
 				</label>
 				<label className="radio-label">
 					<input

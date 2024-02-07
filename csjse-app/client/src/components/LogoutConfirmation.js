@@ -1,12 +1,17 @@
 import React from "react";
 
-//Show this if a login attempt failed
-const LogoutConfirmation = ({ onClose }) => (
+const LogoutConfirmation = ({ onCancel, onConfirm }) => (
 	<div className="logout">
 		<p>Are you sure you want to log out?</p>
 		<div className="logout-buttons">
-			<button className="yes-button">Yes</button>
-			<button className="no-button">No</button>
+			{/* Call onConfirm callback when the "Yes" button is clicked */}
+			<button className="yes-button" onClick={onConfirm}>
+				Yes
+			</button>
+			{/* Call onCancel callback when the "No" button is clicked */}
+			<button className="no-button" onClick={onCancel}>
+				No
+			</button>
 		</div>
 	</div>
 );

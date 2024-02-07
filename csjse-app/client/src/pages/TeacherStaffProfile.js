@@ -42,6 +42,7 @@ const TeacherStaffProfile = ({ user }) => {
 		<div>
 			<TeacherStaffHeader></TeacherStaffHeader> {/* Header component */}
 			<div className="profile-container">
+				{showLogoutConfirmation && <div className="overlay" />}
 				<div className="side">
 					<div className="sidebar">
 						{/* Tab buttons for different sections */}

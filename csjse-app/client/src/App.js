@@ -11,21 +11,23 @@ import TeacherCreateAcc from "./pages/TeacherCreateAcc";
 import SchoolCreateAcc from "./pages/SchoolCreateAcc";
 import Schools from "./pages/Schools";
 import Jobs from "./pages/Jobs";
+import Teachers from "./pages/Teachers";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
 	return (
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/TeacherLogin" element={<TeacherLogin />} />
-				<Route path="/SchoolLogin" element={<SchoolLogin />} />
-				<Route path="/TeacherStaffProfile" element={<TeacherStaffProfile />} />
-				<Route path="/SchoolProfile" element={<SchoolProfile />} />
-				<Route path="/SchoolCreateAcc" element={<SchoolCreateAcc />} />
-				<Route path="/TeacherCreateAcc" element={<TeacherCreateAcc />} />
-				<Route path="/Schools" element={<Schools />} />
-				<Route path="/Jobs" element={<Jobs />} />
-			</Routes>
+		<Routes>
+			<Route path="/" element={<Home />} />
+			<Route path="/TeacherLogin" element={<TeacherLogin />} />
+			<Route path="/SchoolLogin" element={<SchoolLogin />} />
+			<Route path="/TeacherStaffProfile" element={<TeacherStaffProfile />} />
+			<Route path="/SchoolProfile" element={<SchoolProfile />} />
+			<Route path="/SchoolCreateAcc" element={<SchoolCreateAcc />} />
+			<Route path="/TeacherCreateAcc" element={<TeacherCreateAcc />} />
+			<Route path="/Schools" element={<Schools />} />
+			<Route path="/Jobs" element={<Jobs />} />
+			<Route path="/Teachers" element={<Teachers />} />
+		</Routes>
 	);
 }
 //^Basically, Router is needed for <routes> to work, <routes> let you set multiple <route>s

@@ -1,0 +1,80 @@
+.search-bar {
+	display: flex;
+	justify-content: space-between;
+	background-color: #f5f5f5;
+	border-radius: 10px;
+	margin-top: 20px;
+	align-items: baseline;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.search {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: baseline;
+}
+
+.search p {
+	padding-right: 20px;
+}
+
+.info-display {
+	display: flex;
+	margin-top: 20px;
+	align-items: stretch;
+}
+
+.school-navigation {
+	width: 200px;
+	border-radius: 10px;
+}
+
+.school-navigation button {
+	position: relative;
+	display: block;
+	border: 1px solid #fff;
+	width: 100%;
+	padding: 8px 16px;
+	background-color: #f5f5f5;
+	color: #000;
+	cursor: pointer;
+	text-decoration: none;
+	font-size: 16px;
+	font-weight: normal;
+	text-align: center;
+	white-space: nowrap;
+}
+
+/* Sets the top corners of the top item to be rounded */
+.school-navigation button:nth-child(1) {
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
+
+/* Sets the bottom corners of the bottom item to be rounded */
+.school-navigation button:nth-last-child(1) {
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	border-bottom: none;
+}
+
+.school-navigation button:hover {
+	background-color: #26b170;
+	color: #fff;
+}
+
+.school-navigation button.active {
+	background-color: #01377d;
+	color: #fff;
+}
+
+.school-info {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	border-radius: 10px;
+	margin-left: 20px;
+	padding-left: 20px;
+	background-color: #f5f5f5;
+}

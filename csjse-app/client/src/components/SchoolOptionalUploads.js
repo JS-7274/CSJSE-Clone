@@ -5,6 +5,8 @@ export default function SchoolOptionalUploads() {
 	const [isEditing, setIsEditing] = useState(false);
 	// State for tracking school photo
 	const [schoolPhoto, setSchoolPhoto] = useState("");
+	// State for tracking school logo
+	const [schoolLogo, setSchoolLogo] = useState("");
 
 	// Function to toggle editing mode
 	const toggleEditing = () => {
@@ -51,6 +53,17 @@ export default function SchoolOptionalUploads() {
 					value={schoolPhoto}
 					disabled={!isEditing}
 					onChange={(event) => handleInputChange(event, setSchoolPhoto)}
+				/>
+			</div>
+
+			{/* Form group for school logo */}
+			<div className="form-group">
+				<label>School Logo</label>
+				<input
+					type="file"
+					value={schoolLogo}
+					disabled={!isEditing}
+					onChange={(event) => handleInputChange(event, setSchoolLogo)}
 				/>
 			</div>
 		</div>

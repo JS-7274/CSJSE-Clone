@@ -15,9 +15,13 @@ export default function SchoolProfileInfo() {
 	const [phoneNumber, setPhoneNumber] = useState("");
 
 	const [enrollment, setEnrollment] = useState("");
+	const [employed, setEmployed] = useState("");
 	const [statementOfFaith, setStatmentofFaith] = useState("");
 	const [website, setWebsite] = useState("");
 	const [contactEmail, setContactEmail] = useState("");
+	const [location, setLocation] = useState("");
+	const [campuses, setCampuses] = useState("");
+	const [accreditation, setAccreditation] = useState("");
 
 	// Function to toggle editing mode
 	const toggleEditing = () => {
@@ -65,6 +69,61 @@ export default function SchoolProfileInfo() {
 					disabled={!isEditing}
 					onChange={(event) => handleInputChange(event, setName)}
 				/>
+			</div>
+
+			<div className="form-group">
+				<label>School Location</label>
+				<input
+					className="input-field"
+					type="text"
+					value={location}
+					disabled={!isEditing}
+					onChange={(event) => handleInputChange(event, setLocation)}
+				/>
+			</div>
+
+			<div className="form-group">
+				<label>Number of Campuses</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						id="campuses"
+						value="1"
+						disabled={!isEditing}
+						onChange={(event) => handleInputChange(event, setCampuses)}
+					/>
+					1
+				</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						id="campuses"
+						value="2"
+						disabled={!isEditing}
+						onChange={(event) => handleInputChange(event, setCampuses)}
+					/>
+					2
+				</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						id="campuses"
+						value="3"
+						disabled={!isEditing}
+						onChange={(event) => handleInputChange(event, setCampuses)}
+					/>
+					3
+				</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						id="campuses"
+						value="4-orG-reater"
+						disabled={!isEditing}
+						onChange={(event) => handleInputChange(event, setCampuses)}
+					/>
+					4 or Greater
+				</label>
 			</div>
 
 			<div className="form-group">
@@ -137,6 +196,51 @@ export default function SchoolProfileInfo() {
 					disabled={!isEditing}
 					onChange={(event) => handleInputChange(event, setStatmentofFaith)}
 				/>
+			</div>
+
+			<div className="form-group">
+				<label>Accreditation</label>
+				<input
+					className="input-field"
+					type="link"
+					value={accreditation}
+					disabled={!isEditing}
+					onChange={(event) => handleInputChange(event, setAccreditation)}
+				/>
+			</div>
+
+			<div className="form-group">
+				<label>Teachers Employed</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						id="employed"
+						value="200-500"
+						disabled={!isEditing}
+						onChange={(event) => handleInputChange(event, setEmployed)}
+					/>
+					200 to 500
+				</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						id="employed"
+						value="500-1,000"
+						disabled={!isEditing}
+						onChange={(event) => handleInputChange(event, setEmployed)}
+					/>
+					500 to 1,000
+				</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						id="employed"
+						value="1,000-1,500"
+						disabled={!isEditing}
+						onChange={(event) => handleInputChange(event, setEmployed)}
+					/>
+					1,000 to 1,500
+				</label>
 			</div>
 
 			{/*Enrollment Size*/}

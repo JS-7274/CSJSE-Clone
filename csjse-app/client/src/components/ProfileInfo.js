@@ -12,7 +12,7 @@ export default function ProfileInfo() {
 	// State for tracking last name input value
 	const [lastName, setLastName] = useState("");
 	// State for tracking whether user is looking for a job
-	const [setLooking] = useState("");
+	const [looking, setLooking] = useState("");
 	// State for tracking phone number input value
 	const [phoneNumber, setPhoneNumber] = useState("");
 	// State for tracking home church input value

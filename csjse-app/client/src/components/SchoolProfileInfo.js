@@ -10,7 +10,7 @@ export default function SchoolProfileInfo() {
 	// State for tracking first name input value
 	const [name, setName] = useState("");
 	// State for tracking whether user is hiring
-	const [setHiring] = useState("");
+	const [hiring, setHiring] = useState("");
 	// State for tracking phone number input value
 	const [phoneNumber, setPhoneNumber] = useState("");
 

@@ -1,7 +1,9 @@
 // Importing necessary dependencies and components
 import React, { useState, useEffect } from "react";
 import "../styles/Profiles.css";
+import "../styles/LogoutConfirmation.css";
 import { TeacherStaffHeader } from "../components/Headers";
+import LogoutConfirmation from "../components/LogoutConfirmation";
 import ProfileInfo from "../components/ProfileInfo";
 import References from "../components/References";
 import OptionalUploads from "../components/OptionalUploads";
@@ -11,6 +13,8 @@ const TeacherStaffProfile = ({ user }) => {
 	// State to manage active tab
 	const [activeTab, setActiveTab] = useState("Profile Information");
 
+	const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false); // State to manage the visibility of the logout confirmation popup
+
 	// Function to handle tab click
 	const handleTabClick = (tab) => {
 		setActiveTab(tab);
@@ -18,6 +22,11 @@ const TeacherStaffProfile = ({ user }) => {
 
 	// Handles the logout button functionality.
 	const handleLogout = () => {
+		setShowLogoutConfirmation(true); // Show the logout confirmation popup
+	};
+
+	const confirmLogout = () => {
+		// Perform logout logic here
 		window.location.href = "/"; // Redirects to the home page upon logout
 	};
 
@@ -33,6 +42,7 @@ const TeacherStaffProfile = ({ user }) => {
 		<div>
 			<TeacherStaffHeader></TeacherStaffHeader> {/* Header component */}
 			<div className="profile-container">
+				{showLogoutConfirmation && <div className="overlay" />}
 				<div className="side">
 					<div className="sidebar">
 						{/* Tab buttons for different sections */}
@@ -82,6 +92,12 @@ const TeacherStaffProfile = ({ user }) => {
 					</div>
 				</div>
 			</div>
+			{showLogoutConfirmation && (
+				<LogoutConfirmation
+					onCancel={() => setShowLogoutConfirmation(false)}
+					onConfirm={confirmLogout}
+				/>
+			)}
 		</div>
 	);
 };

@@ -1,6 +1,6 @@
 /* FailedLogin.css */
 
-.loginfailed {
+.logout {
 	display: flex;
 	flex-direction: column;
 	position: fixed;
@@ -15,19 +15,37 @@
 	z-index: 9999; /*so that the error will appear infront of everything else*/
 }
 
-.loginfailed button {
-	background-color: #cd0001; /* Make button background transparent */
+.yes-button {
+	background-color: #cd0001;
 	color: #fff;
 	border: none; /* Add border to the button */
 	border-radius: 10px;
 	padding: 8px 16px; /* Adjust padding as needed */
 	cursor: pointer;
-	align-self: flex end;
+	margin-right: 10px;
 }
 
-.loginfailed button:hover {
+.yes-button:hover {
 	background-color: #960606;
+}
+
+.no-button {
+	background-color: #01377d;
 	color: #fff;
+	border: none; /* Add border to the button */
+	border-radius: 10px;
+	padding: 8px 16px; /* Adjust padding as needed */
+	cursor: pointer;
+}
+
+.no-button:hover {
+	background-color: #26b170;
+}
+
+.logout-buttons {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
 }
 
 .overlay {

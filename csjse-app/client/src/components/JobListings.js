@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+import CreateJobPosting from "./CreateJobPosting";
 
 export default function JobListings() {
+	const [showCreateJobPosting, setShowCreateJobPosting] = useState(false); // State to manage the visibility of the logout confirmation popup
+
+	const handleCreate = () => {
+		setShowCreateJobPosting(true);
+	};
 	return (
 		<div className="profile-content">
 			<div className="section-header">
@@ -8,9 +14,11 @@ export default function JobListings() {
 				{/* Header buttons */}
 				<div>
 					{/* Edit button toggles editing state */}
-					<input type="submit" value="Create" />
+					<input type="submit" value="Create" onClick={handleCreate} />
 				</div>
 			</div>
+
+			{showCreateJobPosting && <CreateJobPosting />}
 
 			<div className="job-item">
 				<div className="job-posting">

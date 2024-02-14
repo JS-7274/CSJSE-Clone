@@ -12,7 +12,7 @@ import SchoolCreateAcc from "./pages/SchoolCreateAcc";
 import Schools from "./pages/Schools";
 import Jobs from "./pages/Jobs";
 import Teachers from "./pages/Teachers";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Routes, Route } from "react-router-dom";
 
 function App() {
 	return (

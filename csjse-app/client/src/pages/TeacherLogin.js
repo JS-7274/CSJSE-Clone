@@ -3,6 +3,7 @@ import "../styles/LoginandCreate.css";
 import "../styles/FailedLogin.css";
 import LoginFailed from "../components/FailedLogin";
 import { Link } from "react-router-dom";
+import { useSignIn } from "react-auth-kit";
 
 export default function TeacherLogin() {
 	//creates two variables (email and pass) along with 2 functions to change them, useState being empty means they start off empty
@@ -12,6 +13,8 @@ export default function TeacherLogin() {
 
 	//Creates a variable to manage whether a component appears or not (appears if someone fails login)
 	const [showFailedLogin, setFailedLogin] = useState(false);
+
+	const signIn =  useSignIn();
 
 	//passes in (e) as a parameter, e.preventDefault() forces the page to not reload on subission, console.log(email) puts whatever is input for email into the console, probably replace for actual login code
 	const handleSubmit = async (e) => {
@@ -28,6 +31,14 @@ export default function TeacherLogin() {
 			.then((response) => response.json())
 			.catch((error) => console.error("Error during login:", error));
 		console.log(res.success);
+
+		// auth-kit
+		signIn({
+			token: res.data.token,
+			expriesIn: 3600,
+			tokenType: "Bearer",
+			authState: { email: email },
+		});
 
 		//If login successful, go to profile page
 		if (res.success) {

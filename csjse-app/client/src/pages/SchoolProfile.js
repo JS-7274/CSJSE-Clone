@@ -6,7 +6,7 @@ import SchoolOptionalUploads from "../components/SchoolOptionalUploads";
 import SchoolProfileInfo from "../components/SchoolProfileInfo";
 import JobListings from "../components/JobListings";
 
-const SchoolProfile = ({ user }) => {
+function SchoolProfile({ user }) {
 	// State to track the active tab
 	const [activeTab, setActiveTab] = useState("Profile Information");
 

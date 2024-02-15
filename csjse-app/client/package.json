@@ -4,6 +4,7 @@
   "proxy": "https://localhost:3000",
   "private": true,
   "dependencies": {
+    "@auth-kit/react-router": "^3.1.0",
     "@fortawesome/fontawesome-free": "^6.5.1",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-brands-svg-icons": "^6.5.1",

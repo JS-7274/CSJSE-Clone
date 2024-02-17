@@ -12,7 +12,7 @@ COPY csjse-app/server /csjse-app/
 WORKDIR /CSJSE-Senior-Project
 
 # Install dependencies
-RUN npm install
+#RUN npm install
 
 # Copy over the rest of the app files
 #COPY . .

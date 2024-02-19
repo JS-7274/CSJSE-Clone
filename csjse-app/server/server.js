@@ -30,27 +30,30 @@ db.connect((err) => {
     console.log('Connected to MySQL')
 })
 
+const jwt = require('jsonwebtoken');
+
 // API for teacher login
 app.post('/api/tlogin', (req, res) => {
-    console.log('Received login request', req.body)
+    console.log('Received login request', req.body);
 
-    const {email, pass} = req.body
+    const { email, pass } = req.body;
 
-    const sql = "SELECT * FROM teacher_profile WHERE email = ? AND password = ?;"
+    const sql = "SELECT * FROM teacher_profile WHERE email = ? AND password = ?;";
     db.query(sql, [email, pass], (err, results) => {
         if (err) {
-            return res.status(500).json({ error: 'Internal Server Error'})
+            return res.status(500).json({ error: 'Internal Server Error' });
         }
 
         if (results.length > 0) {
             // Login successful
-            return res.json({success: true})
+            const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+            return res.json({ success: true, token });
         } else {
             // Invalid credentials
-            return res.json({success: false})
+            return res.json({ success: false });
         }
-    })
-})
+    });
+});
 
 // API for school login
 app.post('/api/slogin', (req, res) => {
@@ -100,6 +103,7 @@ app.post('/api/tCreateAccount', (req, res) => {
         const newTeacherId = profileResults.insertId;
 
         // Account creation successful
+        const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
         return res.json({ success: true });
     });
 });

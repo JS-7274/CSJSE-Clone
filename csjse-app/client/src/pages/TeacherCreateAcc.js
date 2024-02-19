@@ -1,11 +1,19 @@
 import React, { useState } from "react";
 import "../styles/LoginandCreate.css";
 import { Link } from "react-router-dom";
+import { useAuth } from "react-auth-kit";
+import TeacherStaffProfile from "./TeacherStaffProfile";
 
 //This function will be called to bring up a form to create a new account for a teacher
 
 //create and export function 'TeacherCreateAcc' so that other pages can import and use the function
 export default function TeacherCreateAcc() {
+	const { authState } = useAuth();
+	// If the user is already authenticated, redirect them to the profile page
+	if (authState.isAuthenticated) {
+		window.location.href = "/TeacherStaffProfile";
+	  }
+
 	//declares variables for information that will be used to create account as well as the functions to update those variables
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
@@ -150,7 +158,7 @@ export default function TeacherCreateAcc() {
 							type="password"
 							placeholder="*******"
 							id="confirmPassword"
-							name="confirmP	assword"
+							name="confirmPassword"
 							required
 						/>
 					</div>

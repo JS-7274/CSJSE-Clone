@@ -32,16 +32,16 @@ export default function TeacherLogin() {
 			.catch((error) => console.error("Error during login:", error));
 		console.log(res.success);
 
-		// auth-kit
-		signIn({
-			token: res.data.token,
-			expriesIn: 3600,
-			tokenType: "Bearer",
-			authState: { email: email },
-		});
-
 		//If login successful, go to profile page
 		if (res.success) {
+			// auth-kit function
+			signIn({
+				token: res.data.token,
+				expiresIn: 3600,
+				tokenType: "Bearer",
+				authState: { email: email },
+			});
+
 			window.location.href = "/teacherstaffprofile";
 		} else {
 			//Show component if login failed

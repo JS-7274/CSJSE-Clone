@@ -12,7 +12,8 @@ import SchoolCreateAcc from "./pages/SchoolCreateAcc";
 import Schools from "./pages/Schools";
 import Jobs from "./pages/Jobs";
 import Teachers from "./pages/Teachers";
-import { BrowserRouter as Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import { RequireAuth } from "react-auth-kit";
 
 function App() {
 	return (

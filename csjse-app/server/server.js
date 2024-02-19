@@ -87,8 +87,8 @@ app.post('/api/tCreateAccount', (req, res) => {
     // updates the teacher_profile database so it can get the automatically generated ID
     const insertProfileSql = `
         INSERT INTO Teacher_Profile (
-            first_name, last_name, phone, email, home_church, education, experience, certifications, why_christian_ed, job_resume, testimony, personal_references, last_accessed, password
-        ) VALUES (?, ?, NULL, ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NOW(), ?)
+            first_name, last_name, phone, email, home_church, education, experience, certifications, why_christian_ed, job_resume, testimony, personal_references, last_accessed, password, userType
+        ) VALUES (?, ?, NULL, ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NOW(), ?, 'teacher_staff')
     `;
 
     
@@ -118,8 +118,8 @@ app.post('/api/sCreateAccount', (req, res) => {
     // updates the school_profile database first so it can get the automatically generated ID
     const insertProfileSql = `
         INSERT INTO School_Profile (
-            school_name, school_population, statement_of_faith, covenantal, teacher_count, administrative_structure, phone, email, location, campus_number, accreditation, grade_range, about, school_profile_graphic, last_accessed, password
-        ) VALUES (?, NULL, NULL, NULL, NULL, NULL, NULL, ?, NULL, NULL, NULL, NULL, NULL, NULL, NOW(), ?)
+            school_name, school_population, statement_of_faith, covenantal, teacher_count, administrative_structure, phone, email, location, campus_number, accreditation, grade_range, about, school_profile_graphic, last_accessed, password, userType
+        ) VALUES (?, NULL, NULL, NULL, NULL, NULL, NULL, ?, NULL, NULL, NULL, NULL, NULL, NULL, NOW(), ?, 'school')
     `;
 
     

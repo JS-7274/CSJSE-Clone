@@ -19,33 +19,44 @@ export default function TeacherLogin() {
 	//passes in (e) as a parameter, e.preventDefault() forces the page to not reload on subission, console.log(email) puts whatever is input for email into the console, probably replace for actual login code
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-
+	
 		//login logic here
-		const res = await fetch("http://localhost:5000/api/tlogin", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ email, pass }),
-		})
-			.then((response) => response.json())
-			.catch((error) => console.error("Error during login:", error));
-		console.log(res.success);
-
-		//If login successful, go to profile page
-		if (res.success) {
-			// auth-kit function
-			signIn({
-				token: res.data.token,
-				expiresIn: 3600,
-				tokenType: "Bearer",
-				authState: { email: email },
+		try {
+			const res = await fetch("http://localhost:5000/api/tlogin", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ email, pass }),
 			});
+	
+			if (!res.ok) {
+				throw new Error(`HTTP error! Status: ${res.status}`);
+			}
+	
+			const data = await res.json(); // Parse the response as JSON
 
-			window.location.href = "/teacherstaffprofile";
-		} else {
-			//Show component if login failed
-			setFailedLogin(true);
+			console.log(res.success);
+	
+			// Check for success and handle accordingly
+			if (data.success) {
+				// Login successful
+				signIn({
+					token: data.token,  // Use res.token directly
+					expiresInSeconds: 3600,
+					tokenType: "Bearer",
+					authState: { email: email },
+				});
+
+				// If login successful, go to profile page
+				window.location.href = "/teacherstaffprofile";
+			} else {
+				// Show component if login failed
+				setFailedLogin(true);
+			}
+		} catch (error) {
+			console.error("Error during login:", error);
+			// Handle error, e.g., setFailedLogin(true)
 		}
 	};
 

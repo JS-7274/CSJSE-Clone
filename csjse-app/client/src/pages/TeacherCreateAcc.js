@@ -31,30 +31,29 @@ export default function TeacherCreateAcc() {
 				email,
 			};
 
-			const res = await fetch("http://localhost:5000/api/tCreateAccount", {
-				//sets method to post indicating a change in the database
-				method: "POST",
-				//ensures this returns a json file
-				headers: {
+			try {
+				const response = await fetch("http://localhost:5000/api/tCreateAccount", {
+				  method: "POST",
+				  headers: {
 					"Content-Type": "application/json",
-				},
-				//sends the userData information as a json file as strings
-				body: JSON.stringify(userData),
-			})
-				// Receives response
-				.then((response) => response.json())
-				.catch((error) =>
-					console.error("Error during account creation:", error)
-				);
-
-			const data = await res.json(); // Parse the response as JSON
-
-			console.log(data.success); // This is the information that you are checking for.
-
-			//If response is successful, move to profile page.
-			if (data.success) {
-				window.location.href = `/TeacherStaffProfile/${data.userId}`;
-			}
+				  },
+				  body: JSON.stringify(userData),
+				});
+			
+				// Parse the response as JSON
+				const data = await response.json();
+			
+				console.log(data.success);
+			
+				// If response is successful, move to the profile page.
+				if (data.success) {
+				  window.location.href = `/TeacherStaffProfile/${data.userId}`;
+				} else {
+				  console.error("Error during account creation:", data.error);
+				}
+			  } catch (error) {
+				console.error("Error during account creation:", error);
+			  }
 		}
 	};
 

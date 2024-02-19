@@ -49,7 +49,7 @@ export default function TeacherLogin() {
 				});
 
 				// If login successful, go to profile page
-				window.location.href = "/teacherstaffprofile";
+				window.location.href = `/TeacherStaffProfile/${data.userId}`;
 			} else {
 				// Show component if login failed
 				setFailedLogin(true);

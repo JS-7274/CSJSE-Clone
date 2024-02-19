@@ -46,8 +46,9 @@ app.post('/api/tlogin', (req, res) => {
 
         if (results.length > 0) {
             // Login successful
+            const userId = results[0].teacher_id;
             const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-            return res.json({ success: true, token });
+            return res.json({ success: true, token, userId });
         } else {
             // Invalid credentials
             return res.json({ success: false });
@@ -104,7 +105,7 @@ app.post('/api/tCreateAccount', (req, res) => {
 
         // Account creation successful
         const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        return res.json({ success: true });
+        return res.json({ success: true, userId: newTeacherId });
     });
 });
 

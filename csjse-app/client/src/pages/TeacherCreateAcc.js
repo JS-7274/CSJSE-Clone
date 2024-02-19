@@ -46,11 +46,14 @@ export default function TeacherCreateAcc() {
 				.catch((error) =>
 					console.error("Error during account creation:", error)
 				);
-			console.log(res.success); // This is the information that you are checking for.
+
+			const data = await res.json(); // Parse the response as JSON
+
+			console.log(data.success); // This is the information that you are checking for.
 
 			//If response is successful, move to profile page.
-			if (res.success) {
-				window.location.href = "/teacherstaffprofile";
+			if (data.success) {
+				window.location.href = `/TeacherStaffProfile/${data.userId}`;
 			}
 		}
 	};

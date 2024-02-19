@@ -1,6 +1,6 @@
 /*JobListings.css*/
 
-.backgroundColor {
+/*.backgroundColor {
 	background-color: #f5f5f5;
 	border-radius: 10px;
 }
@@ -15,14 +15,12 @@ h2 {
 	align-items: center;
 	justify-content: center;
 	height: 100vh;
-}
+}*/
 
-.login-form {
+.create-listing {
 	background-color: #fff;
 	padding: 20px;
 	border-radius: 8px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	width: 300px;
 	margin-bottom: 20px;
 }
 
@@ -38,7 +36,7 @@ h2 {
 }
 
 .input-field {
-	width: 95%;
+	width: 100%;
 	padding: 8px;
 	font-size: 14px;
 	border: 1px solid #ddd;

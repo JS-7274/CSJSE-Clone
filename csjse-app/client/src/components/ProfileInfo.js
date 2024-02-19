@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-export default function ProfileInfo() {
+export default function ProfileInfo({ userData }) {
 	// State for managing editing mode
 	const [isEditing, setIsEditing] = useState(false);
 	// State for tracking email input value
@@ -36,6 +36,15 @@ export default function ProfileInfo() {
 	const handleInputChange = (event, setter) => {
 		setter(event.target.value);
 	};
+
+	useEffect(() => {
+		// Update state when userData changes
+		setEmail(userData?.email || "");
+		setPassword(userData?.password || "");
+		setFirstName(userData?.first_name || "");
+		setLastName(userData?.last_name || "");
+		// ... (update other state variables)
+	  }, [userData]);
 
 	return (
 		<div>

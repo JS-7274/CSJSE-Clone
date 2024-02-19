@@ -139,5 +139,28 @@ app.post('/api/sCreateAccount', (req, res) => {
     });
 });
 
+// API to fetch user information by ID
+app.get('/api/teacher/users/:id', (req, res) => {
+    const { id } = req.params;
+
+    // Choose the appropriate SQL query based on the user type
+    const sql = "SELECT * FROM teacher_profile WHERE teacher_id = ?";
+
+    db.query(sql, [id], (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+
+        if (results.length > 0) {
+            // User information found
+            return res.json({ success: true, user: results[0] });
+        } else {
+            // User not found
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+    });
+});
+
+
 
 app.listen(port, () => {console.log("Server started on port " + port)})

@@ -1,5 +1,6 @@
 // Importing necessary dependencies and components
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import "../styles/Profiles.css";
 import "../styles/LogoutConfirmation.css";
 import { TeacherStaffHeader } from "../components/Headers";
@@ -10,10 +11,14 @@ import OptionalUploads from "../components/OptionalUploads";
 
 // Functional component for Teacher/Staff profile
 const TeacherStaffProfile = ({ user }) => {
+	const[userData, setUserData] = useState(null);
+
 	// State to manage active tab
 	const [activeTab, setActiveTab] = useState("Profile Information");
 
 	const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false); // State to manage the visibility of the logout confirmation popup
+
+	const { id } = useParams(); //gets id from url using react router dom
 
 	// Function to handle tab click
 	const handleTabClick = (tab) => {
@@ -29,6 +34,25 @@ const TeacherStaffProfile = ({ user }) => {
 		// Perform logout logic here
 		window.location.href = "/"; // Redirects to the home page upon logout
 	};
+
+	useEffect(() => {
+		const fetchUserData = async () => {
+			try {
+				const response = await fetch(`http://localhost:5000/api/teacher/users/${id}`);
+				const data = await response.json();
+	
+				if (data.success) {
+					setUserData(data.user);  // Set the user data directly
+				} else {
+					console.error("Error fetching user data:", data.message);
+				}
+			} catch (error) {
+				console.error("Error fetching user data:", error);
+			}
+		};
+	
+		fetchUserData();
+	}, [id]);
 
 	/*
 	useEffect hook to set the active tab to "Login Information"
@@ -80,11 +104,12 @@ const TeacherStaffProfile = ({ user }) => {
 				<div className="content">
 					<div className="welcome-message">
 						{/* Welcome message */}
-						<h2>Hello [name]. Welcome to your profile!</h2>
+						<h2>Hello {userData?.first_name}. Welcome to your profile!</h2>
 					</div>
 					<div className="profile-content">
 						{/* Render different components based on active tab */}
-						{activeTab === "Profile Information" && <ProfileInfo></ProfileInfo>}
+						{activeTab === "Profile Information" && 
+							(<ProfileInfo userData={userData}></ProfileInfo>)}
 						{activeTab === "References" && <References></References>}
 						{activeTab === "Optional Uploads" && (
 							<OptionalUploads></OptionalUploads>

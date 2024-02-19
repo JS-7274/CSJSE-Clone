@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import CreateJobPosting from "./CreateJobPosting";
+import CreateJobPosting from "./CreateJobListing";
 
 export default function JobListings() {
 	const [showCreateJobPosting, setShowCreateJobPosting] = useState(false); // State to manage the visibility of the logout confirmation popup

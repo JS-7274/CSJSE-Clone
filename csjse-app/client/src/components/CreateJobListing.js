@@ -1,6 +1,7 @@
 import React from "react";
+import "../styles/JobListings.css";
 
-export default function CreateJobPosting() {
+export default function CreateJobListing() {
 	return (
 		<form className="create-listing">
 			<h2>Create a Job Posting</h2>

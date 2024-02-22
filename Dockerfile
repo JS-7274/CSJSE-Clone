@@ -2,26 +2,26 @@
 FROM node:20-alpine
 
 # Copy package.json and package-lock.json before other files and paste into app folder (inside container)
-COPY package*.json /csjse-app/
+COPY package*.json /CSJSE-Senior-Project/
 # Copy client directory into app folder (inside container)
 COPY csjse-app/client /csjse-app/
 # Copy server directory into app folder (inside container)
-COPY csjse-app/server /csjse-app/
+COPY csjse-app/server /csjse-app/server/
 
 # Set the working directory
-WORKDIR /CSJSE-Senior-Project
+WORKDIR /CSJSE-Senior-Project/
 
 # Install dependencies
-#RUN npm install
+RUN npm install
 
 # Copy over the rest of the app files
-#COPY . .
+COPY . .
 
 # Build for production
 #RUN npm run build
 
 # Expose the port the app runs on
-#EXPOSE 3000 
+EXPOSE 3000 
 
 # Set the command to start the node server
 CMD ["node", "server.js"]

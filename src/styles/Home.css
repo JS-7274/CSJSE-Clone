@@ -1,0 +1,131 @@
+/* Home.css*/
+
+.header {
+  background-color: #fff;
+  color: #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.buttons {
+  display: flex;
+}
+
+.dropbtn {
+  margin-right: 10px;
+  padding: 8px 16px;
+  background-color: #01377d;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 16px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Position of the dropdown content */
+.dropdown {
+  position: relative;
+  float: right;
+} 
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  border-radius: 10px;
+  min-width: 150px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  right: 0;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of links in dropdown when hovering over them */
+.dropdown-content a:hover {
+  background-color: #ddd;
+  border-radius: 10px;
+
+}
+
+/* Show the dropdown menu when hovering over the dropdown button */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #26b170;}
+
+.hero {
+  position: relative;
+  height: 400px;
+  background-image:
+  linear-gradient(to right, rgba(255, 255, 255, 0.15),  rgba(1, 55, 125, 0.90)), /* Gradient over hero image */
+  url("../assets/teacher07.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat; /* only one copy of the image */
+  color: #fff;
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  text-align: right;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.hero-content {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(0, -50%);
+  width: 45%;
+  margin: 20px;
+}
+
+.hero h1 {
+  font-size: 25;
+}
+
+.info-section {
+  display: flex;
+  max-width: 1080px;
+  margin: auto auto 20px auto;
+  align-items: center;
+}
+
+.info-text{
+  flex-direction: column;
+  padding: 20px
+
+}
+
+img {
+  position: relative;
+  max-width: 400px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  border-radius: 10px;
+}

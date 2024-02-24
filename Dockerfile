@@ -27,3 +27,6 @@ EXPOSE 3000
 
 # Set the command to start the node server
 CMD ["npm", "start"]
+
+# Will likely need to reconfigure copy commands to point to proper directories after moving files
+# Maybe try deleting the old folders????

@@ -18,7 +18,6 @@ export default function SchoolProfileInfo() {
 	const [employed, setEmployed] = useState("");
 	const [statementOfFaith, setStatmentofFaith] = useState("");
 	const [website, setWebsite] = useState("");
-	const [contactEmail, setContactEmail] = useState("");
 	const [location, setLocation] = useState("");
 	const [campuses, setCampuses] = useState("");
 	const [accreditation, setAccreditation] = useState("");
@@ -138,18 +137,6 @@ export default function SchoolProfileInfo() {
 			</div>
 
 			<div className="form-group">
-				<label>Contact Email</label>
-				{/* Input field for email, enabled based on editing state */}
-				<input
-					className="input-field"
-					type="email"
-					value={contactEmail}
-					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setContactEmail)}
-				/>
-			</div>
-
-			<div className="form-group">
 				<label>Are you hiring?</label>
 				{/* Radio buttons for hiring, enabled based on editing state */}
 				<label className="radio-label">
@@ -215,31 +202,41 @@ export default function SchoolProfileInfo() {
 					<input
 						type="radio"
 						id="employed"
-						value="200-500"
+						value="Less than 50"
 						disabled={!isEditing}
 						onChange={(event) => handleInputChange(event, setEmployed)}
 					/>
-					200 to 500
+					Less than 50
 				</label>
 				<label className="radio-label">
 					<input
 						type="radio"
 						id="employed"
-						value="500-1,000"
+						value="51 to 100"
 						disabled={!isEditing}
 						onChange={(event) => handleInputChange(event, setEmployed)}
 					/>
-					500 to 1,000
+					51 to 100
 				</label>
 				<label className="radio-label">
 					<input
 						type="radio"
 						id="employed"
-						value="1,000-1,500"
+						value="101 to 150"
 						disabled={!isEditing}
 						onChange={(event) => handleInputChange(event, setEmployed)}
 					/>
-					1,000 to 1,500
+					101 to 150
+				</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						id="employed"
+						value="151 or Greater"
+						disabled={!isEditing}
+						onChange={(event) => handleInputChange(event, setEmployed)}
+					/>
+					151 or Greater
 				</label>
 			</div>
 

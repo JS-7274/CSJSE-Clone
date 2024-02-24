@@ -18,10 +18,12 @@ RUN npm install
 COPY . .
 
 # Build for production
-#RUN npm run build
+RUN npm run build
+    #Docker can't find index.html (it looks in CSJSE-Senior-Project/public instead of CSJSE-Senior-Project/csjse-app/client/public)
+    #Might need to move or copy that file into /CSJSE-Senior-Project/public
 
 # Expose the port the app runs on
 EXPOSE 3000 
 
 # Set the command to start the node server
-CMD ["node", "server.js"]
+CMD ["npm", "start"]

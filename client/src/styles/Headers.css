@@ -1,0 +1,68 @@
+/* Headers.css */
+
+.header {
+	background-color: #fff;
+	color: #000;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.title {
+	color: #000;
+	text-decoration: none;
+}
+
+.logo {
+	font-size: 30px;
+	font-weight: bold;
+}
+
+.menu {
+	display: flex;
+}
+
+/* Default item style */
+.menuitem {
+	margin-right: 10px;
+	padding: 8px 16px;
+	cursor: pointer;
+	color: #000;
+	text-decoration: none;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+	white-space: nowrap; /* this means that text will stay on one line */
+}
+
+/* Item style when hovering over it */
+.menuitem:hover {
+	margin-right: 10px;
+	padding: 8px 16px;
+	background-color: #26b170;
+	color: #fff;
+	border: none;
+	border-radius: 10px; /* rounded corners */
+	cursor: pointer;
+	text-decoration: none;
+	font-size: 16px;
+	font-weight: normal;
+	text-align: center;
+	white-space: nowrap;
+}
+
+/* Item style when item is selected */
+.menuitem.active {
+	margin-right: 10px;
+	padding: 8px 16px;
+	background-color: #01377d;
+	color: #fff;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+	text-decoration: none;
+	font-size: 16px;
+	font-weight: normal;
+	text-align: center;
+	white-space: nowrap;
+}

@@ -1,0 +1,22 @@
+version: '3.1'
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: "pass123"
+      MYSQL_USER: "TeamUser1234" #database username
+      MYSQL_PASSWORD: "pas" #database user password
+      MYSQL_DATABASE: "" #database name
+    volumes: -mysqldata:/var/lib/mysql
+    ports: -3306:3306
+  frontend:
+    container_name: frontend
+    build: ./frontend   #location of Dockerfile
+    volumes: -'./csjse-app'
+      -'/csjse-app/client/node_modules'
+    ports:
+      - 3000:3000
+    stdin_open: true
+    command: npm start
+##volumes:
+##  mysqldata: {}

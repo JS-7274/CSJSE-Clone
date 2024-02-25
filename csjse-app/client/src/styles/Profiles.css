@@ -176,6 +176,10 @@ input[type="submit"] {
 	margin-left: 5px;
 }
 
+input[type="submit"]:hover {
+	background-color: #26b170;
+}
+
 input[type="submit"]:disabled {
 	opacity: 0.5;
 	cursor: default;
@@ -233,4 +237,12 @@ p {
 	flex-direction: row;
 	justify-content: flex-end;
 	flex-wrap: nowrap;
+}
+
+input[type="submit"].cancel-button {
+	background-color: #cd0001;
+}
+
+input[type="submit"].cancel-button:hover {
+	background-color: #8e0000;
 }

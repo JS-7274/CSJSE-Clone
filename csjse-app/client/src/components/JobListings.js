@@ -73,9 +73,15 @@ export default function JobListings() {
 						<label className="label">Required Experience</label>
 						<textarea />
 					</div>
-
-					<input type="submit" value="Save"></input>
-					<input type="submit" value="Cancel" onClick={handleCancel}></input>
+					<div className="option-buttons">
+						<input
+							type="submit"
+							value="Cancel"
+							className="cancel-button"
+							onClick={handleCancel}
+						></input>
+						<input type="submit" value="Save"></input>
+					</div>
 				</form>
 			)}
 

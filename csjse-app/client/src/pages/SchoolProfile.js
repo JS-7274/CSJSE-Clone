@@ -5,6 +5,7 @@ import LogoutConfirmation from "../components/LogoutConfirmation";
 import SchoolOptionalUploads from "../components/SchoolOptionalUploads";
 import SchoolProfileInfo from "../components/SchoolProfileInfo";
 import JobListings from "../components/JobListings";
+import "../styles/Profiles.css";
 
 const SchoolProfile = ({ user }) => {
 	// State to track the active tab

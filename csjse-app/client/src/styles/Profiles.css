@@ -205,3 +205,32 @@ label {
 .radio-label {
 	font-weight: normal;
 }
+
+textarea {
+	width: 100%;
+	border-radius: 4px;
+	resize: vertical;
+	padding: 8px;
+	font-size: 14px;
+	min-height: 16px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Job Listings CSS */
+.create-listing {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	margin-bottom: 20px;
+}
+
+p {
+	text-align: center;
+}
+
+.option-buttons {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	flex-wrap: nowrap;
+}

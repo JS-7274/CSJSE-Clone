@@ -154,7 +154,7 @@ export default function ProfileInfo() {
 			</div>
 			<div className="form-group">
 				<label>Testimony</label>
-				<input
+				<textarea
 					className="input-field"
 					type="text"
 					value={testimony}

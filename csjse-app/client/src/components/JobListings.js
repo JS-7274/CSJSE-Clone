@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "../styles/JobListings.css";
 
 export default function JobListings() {
 	const [showCreateJobPosting, setShowCreateJobPosting] = useState(false); // State to manage the visibility of the logout confirmation popup
@@ -38,7 +37,7 @@ export default function JobListings() {
 					</div>
 					<div className="form-group">
 						<label className="label">Job Description</label>
-						<input className="input-field" />
+						<textarea />
 					</div>
 					<div className="form-group">
 						<label className="label">Job Location</label>
@@ -68,20 +67,15 @@ export default function JobListings() {
 						<label className="label" htmlFor="password">
 							Preferred Experience
 						</label>
-						<input className="input-field" />
+						<textarea />
 					</div>
 					<div className="form-group">
 						<label className="label">Required Experience</label>
-						<input className="input-field" />
+						<textarea />
 					</div>
-					<div>
-						<button type="button" className="button">
-							Save
-						</button>
-						<button type="button" className="button" onClick={handleCancel}>
-							Cancel
-						</button>
-					</div>
+
+					<input type="submit" value="Save"></input>
+					<input type="submit" value="Cancel" onClick={handleCancel}></input>
 				</form>
 			)}
 

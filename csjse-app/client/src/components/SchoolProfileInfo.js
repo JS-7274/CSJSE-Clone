@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../styles/Profiles.css";
 
 export default function SchoolProfileInfo() {
 	// State for managing editing mode

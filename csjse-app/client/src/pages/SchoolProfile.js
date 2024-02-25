@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Profiles.css";
+import "../styles/LogoutConfirmation.css";
 import { SchoolHeader } from "../components/Headers";
 import LogoutConfirmation from "../components/LogoutConfirmation";
 import SchoolOptionalUploads from "../components/SchoolOptionalUploads";
 import SchoolProfileInfo from "../components/SchoolProfileInfo";
 import JobListings from "../components/JobListings";
-import "../styles/Profiles.css";
 
 const SchoolProfile = ({ user }) => {
 	// State to track the active tab
@@ -66,12 +66,12 @@ const SchoolProfile = ({ user }) => {
 					</div>
 					<div>
 						{/* Logout button */}
-						<button className="normal-button" onClick={handleLogout}>
+						<button className="logout-button" onClick={handleLogout}>
 							Logout
 						</button>
 
 						{/* Deactivate account button */}
-						<button className="deactivate">Deactivate Account</button>
+						<button className="deactivate-button">Deactivate Account</button>
 					</div>
 				</div>
 				<div className="content">

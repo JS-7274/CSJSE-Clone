@@ -1,5 +1,6 @@
 /* Profiles.css */
 
+/* CSS used for both teacher/staff and school profile pages */
 .profile-container {
 	display: flex;
 	margin-top: 20px;
@@ -11,13 +12,6 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-}
-
-.side p {
-	margin-top: 0px;
-	font-size: larger;
-	font-weight: 600;
-	text-align: right;
 }
 
 .sidebar {
@@ -41,13 +35,13 @@
 	white-space: nowrap;
 }
 
-/* Sets the top corners of the top item to be rounded */
+/* Sets the top corners of the top button in the sidebar navigation to be rounded */
 .sidebar button:nth-child(1) {
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
 }
 
-/* Sets the bottom corners of the bottom item to be rounded */
+/* Sets the top corners of the bottom button in the sidebar navigation to be rounded */
 .sidebar button:nth-last-child(1) {
 	border-bottom-left-radius: 10px;
 	border-bottom-right-radius: 10px;
@@ -59,12 +53,13 @@
 	color: #fff;
 }
 
+/* Changes the button's color if that button's tab is active */
 .sidebar button.active {
 	background-color: #01377d;
 	color: #fff;
 }
 
-button.normal-button {
+button.logout-button {
 	position: flex;
 	align-items: flex-end;
 	display: block;
@@ -84,12 +79,12 @@ button.normal-button {
 	margin-bottom: 5px;
 }
 
-button.normal-button:hover {
+button.logout-button:hover {
 	background-color: #26b170;
 	color: #fff;
 }
 
-button.deactivate {
+button.deactivate-button {
 	position: flex;
 	align-items: flex-end;
 	display: block;
@@ -107,7 +102,7 @@ button.deactivate {
 	white-space: nowrap;
 }
 
-button.deactivate:hover {
+button.deactivate-button:hover {
 	background-color: #8e0000;
 	color: #fff;
 }
@@ -117,10 +112,6 @@ button.deactivate:hover {
 	flex-direction: column;
 	width: 100%;
 	margin-left: 20px;
-}
-
-.content h2 {
-	text-align: center;
 }
 
 .profile-content,
@@ -136,12 +127,8 @@ button.deactivate:hover {
 	margin-bottom: 20px;
 }
 
-.job-item {
-	background-color: #fff;
-	padding-left: 20px;
-	padding-right: 20px;
-	margin-bottom: 20px;
-	border-radius: 10px;
+.content h2 {
+	text-align: center;
 }
 
 .section-header,
@@ -149,6 +136,14 @@ button.deactivate:hover {
 	display: flex;
 	align-items: baseline;
 	justify-content: space-between;
+}
+
+.job-item {
+	background-color: #fff;
+	padding-left: 20px;
+	padding-right: 20px;
+	margin-bottom: 20px;
+	border-radius: 10px;
 }
 
 .header-buttons,

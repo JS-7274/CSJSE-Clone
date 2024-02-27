@@ -6,19 +6,19 @@ export default function References() {
 	// State for tracking reference 1 details
 	const [R1Name, setR1Name] = useState("");
 	const [R1Relationship, setR1Relationship] = useState("");
-	const [R1RelationType, setR1RelationType] = useState("");
+	const [setR1RelationType] = useState("");
 	const [R1PhoneNumber, setR1PhoneNumber] = useState("");
 	const [R1Email, setR1Email] = useState("");
 	// State for tracking reference 2 details
 	const [R2Name, setR2Name] = useState("");
 	const [R2Relationship, setR2Relationship] = useState("");
-	const [R2RelationType, setR2RelationType] = useState("");
+	const [setR2RelationType] = useState("");
 	const [R2PhoneNumber, setR2PhoneNumber] = useState("");
 	const [R2Email, setR2Email] = useState("");
 	// State for tracking reference 3 details
 	const [R3Name, setR3Name] = useState("");
 	const [R3Relationship, setR3Relationship] = useState("");
-	const [R3RelationType, setR3RelationType] = useState("");
+	const [setR3RelationType] = useState("");
 	const [R3PhoneNumber, setR3PhoneNumber] = useState("");
 	const [R3Email, setR3Email] = useState("");
 
@@ -91,6 +91,16 @@ export default function References() {
 						onChange={(event) => handleInputChange(event, setR1RelationType)}
 					/>
 					Professional
+				</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						id="type-of-relationship"
+						value="professional"
+						disabled={!isEditing}
+						onChange={(event) => handleInputChange(event, setR1RelationType)}
+					/>
+					Pastoral
 				</label>
 				<label className="radio-label">
 					<input
@@ -172,6 +182,16 @@ export default function References() {
 					<input
 						type="radio"
 						id="type-of-relationship"
+						value="professional"
+						disabled={!isEditing}
+						onChange={(event) => handleInputChange(event, setR1RelationType)}
+					/>
+					Pastoral
+				</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						id="type-of-relationship"
 						value="academic"
 						disabled={!isEditing}
 						onChange={(event) => handleInputChange(event, setR2RelationType)}
@@ -243,6 +263,16 @@ export default function References() {
 						onChange={(event) => handleInputChange(event, setR3RelationType)}
 					/>
 					Professional
+				</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						id="type-of-relationship"
+						value="professional"
+						disabled={!isEditing}
+						onChange={(event) => handleInputChange(event, setR1RelationType)}
+					/>
+					Pastoral
 				</label>
 				<label className="radio-label">
 					<input

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Profiles.css";
 import { SchoolHeader } from "../components/Headers";
+import LogoutConfirmation from "../components/LogoutConfirmation";
 import SchoolOptionalUploads from "../components/SchoolOptionalUploads";
 import SchoolProfileInfo from "../components/SchoolProfileInfo";
 import JobListings from "../components/JobListings";
@@ -9,14 +10,21 @@ const SchoolProfile = ({ user }) => {
 	// State to track the active tab
 	const [activeTab, setActiveTab] = useState("Profile Information");
 
+	const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false); // State to manage the visibility of the logout confirmation popup
+
 	// Function to handle tab click
 	const handleTabClick = (tab) => {
 		setActiveTab(tab);
 	};
 
-	// Handles logout button redirection functionality
+	// Handles the logout button functionality.
 	const handleLogout = () => {
-		window.location.href = "/";
+		setShowLogoutConfirmation(true); // Show the logout confirmation popup
+	};
+
+	const confirmLogout = () => {
+		// Perform logout logic here
+		window.location.href = "/"; // Redirects to the home page upon logout
 	};
 
 	// Sets the active tab to "Profile Information" when the component is first mounted
@@ -30,6 +38,8 @@ const SchoolProfile = ({ user }) => {
 			<SchoolHeader></SchoolHeader>
 
 			<div className="profile-container">
+				{showLogoutConfirmation && <div className="overlay" />}
+
 				<div className="side">
 					<div className="sidebar">
 						{/* Buttons for different tabs */}
@@ -81,6 +91,12 @@ const SchoolProfile = ({ user }) => {
 					</div>
 				</div>
 			</div>
+			{showLogoutConfirmation && (
+				<LogoutConfirmation
+					onCancel={() => setShowLogoutConfirmation(false)}
+					onConfirm={confirmLogout}
+				/>
+			)}
 		</div>
 	);
 };

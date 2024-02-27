@@ -257,3 +257,25 @@ CREATE TABLE Teacher_Profile (
     password varchar(40),
     userType varchar(40) DEFAULT 'teacher_staff'
 );
+
+
+DROP TABLE IF EXISTS Jobs_List;
+
+# New database code for schools with new locations
+DROP TABLE IF EXISTS job_posting;
+CREATE TABLE Job_Posting (
+    job_id int AUTO_INCREMENT PRIMARY KEY,
+    school_id int,
+    job_title varchar(20),
+    school_name varchar(30),
+    job_location varchar(30),
+    interview_location varchar(30),
+    contact_email varchar(25),
+    job_description text,
+    salary varchar(15),
+    degree_required varchar(15),
+    degree_preferred varchar(15),
+    experience_required text,
+    experience_preferred text,
+    posted_date datetime
+);

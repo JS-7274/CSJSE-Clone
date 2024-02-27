@@ -1,0 +1,216 @@
+-- CREATE DATABASE CSJSE;
+
+use CSJSE;
+
+CREATE TABLE School_Profile (
+    school_id int PRIMARY KEY,
+    school_name varchar(30),
+    school_population int,
+    statement_of_faith text,
+    covenantal text,
+    teacher_count int,
+    administrative_structure varchar(30),
+    phone varchar(15),
+    email varchar(25),
+    location varchar(30),
+    campus_number int,
+    accreditation varchar(20),
+    grade_range varchar(10),
+    about text,
+    school_profile_graphic blob,
+    last_accessed datetime
+);
+
+CREATE TABLE Job_Posting (
+    job_id int PRIMARY KEY,
+    school_id int,
+    job_title varchar(20),
+    school_name varchar(30),
+    location varchar(30),
+    contact_email varchar(25),
+    job_description text,
+    salary varchar(15),
+    degree_required varchar(15),
+    degree_preferred varchar(15),
+    experience_required text,
+    experience_preferred text,
+    posted_date datetime
+);
+
+CREATE TABLE Teacher_Profile (
+    teacher_id INT PRIMARY KEY,
+    first_name varchar(15),
+    last_name varchar(15),
+    phone varchar(15),
+    email varchar(25),
+    home_church varchar(30),
+    education varchar(20),
+    experience text,
+    certifications varchar(30),
+    why_christian_ed text,
+    job_resume blob,
+    testimony blob,
+    personal_references text,
+    last_accessed datetime
+);
+
+CREATE TABLE Jobs_List (
+    job_id int,
+    job_title varchar(20)
+);
+
+CREATE TABLE Saved_Jobs (
+    saved_id int PRIMARY KEY,
+    job_id int,
+    teacher_id int
+);
+
+CREATE TABLE Schools_list (
+    school_id int,
+    school_name varchar(30)
+);
+
+CREATE TABLE Teachers_List (
+    teacher_id int, 
+    first_name varchar(15),
+    last_name varchar(15)
+);
+
+# Code to change the accounts tables
+alter table schools_list rename schools_accounts;
+
+alter table teachers_list rename teachers_accounts;
+
+alter table teachers_accounts add password varchar(40);
+
+alter table schools_accounts add password varchar(40);
+
+alter table teachers_accounts add email varchar(25);
+
+alter table schools_accounts add email varchar(25);
+
+# How to add a new user
+# Go to the Command Line
+CREATE USER 'team_user'@'localhost' IDENTIFIED BY 'TeamUser1234';
+GRANT ALL PRIVILEGES ON csjse.* TO 'team_user'@'localhost';
+FLUSH PRIVILEGES;
+
+#Update tables for auto incrementing IDs, had to replace them
+DROP TABLE IF EXISTS school_profile;
+CREATE TABLE School_Profile (
+    school_id int AUTO_INCREMENT PRIMARY KEY,
+    school_name varchar(30),
+    school_population int,
+    statement_of_faith text,
+    covenantal text,
+    teacher_count int,
+    administrative_structure varchar(30),
+    phone varchar(15),
+    email varchar(25),
+    location varchar(30),
+    campus_number int,
+    accreditation varchar(20),
+    grade_range varchar(10),
+    about text,
+    school_profile_graphic blob,
+    last_accessed datetime
+);
+
+DROP TABLE IF EXISTS job_posting;
+CREATE TABLE Job_Posting (
+    job_id int AUTO_INCREMENT PRIMARY KEY,
+    school_id int,
+    job_title varchar(20),
+    school_name varchar(30),
+    location varchar(30),
+    contact_email varchar(25),
+    job_description text,
+    salary varchar(15),
+    degree_required varchar(15),
+    degree_preferred varchar(15),
+    experience_required text,
+    experience_preferred text,
+    posted_date datetime
+);
+
+DROP TABLE IF EXISTS teacher_profile;
+CREATE TABLE Teacher_Profile (
+    teacher_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name varchar(15),
+    last_name varchar(15),
+    phone varchar(15),
+    email varchar(25),
+    home_church varchar(30),
+    education varchar(20),
+    experience text,
+    certifications varchar(30),
+    why_christian_ed text,
+    job_resume blob,
+    testimony blob,
+    personal_references text,
+    last_accessed datetime
+);
+
+DROP TABLE IF EXISTS teachers_accounts;
+CREATE TABLE teachers_accounts (
+    teacher_id int,
+    first_name varchar(15),
+    last_name varchar(15),
+    password varchar(40),
+    email varchar(25)
+);
+
+DROP TABLE IF EXISTS schools_accounts;
+CREATE TABLE schools_accounts (
+    school_id int,
+    school_name varchar(30),
+    password varchar(40),
+    email varchar(25)
+);
+
+
+# Here is the code changes after the ERD was revised for Spring 2024.
+
+DROP TABLE IF EXISTS school_profile;
+CREATE TABLE School_Profile (
+    school_id int AUTO_INCREMENT PRIMARY KEY,
+    school_name varchar(30),
+    school_population int,
+    statement_of_faith text,
+    covenantal text,
+    teacher_count int,
+    administrative_structure varchar(30),
+    phone varchar(15),
+    email varchar(25),
+    location varchar(30),
+    campus_number int,
+    accreditation varchar(20),
+    grade_range varchar(10),
+    about text,
+    school_profile_graphic blob,
+    last_accessed datetime,
+    password varchar(40)
+);
+
+DROP TABLE IF EXISTS teacher_profile;
+CREATE TABLE Teacher_Profile (
+    teacher_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name varchar(15),
+    last_name varchar(15),
+    phone varchar(15),
+    email varchar(25),
+    home_church varchar(30),
+    education varchar(20),
+    experience text,
+    certifications varchar(30),
+    why_christian_ed text,
+    job_resume blob,
+    testimony blob,
+    personal_references text,
+    last_accessed datetime,
+    password varchar(40)
+);
+
+DROP TABLE IF EXISTS schools_accounts;
+DROP TABLE IF EXISTS teachers_accounts;
+DROP TABLE IF EXISTS Jobs_List;

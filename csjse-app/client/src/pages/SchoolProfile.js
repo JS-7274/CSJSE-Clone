@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import "../styles/Profiles.css";
 import "../styles/LogoutConfirmation.css";
 import { SchoolHeader } from "../components/Headers";
@@ -8,10 +9,15 @@ import SchoolProfileInfo from "../components/SchoolProfileInfo";
 import JobListings from "../components/JobListings";
 
 function SchoolProfile({ user }) {
+	const[userData, setUserData] = useState(null);
+
 	// State to track the active tab
 	const [activeTab, setActiveTab] = useState("Profile Information");
 
 	const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false); // State to manage the visibility of the logout confirmation popup
+
+	//gets id from url using react router dom
+	const { id } = useParams(); 
 
 	// Function to handle tab click
 	const handleTabClick = (tab) => {
@@ -27,6 +33,26 @@ function SchoolProfile({ user }) {
 		// Perform logout logic here
 		window.location.href = "/"; // Redirects to the home page upon logout
 	};
+
+	// Fetches user data from backend
+	useEffect(() => {
+		const fetchUserData = async () => {
+			try {
+				const response = await fetch(`http://localhost:5000/api/school/users/${id}`);
+				const data = await response.json();
+	
+				if (data.success) {
+					setUserData(data.user);  // Set the user data directly
+				} else {
+					console.error("Error fetching user data:", data.message);
+				}
+			} catch (error) {
+				console.error("Error fetching user data:", error);
+			}
+		};
+	
+		fetchUserData();
+	}, [id]);
 
 	// Sets the active tab to "Profile Information" when the component is first mounted
 	useEffect(() => {
@@ -77,12 +103,12 @@ function SchoolProfile({ user }) {
 				<div className="content">
 					{/* Welcome message */}
 					<div className="welcome-message">
-						<h2>Hello [name]. Welcome to your profile!</h2>
+						<h2>Hello {userData?.school_name}. Welcome to your profile!</h2>
 					</div>
 					<div>
 						{/* Renders different components based on the active tab */}
 						{activeTab === "Profile Information" && (
-							<SchoolProfileInfo></SchoolProfileInfo>
+							<SchoolProfileInfo userData={userData}></SchoolProfileInfo>
 						)}
 
 						{activeTab === "Job Postings" && <JobListings></JobListings>}

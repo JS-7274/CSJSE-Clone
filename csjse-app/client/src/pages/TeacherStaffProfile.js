@@ -18,7 +18,8 @@ const TeacherStaffProfile = ({ user }) => {
 
 	const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false); // State to manage the visibility of the logout confirmation popup
 
-	const { id } = useParams(); //gets id from url using react router dom
+	//gets id from url using react router dom
+	const { id } = useParams(); 
 
 	// Function to handle tab click
 	const handleTabClick = (tab) => {
@@ -35,6 +36,7 @@ const TeacherStaffProfile = ({ user }) => {
 		window.location.href = "/"; // Redirects to the home page upon logout
 	};
 
+	// Fetches user data from backend
 	useEffect(() => {
 		const fetchUserData = async () => {
 			try {

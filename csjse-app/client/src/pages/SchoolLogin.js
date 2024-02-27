@@ -3,6 +3,7 @@ import "../styles/LoginandCreate.css";
 import "../styles/FailedLogin.css";
 import LoginFailed from "../components/FailedLogin";
 import { Link } from "react-router-dom";
+import { useSignIn } from "react-auth-kit";
 
 export default function SchoolLogin() {
 	//creates two variables (email and pass) along with 2 functions to change them, useState being empty means they start off empty
@@ -13,28 +14,49 @@ export default function SchoolLogin() {
 	//Creates a variable to manage whether a component appears or not (appears if someone fails login)
 	const [showFailedLogin, setFailedLogin] = useState(false);
 
+	const signIn =  useSignIn();
+
 	//passes in (e) as a parameter, e.preventDefault() forces the page to not reload on subission, console.log(email) puts whatever is input for email into the console, probably replace for actual login code
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		//login logic here
-		const res = await fetch("http://localhost:5000/api/slogin", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ email, pass }),
-		})
-			.then((response) => response.json())
-			.catch((error) => console.error("Error during login:", error));
-		console.log(res.success);
+		try {
+			const res = await fetch("http://localhost:5000/api/slogin", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ email, pass }),
+			});
+	
+			if (!res.ok) {
+				throw new Error(`HTTP error! Status: ${res.status}`);
+			}
+	
+			const data = await res.json(); // Parse the response as JSON
 
-		//If login successful, go to profile page
-		if (res.success) {
-			window.location.href = "/schoolprofile";
-		} else {
-			//Show component if login failed
-			setFailedLogin(true);
+			console.log(res.success);
+	
+			// Check for success and handle accordingly
+			if (data.success) {
+				// Login successful
+				signIn({
+					token: data.token,  // Use res.token directly
+					expiresInSeconds: 3600,
+					tokenType: "Bearer",
+					authState: { email: email },
+				});
+
+				// If login successful, go to profile page
+				window.location.href = `/SchoolProfile/${data.userId}`;
+			} else {
+				// Show component if login failed
+				setFailedLogin(true);
+			}
+		} catch (error) {
+			console.error("Error during login:", error);
+			// Handle error, e.g., setFailedLogin(true)
 		}
 	};
 

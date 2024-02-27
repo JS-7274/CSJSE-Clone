@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/Profiles.css";
 
-export default function SchoolProfileInfo() {
+export default function SchoolProfileInfo({ userData }) {
 	// State for managing editing mode
 	const [isEditing, setIsEditing] = useState(false);
 	// State for tracking email input value
@@ -37,6 +37,15 @@ export default function SchoolProfileInfo() {
 	const handleInputChange = (event, setter) => {
 		setter(event.target.value);
 	};
+
+	useEffect(() => {
+		// Update state when userData changes
+		setEmail(userData?.email || "");
+		setPassword(userData?.password || "");
+		setName(userData?.school_name || "");
+		setPhoneNumber(userData?.phone || "");
+		// ... (update other state variables)
+	  }, [userData]);
 
 	return (
 		<div className="profile-content">

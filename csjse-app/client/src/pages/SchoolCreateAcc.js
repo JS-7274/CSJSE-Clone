@@ -28,27 +28,29 @@ export default function SchoolCreateAcc() {
 				email,
 			};
 
-			const res = await fetch("http://localhost:5000/api/sCreateAccount", {
-				//sets method to post indicating a change in the database
-				method: "POST",
-				//ensures this returns a json file
-				headers: {
+			try {
+				const response = await fetch("http://localhost:5000/api/sCreateAccount", {
+				  method: "POST",
+				  headers: {
 					"Content-Type": "application/json",
-				},
-				//sends the userData information as a json file as strings
-				body: JSON.stringify(userData),
-			})
-				// Receives response
-				.then((response) => response.json())
-				.catch((error) =>
-					console.error("Error during account creation:", error)
-				);
-			console.log(res.success); // This is the information that you are checking for.
-
-			//If response is successful, move to profile page.
-			if (res.success) {
-				window.location.href = "/schoolprofile";
-			}
+				  },
+				  body: JSON.stringify(userData),
+				});
+			
+				// Parse the response as JSON
+				const data = await response.json();
+			
+				console.log(data.success);
+			
+				// If response is successful, move to the profile page.
+				if (data.success) {
+				  window.location.href = `/SchoolProfile/${data.userId}`;
+				} else {
+				  console.error("Error during account creation:", data.error);
+				}
+			  } catch (error) {
+				console.error("Error during account creation:", error);
+			  }
 		}
 	};
 

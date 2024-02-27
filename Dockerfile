@@ -1,29 +1,29 @@
 # Start with a base Node image
-FROM node:20-alpine
-
-# Copy package.json and package-lock.json before other files and paste into app folder (inside container)
-COPY package*.json /CSJSE-Senior-Project/
-# Copy client directory into app folder (inside container)
-COPY csjse-app/client /csjse-app/
-# Copy server directory into app folder (inside container)
-COPY csjse-app/server /csjse-app/server/
+FROM node:latest AS build
 
 # Set the working directory
-WORKDIR /CSJSE-Senior-Project/
+WORKDIR /build
 
-# Install dependencies
-RUN npm install
+# Copy package.json and package-lock.json before other files and paste into app folder (inside container)
+COPY package.json package.json
+COPY package-lock.json package-lock.json
 
-# Copy over the rest of the app files
-COPY . .
+COPY csjse-app/client/package.json client/package.json
+COPY csjse-app/client/package-lock.json client/package-lock.json
 
-# Build for production
-#RUN npm run build
-    #Docker can't find index.html (it looks in CSJSE-Senior-Project/public instead of CSJSE-Senior-Project/csjse-app/client/public)
-    #Might need to move or copy that file into /CSJSE-Senior-Project/public
+COPY csjse-app/server/package.json server/package.json
+COPY csjse-app/server/package-lock.json server/package-lock.json
 
-# Expose the port the app runs on
-EXPOSE 3000 
+# 
+RUN npm ci
 
-# Set the command to start the node server
-CMD ["npm", "start"]
+COPY csjse-app/client/public/ client/public
+COPY csjse-app/client/src/ client/src
+
+COPY csjse-app/server/public/ server/public
+COPY csjse-app/server/src/ server/src
+
+RUN npm run build
+FROM nginx:alpine
+
+#COPY --from=build /build/build /usr/share/nginx/html

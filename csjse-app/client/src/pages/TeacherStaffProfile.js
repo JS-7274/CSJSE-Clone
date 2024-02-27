@@ -68,12 +68,12 @@ const TeacherStaffProfile = ({ user }) => {
 					</div>
 					<div>
 						{/* Logout button */}
-						<button className="normal-button" onClick={handleLogout}>
+						<button className="logout-button" onClick={handleLogout}>
 							Logout
 						</button>
 
 						{/* Deactivate account button */}
-						<button className="deactivate">Deactivate Account</button>
+						<button className="deactivate-button">Deactivate Account</button>
 					</div>
 				</div>
 

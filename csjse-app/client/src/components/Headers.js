@@ -15,26 +15,24 @@ function TeacherStaffHeader() {
 	return (
 		<div className="header">
 			<div className="logo">
-				<NavLink to="/" className="title">
-					Christian Schools Job Search
-				</NavLink>
+				<NavLink className="title">Christian Schools Job Search</NavLink>
 			</div>
 
 			<div className="menu">
 				<NavLink
-					to="/jobs"
+					to="/Jobs"
 					className={`menuitem ${isActive("/jobs") ? "active" : ""}`}
 				>
 					Jobs
 				</NavLink>
 				<NavLink
-					to="/schools"
+					to="/Schools"
 					className={`menuitem ${isActive("/schools") ? "active" : ""}`}
 				>
 					Schools
 				</NavLink>
 				<NavLink
-					to="/teacherstaffprofile"
+					to="/TeacherStaffProfile/:id"
 					className={`menuitem ${
 						isActive("/teacherstaffprofile") ? "active" : ""
 					}`}
@@ -56,26 +54,24 @@ function SchoolHeader() {
 	return (
 		<div className="header">
 			<div className="logo">
-				<NavLink to="/" className="title">
-					Christian Schools Job Search
-				</NavLink>
+				<NavLink className="title">Christian Schools Job Search</NavLink>
 			</div>
 
 			<div className="menu">
-				<NavLink
+				{/*<NavLink
 					to="/jobs"
 					className={`menuitem ${isActive("/jobs") ? "active" : ""}`}
 				>
 					Jobs
-				</NavLink>
+	</NavLink>*/}
 				<NavLink
-					to="/teachers"
+					to="/Teachers"
 					className={`menuitem ${isActive("/teachers") ? "active" : ""}`}
 				>
 					Teachers
 				</NavLink>
 				<NavLink
-					to="/schoolprofile"
+					to="/SchoolProfile/:id"
 					className={`menuitem ${isActive("/schoolprofile") ? "active" : ""}`}
 				>
 					Profile

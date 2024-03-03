@@ -32,28 +32,31 @@ export default function TeacherCreateAcc() {
 			};
 
 			try {
-				const response = await fetch("http://localhost:5000/api/tCreateAccount", {
-				  method: "POST",
-				  headers: {
-					"Content-Type": "application/json",
-				  },
-				  body: JSON.stringify(userData),
-				});
-			
+				const response = await fetch(
+					"http://localhost:5000/api/tCreateAccount",
+					{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify(userData),
+					}
+				);
+
 				// Parse the response as JSON
 				const data = await response.json();
-			
+
 				console.log(data.success);
-			
+
 				// If response is successful, move to the profile page.
 				if (data.success) {
-				  window.location.href = `/TeacherStaffProfile/${data.userId}`;
+					window.location.href = `/TeacherStaffProfile/${data.userId}`;
 				} else {
-				  console.error("Error during account creation:", data.error);
+					console.error("Error during account creation:", data.error);
 				}
-			  } catch (error) {
+			} catch (error) {
 				console.error("Error during account creation:", error);
-			  }
+			}
 		}
 	};
 

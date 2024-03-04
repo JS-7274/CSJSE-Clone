@@ -249,10 +249,8 @@ app.post("/api/createJobPosting", (req, res) => {
 			const newJobPostingId = results.insertId;
 
 			// Job Posting creation was successful
-			const token = jwt.sign({ email }, process.env.JWT_SECRET, {
-				expiresIn: "1h",
-			});
-			return res.json({ success: true, userId: newJobPostingId });
+
+			return res.json({ success: true, job_id: newJobPostingId });
 		}
 	);
 });

@@ -62,6 +62,19 @@ function TeacherStaffHeader() {
 
 function SchoolHeader() {
 	const location = useLocation();
+	const [user, setUser] = useState(null);
+
+	useEffect(() => {
+		const unsubscribe = auth.onAuthStateChanged((user) => {
+			if (user) {
+				setUser(user);
+			}
+		});
+
+		return () => {
+			unsubscribe();
+		};
+	}, []);
 
 	const isActive = (path) => {
 		return location.pathname === path;
@@ -77,8 +90,8 @@ function SchoolHeader() {
 
 			<div className="menu">
 				<NavLink
-					to="/jobs"
-					className={`menuitem ${isActive("/jobs") ? "active" : ""}`}
+					to="/schooljobs"
+					className={`menuitem ${isActive("/schooljobs") ? "active" : ""}`}
 				>
 					Jobs
 				</NavLink>
@@ -89,8 +102,10 @@ function SchoolHeader() {
 					Teachers
 				</NavLink>
 				<NavLink
-					to="/schoolprofile"
-					className={`menuitem ${isActive("/schoolprofile") ? "active" : ""}`}
+					to={`/schoolprofile/${user?.uid}`}
+					className={`menuitem ${
+						isActive(`/schoolprofile/${user?.uid}`) ? "active" : ""
+					}`}
 				>
 					Profile
 				</NavLink>

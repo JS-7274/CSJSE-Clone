@@ -206,6 +206,7 @@ app.post("/api/createJobPosting", (req, res) => {
 
 	// turns the information received into variables that can be used for db insertion
 	const {
+		school_id,
 		title,
 		des,
 		loc,
@@ -218,41 +219,57 @@ app.post("/api/createJobPosting", (req, res) => {
 		reqExp,
 	} = req.body;
 
-	// updates the school_profile database first so it can get the automatically generated ID
-	const insertJobPostingSql = `
-    INSERT INTO Job_Posting (
-        school_id, job_title, job_description, job_location, interview_location, contact_email, salary_range, preferred_degree, required_degree, preferred_experience, required_experience, posted_date 
-    ) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
-    `;
+	// Check if the provided school_id exists in the school_profile table
+	const checkSchoolIdSql = `SELECT * FROM school_profile WHERE school_id = ?`;
 
-	db.query(
-		insertJobPostingSql,
-		[
-			title,
-			des,
-			loc,
-			interviewLoc,
-			email,
-			salary,
-			prefDeg,
-			reqDeg,
-			prefExp,
-			reqExp,
-		],
-		(err, results) => {
-			if (err) {
-				console.error("Error creating job posting:", err.message);
-				return res.status(500).json({ error: "Internal Server Error" });
-			}
-
-			// Retrieve the auto-generated job posting id
-			const newJobPostingId = results.insertId;
-
-			// Job Posting creation was successful
-
-			return res.json({ success: true, job_id: newJobPostingId });
+	db.query(checkSchoolIdSql, [school_id], (err, schoolResults) => {
+		if (err) {
+			console.error("Error checking school_id:", err.message);
+			return res.status(500).json({ error: "Internal Server Error" });
 		}
-	);
+
+		// If the school_id doesn't exist, return an error
+		if (schoolResults.length === 0) {
+			return res.status(400).json({ error: "Invalid school_id" });
+		}
+
+		// updates the school_profile database first so it can get the automatically generated ID
+		const insertJobPostingSql = `
+		INSERT INTO Job_Posting (
+			school_id, job_title, job_description, job_location, interview_location, contact_email, salary_range, preferred_degree, required_degree, preferred_experience, required_experience, posted_date 
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+		`;
+
+		db.query(
+			insertJobPostingSql,
+			[
+				school_id,
+				title,
+				des,
+				loc,
+				interviewLoc,
+				email,
+				salary,
+				prefDeg,
+				reqDeg,
+				prefExp,
+				reqExp,
+			],
+			(err, results) => {
+				if (err) {
+					console.error("Error creating job posting:", err.message);
+					return res.status(500).json({ error: "Internal Server Error" });
+				}
+
+				// Retrieve the auto-generated job posting id
+				const newJobPostingId = results.insertId;
+
+				// Job Posting creation was successful
+
+				return res.json({ success: true, job_id: newJobPostingId });
+			}
+		);
+	});
 });
 
 app.listen(port, () => {

@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
-export default function JobListings() {
+export default function JobListings({}) {
 	// State to manage the visibility of the create job posting form
 	const [showCreateJobPosting, setShowCreateJobPosting] = useState(false);
+	const [showNewJobPosting, setShowNewJobPosting] = useState(false);
+	const [userData, setUserData] = useState(null);
 	const [title, setTitle] = useState("");
 	const [des, setDes] = useState("");
 	const [loc, setLoc] = useState("");
@@ -14,6 +17,8 @@ export default function JobListings() {
 	const [prefExp, setPrefExp] = useState("");
 	const [reqExp, setReqExp] = useState("");
 
+	const { school_id } = useParams();
+
 	const handleCreate = () => {
 		setShowCreateJobPosting(true);
 	};
@@ -22,10 +27,32 @@ export default function JobListings() {
 		setShowCreateJobPosting(false);
 	};
 
+	useEffect(() => {
+		const fetchUserData = async () => {
+			try {
+				const response = await fetch(
+					`http://localhost:5000/api/school/users/${school_id}`
+				);
+				const data = await response.json();
+
+				if (data.success) {
+					setUserData(data.user); // Set the user data directly
+				} else {
+					console.error("Error fetching user data:", data.message);
+				}
+			} catch (error) {
+				console.error("Error fetching user data:", error);
+			}
+		};
+
+		fetchUserData();
+	}, [school_id]);
+
 	const handleSave = async (e) => {
 		e.preventDefault();
 		//creates an object to pass the job data to backend
 		const jobData = {
+			school_id,
 			title,
 			des,
 			loc,
@@ -40,7 +67,7 @@ export default function JobListings() {
 
 		try {
 			const response = await fetch(
-				"http://localhost:5000/api/createJobPosting",
+				"http://localhost:5000/api/createJobPosting/",
 				{
 					method: "POST",
 					headers: {
@@ -58,6 +85,7 @@ export default function JobListings() {
 			// If response is successful, ...
 			if (data.success) {
 				setShowCreateJobPosting(false);
+				setShowNewJobPosting(true);
 			} else {
 				console.error("Error during job posting creation:", data.error);
 			}
@@ -78,7 +106,7 @@ export default function JobListings() {
 			</div>
 
 			{showCreateJobPosting && (
-				<form className="create-listing" onSubmit={handleSave}>
+				<form className="create-listing">
 					<h2>Create a Job Posting</h2>
 					<p>
 						Please complete all information and click "Save" before exiting this
@@ -104,7 +132,7 @@ export default function JobListings() {
 							type="text"
 							id="jobDescription"
 							name="jobDescription"
-							required
+							//required
 						/>
 					</div>
 					<div className="form-group">
@@ -116,7 +144,7 @@ export default function JobListings() {
 							type="text"
 							id="location"
 							name="location"
-							required
+							//required
 						/>
 					</div>
 					<div className="form-group">
@@ -128,7 +156,7 @@ export default function JobListings() {
 							type="text"
 							id="interviewLocation"
 							name="interviewLocation"
-							required
+							//required
 						/>
 					</div>
 					<div className="form-group">
@@ -140,7 +168,7 @@ export default function JobListings() {
 							type="text"
 							id="contactEmail"
 							name="contactEmail"
-							required
+							//required
 						/>
 					</div>
 					<div className="form-group">
@@ -174,7 +202,7 @@ export default function JobListings() {
 							type="text"
 							id="requiredDegree"
 							name="requiredDegree"
-							required
+							//required
 						/>
 					</div>
 					<div className="form-group">
@@ -195,7 +223,7 @@ export default function JobListings() {
 							type="text"
 							id="requiredExperience"
 							name="requiredExperience"
-							required
+							//required
 						/>
 					</div>
 					<div className="option-buttons">
@@ -205,20 +233,26 @@ export default function JobListings() {
 							className="cancel-button"
 							onClick={handleCancel}
 						></input>
-						<input type="submit" value="Save"></input>
+						<input type="submit" value="Save" onClick={handleSave}></input>
 					</div>
 				</form>
 			)}
 
-			<div className="job-item">
-				<div className="job-posting">
-					<p>[Position Title]</p>
-					<div className="job-buttons">
-						<input type="submit" value="View Applicants"></input>
-						<input type="submit" value="Edit"></input>
+			{showNewJobPosting && (
+				<div className="job-item">
+					<div className="job-posting">
+						<p>{title}</p>
+						<div className="job-buttons">
+							{/*<input type="submit" value="View Applicants"></input>*/}
+							<input type="submit" value="Edit"></input>
+						</div>
 					</div>
 				</div>
-			</div>
+			)}
+
+			{/*{showEditPosting && (
+
+			)}*/}
 		</div>
 	);
 }

@@ -9,7 +9,7 @@ import SchoolProfileInfo from "../components/SchoolProfileInfo";
 import JobListings from "../components/JobListings";
 
 function SchoolProfile({ user }) {
-	const[userData, setUserData] = useState(null);
+	const [userData, setUserData] = useState(null);
 
 	// State to track the active tab
 	const [activeTab, setActiveTab] = useState("Profile Information");
@@ -17,7 +17,7 @@ function SchoolProfile({ user }) {
 	const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false); // State to manage the visibility of the logout confirmation popup
 
 	//gets id from url using react router dom
-	const { id } = useParams(); 
+	const { school_id } = useParams();
 
 	// Function to handle tab click
 	const handleTabClick = (tab) => {
@@ -38,11 +38,13 @@ function SchoolProfile({ user }) {
 	useEffect(() => {
 		const fetchUserData = async () => {
 			try {
-				const response = await fetch(`http://localhost:5000/api/school/users/${id}`);
+				const response = await fetch(
+					`http://localhost:5000/api/school/users/${school_id}`
+				);
 				const data = await response.json();
-	
+
 				if (data.success) {
-					setUserData(data.user);  // Set the user data directly
+					setUserData(data.user); // Set the user data directly
 				} else {
 					console.error("Error fetching user data:", data.message);
 				}
@@ -50,9 +52,9 @@ function SchoolProfile({ user }) {
 				console.error("Error fetching user data:", error);
 			}
 		};
-	
+
 		fetchUserData();
-	}, [id]);
+	}, [school_id]);
 
 	// Sets the active tab to "Profile Information" when the component is first mounted
 	useEffect(() => {
@@ -111,7 +113,7 @@ function SchoolProfile({ user }) {
 							<SchoolProfileInfo userData={userData}></SchoolProfileInfo>
 						)}
 
-						{activeTab === "Job Postings" && <JobListings></JobListings>}
+						{activeTab === "Job Postings" && <JobListings />}
 						{activeTab === "Optional Uploads" && (
 							<SchoolOptionalUploads></SchoolOptionalUploads>
 						)}
@@ -126,6 +128,6 @@ function SchoolProfile({ user }) {
 			)}
 		</div>
 	);
-};
+}
 
 export default SchoolProfile;

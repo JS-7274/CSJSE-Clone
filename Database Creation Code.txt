@@ -271,3 +271,69 @@ CREATE TABLE Teacher_Profile (
     personal_references text,
     last_accessed datetime
 );
+
+#Add nca test account into database
+INSERT INTO School_Profile (
+    school_id,
+    school_name,
+    school_population,
+    statement_of_faith,
+    covenantal,
+    teacher_count,
+    administrative_structure,
+    phone,
+    contact_email,
+    location,
+    campus_number,
+    accreditation,
+    grade_range,
+    about,
+    school_profile_graphic,
+    last_accessed
+) VALUES (
+    'eeJ0oUJ7y8N8v3b3S3tETRaOiZJ3',
+    'New Covenant Academy',
+    NULL, 
+    NULL, 
+    NULL, 
+    NULL, 
+    NULL, 
+    'nca@gmail.com',
+    NULL, 
+    NULL, 
+    NULL, 
+    '2024-03-05 20:27:59'
+);
+
+#Add rfitzgerald to database
+INSERT INTO Teacher_Profile (
+    teacher_id,
+    first_name,
+    last_name,
+    phone,
+    contact_email,
+    home_church,
+    education,
+    experience,
+    certifications,
+    why_christian_ed,
+    job_resume,
+    testimony,
+    personal_references,
+    last_accessed
+) VALUES (
+    'Fb3EBUkzqzQb6E7yzuin0RLrtpL2',
+    'Reginald',
+    'Fitzgerald',
+    NULL, 
+    'rFitzgerald@gmail.com',
+    NULL, 
+    NULL, 
+    NULL, 
+    NULL, 
+    NULL, 
+    NULL, 
+    NULL, 
+    NULL, 
+    '2024-03-05 20:12:38'
+);

@@ -1,9 +1,28 @@
 import React, { useState, useEffect } from "react";
+import { auth } from "../firebase";
 
 export default function ProfileInfo({ userData }) {
+	const [user, setUser] = useState(null);
+
+	useEffect(() => {
+		const unsubscribe = auth.onAuthStateChanged((user) => {
+		  if (user) {
+			setUser(user);
+		  } else {
+			// Redirect or handle non-authenticated user
+			// For example, redirect to the login page
+			window.location.href = "/TeacherLogin";
+		  }
+		});
+	
+		return () => {
+		  unsubscribe();
+		};
+	  }, []);
+
 	// State for managing editing mode
 	const [isEditing, setIsEditing] = useState(false);
-	// State for tracking email input value
+	// State for tracking contact email input value
 	const [email, setEmail] = useState("");
 	// State for tracking password input value
 	const [password, setPassword] = useState("");
@@ -39,7 +58,7 @@ export default function ProfileInfo({ userData }) {
 
 	useEffect(() => {
 		// Update state when userData changes
-		setEmail(userData?.email || "");
+		setEmail(userData?.contact_email || "");
 		setPassword(userData?.password || "");
 		setFirstName(userData?.first_name || "");
 		setLastName(userData?.last_name || "");
@@ -122,7 +141,7 @@ export default function ProfileInfo({ userData }) {
 				/>
 			</div>
 			<div className="form-group">
-				<label>Email</label>
+				<label>Contact Email</label>
 				<input
 					className="input-field"
 					type="email"

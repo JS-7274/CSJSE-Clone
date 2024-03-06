@@ -1,6 +1,7 @@
 // Importing necessary dependencies and components
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { auth } from "../firebase";
 import "../styles/Profiles.css";
 import "../styles/LogoutConfirmation.css";
 import { TeacherStaffHeader } from "../components/Headers";
@@ -10,16 +11,18 @@ import References from "../components/References";
 import OptionalUploads from "../components/OptionalUploads";
 
 // Functional component for Teacher/Staff profile
-const TeacherStaffProfile = ({ user }) => {
-	const[userData, setUserData] = useState(null);
+const TeacherStaffProfile = () => {
+	const [user, setUser] = useState(null);
+	const [userData, setUserData] = useState(null);
+	const [loading, setLoading] = useState(true);
 
 	// State to manage active tab
 	const [activeTab, setActiveTab] = useState("Profile Information");
 
 	const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false); // State to manage the visibility of the logout confirmation popup
 
-	//gets id from url using react router dom
-	const { id } = useParams(); 
+	// Gets id from URL using react router dom
+    const { id } = useParams();
 
 	// Function to handle tab click
 	const handleTabClick = (tab) => {
@@ -32,29 +35,54 @@ const TeacherStaffProfile = ({ user }) => {
 	};
 
 	const confirmLogout = () => {
-		// Perform logout logic here
-		window.location.href = "/"; // Redirects to the home page upon logout
+		auth
+			.signOut()
+			.then(() => {
+				// Redirects to the home page upon logout
+				window.location.href = "/";
+			})
+			.catch((error) => {
+				console.error("Error during logout:", error);
+			});
 	};
 
 	// Fetches user data from backend
 	useEffect(() => {
-		const fetchUserData = async () => {
-			try {
-				const response = await fetch(`http://localhost:5000/api/teacher/users/${id}`);
-				const data = await response.json();
+		const unsubscribe = auth.onAuthStateChanged((user) => {
+		  if (user) {
+			setUser(user);
+
+			// Use the ID from the URL or any other source
+			const userId = id || user.uid;
+
+			// Retrieve user data 
+			fetch(`http://localhost:5000/api/teacher/users/${userId}`)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.success) {
+                            setUserData(data.user);
+                            setLoading(false);
+                        } else {
+                            console.error("Failed to fetch user data");
+                            setLoading(false);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error during API call:", error);
+                        setLoading(false);
+                    });
+
+		  } else {
+			// Redirect or handle non-authenticated user
+			// For example, redirect to the login page
+			window.location.href = "/TeacherLogin";
+		  }
+		});
 	
-				if (data.success) {
-					setUserData(data.user);  // Set the user data directly
-				} else {
-					console.error("Error fetching user data:", data.message);
-				}
-			} catch (error) {
-				console.error("Error fetching user data:", error);
-			}
+		return () => {
+		  unsubscribe();
 		};
-	
-		fetchUserData();
-	}, [id]);
+	  }, []);
 
 	/*
 	useEffect hook to set the active tab to "Login Information"
@@ -63,6 +91,10 @@ const TeacherStaffProfile = ({ user }) => {
 	useEffect(() => {
 		setActiveTab("Profile Information");
 	}, []);
+
+	if (loading) {
+		return <p>Loading...</p>;
+	}
 
 	return (
 		<div>

@@ -1,12 +1,26 @@
 /* Headers.js */
 /* Creates header components to be used for teacher/staff or school agent view of the website */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import { auth } from "../firebase";
 import "../styles/Headers.css";
 
 function TeacherStaffHeader() {
 	const location = useLocation();
+	const [user, setUser] = useState(null);
+
+	useEffect(() => {
+		const unsubscribe = auth.onAuthStateChanged((user) => {
+			if (user) {
+				setUser(user);
+			}
+		});
+
+		return () => {
+			unsubscribe();
+		};
+	}, []);
 
 	const isActive = (path) => {
 		return location.pathname === path;
@@ -34,9 +48,9 @@ function TeacherStaffHeader() {
 					Schools
 				</NavLink>
 				<NavLink
-					to="/teacherstaffprofile"
+					to={`/teacherstaffprofile/${user?.uid}`}
 					className={`menuitem ${
-						isActive("/teacherstaffprofile") ? "active" : ""
+						isActive(`/teacherstaffprofile/${user?.uid}`) ? "active" : ""
 					}`}
 				>
 					Profile
@@ -48,6 +62,19 @@ function TeacherStaffHeader() {
 
 function SchoolHeader() {
 	const location = useLocation();
+	const [user, setUser] = useState(null);
+
+	useEffect(() => {
+		const unsubscribe = auth.onAuthStateChanged((user) => {
+			if (user) {
+				setUser(user);
+			}
+		});
+
+		return () => {
+			unsubscribe();
+		};
+	}, []);
 
 	const isActive = (path) => {
 		return location.pathname === path;
@@ -63,8 +90,8 @@ function SchoolHeader() {
 
 			<div className="menu">
 				<NavLink
-					to="/jobs"
-					className={`menuitem ${isActive("/jobs") ? "active" : ""}`}
+					to="/schooljobs"
+					className={`menuitem ${isActive("/schooljobs") ? "active" : ""}`}
 				>
 					Jobs
 				</NavLink>
@@ -75,8 +102,10 @@ function SchoolHeader() {
 					Teachers
 				</NavLink>
 				<NavLink
-					to="/schoolprofile"
-					className={`menuitem ${isActive("/schoolprofile") ? "active" : ""}`}
+					to={`/schoolprofile/${user?.uid}`}
+					className={`menuitem ${
+						isActive(`/schoolprofile/${user?.uid}`) ? "active" : ""
+					}`}
 				>
 					Profile
 				</NavLink>

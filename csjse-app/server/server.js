@@ -30,127 +30,94 @@ db.connect((err) => {
 	console.log("Connected to MySQL");
 });
 
-const jwt = require("jsonwebtoken");
-
-// API for teacher login
-app.post("/api/tlogin", (req, res) => {
-	console.log("Received login request", req.body);
-
-	const { email, pass } = req.body;
-
-	const sql =
-		"SELECT * FROM teacher_staff_profile WHERE email = ? AND password = ?;";
-	db.query(sql, [email, pass], (err, results) => {
-		if (err) {
-			return res.status(500).json({ error: "Internal Server Error" });
-		}
-
-		if (results.length > 0) {
-			// Login successful
-			const userId = results[0].teacher_id;
-			const token = jwt.sign({ email }, process.env.JWT_SECRET, {
-				expiresIn: "1h",
-			});
-			return res.json({ success: true, token, userId });
-		} else {
-			// Invalid credentials
-			return res.json({ success: false });
-		}
-	});
-});
-
-// API for school login
-app.post("/api/slogin", (req, res) => {
-	console.log("Received login request", req.body);
-
-	const { email, pass } = req.body;
-
-	const sql = "SELECT * FROM school_profile WHERE email = ? AND password = ?;";
-	db.query(sql, [email, pass], (err, results) => {
-		if (err) {
-			return res.status(500).json({ error: "Internal Server Error" });
-		}
-
-		if (results.length > 0) {
-			// Login successful
-			const schoolId = results[0].school_id; // Update the key based on your actual database schema
-			const token = jwt.sign({ email }, process.env.JWT_SECRET, {
-				expiresIn: "1h",
-			});
-			return res.json({ success: true, token, userId: schoolId });
-		} else {
-			// Invalid credentials
-			return res.json({ success: false });
-		}
-	});
-});
-
 // Api to handle requests from teachers to create account
 app.post("/api/tCreateAccount", (req, res) => {
-	console.log("Received account creation request", req.body);
+	try {
+		console.log("Received account creation request", req.body);
 
-	// turns the information received into variables that can be used for db insertion
-	const { firstName, lastName, email, pass } = req.body;
+		// Destructuring the information received from the request body
+		const { userId, firstName, lastName, email } = req.body;
 
-	// updates the teacher_profile database so it can get the automatically generated ID
-	const insertProfileSql = `
-    INSERT INTO Teacher_Staff_Profile (
-        first_name, last_name, looking, phone, email, password, home_church, resume, testimony, cover_letter, headshot, last_accessed
-    ) VALUES (?, ?, NULL, NULL, ?, ?, NULL, NULL, NULL, NULL, NULL, NOW()) `;
+		// SQL query to insert a new record into the Teacher_Profile table
+		const insertProfileSql = `
+            INSERT INTO Teacher_Profile (
+                teacher_id, first_name, last_name, contact_email, last_accessed
+            ) VALUES (?, ?, ?, ?, NOW())
+        `;
 
-	db.query(
-		insertProfileSql,
-		[firstName, lastName, email, pass],
-		(profileErr, profileResults) => {
-			if (profileErr) {
-				console.error("Error creating teacher profile:", profileErr.message);
-				return res.status(500).json({ error: "Internal Server Error" });
+		// Execute the SQL query with parameters
+		db.query(
+			insertProfileSql,
+			[userId, firstName, lastName, email],
+			(profileErr) => {
+				if (profileErr) {
+					console.error("Error creating teacher profile:", profileErr.message);
+					console.log("Request body:", req.body);
+					console.log("Request params:", req.params);
+					console.log("Request query:", req.query);
+					return res
+						.status(500)
+						.json({ success: false, error: "Internal Server Error" });
+				}
+
+				// Account creation successful, return the Firebase-generated userId
+				return res.json({ success: true, userId });
 			}
+		);
+	} catch (error) {
+		console.error("Error during database operation:", error);
 
-			// Retrieve the auto-generated teacher_id
-			const newTeacherId = profileResults.insertId;
+		// Log additional information about the request
+		console.log("Request body:", req.body);
+		console.log("Request params:", req.params);
+		console.log("Request query:", req.query);
 
-			// Account creation successful
-			const token = jwt.sign({ email }, process.env.JWT_SECRET, {
-				expiresIn: "1h",
-			});
-			return res.json({ success: true, userId: newTeacherId });
-		}
-	);
+		// Send an error response
+		res.status(500).json({ success: false, error: "Internal Server Error" });
+	}
 });
 
+// Api to handle requests from schools to create account
 app.post("/api/sCreateAccount", (req, res) => {
-	console.log("Received account creation request", req.body);
+	try {
+		console.log("Received account creation request", req.body);
 
-	// turns the information received into variables that can be used for db insertion
-	const { schoolName, email, pass } = req.body;
+		// Destructuring the information received from the request body
+		const { userId, schoolName, email } = req.body;
 
-	// updates the school_profile database first so it can get the automatically generated ID
-	const insertProfileSql = `
-    INSERT INTO School_Profile (
-        school_name, primary_location, campus_number, phone, hiring, website, statement_of_faith, accreditation, teachers_employed, student_enrollment, email, password, photo, logo, last_accessed
-    ) VALUES (?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ?, ?, NULL, NULL, NOW())
-    `;
+		// SQL query to insert a new record into the Teacher_Profile table
+		const insertProfileSql = `
+            INSERT INTO School_Profile (
+                school_id, school_name, contact_email, last_accessed
+            ) VALUES (?, ?, ?, NOW())
+        `;
 
-	db.query(
-		insertProfileSql,
-		[schoolName, email, pass],
-		(profileErr, profileResults) => {
+		// Execute the SQL query with parameters
+		db.query(insertProfileSql, [userId, schoolName, email], (profileErr) => {
 			if (profileErr) {
 				console.error("Error creating school profile:", profileErr.message);
-				return res.status(500).json({ error: "Internal Server Error" });
+				console.log("Request body:", req.body);
+				console.log("Request params:", req.params);
+				console.log("Request query:", req.query);
+				return res
+					.status(500)
+					.json({ success: false, error: "Internal Server Error" });
 			}
 
-			// Retrieve the auto-generated school_id
-			const newSchoolId = profileResults.insertId;
+			// Account creation successful, return the Firebase-generated userId
+			return res.json({ success: true, userId });
+		});
+	} catch (error) {
+		console.error("Error during database operation:", error);
 
-			// Account creation was successful
-			const token = jwt.sign({ email }, process.env.JWT_SECRET, {
-				expiresIn: "1h",
-			});
-			return res.json({ success: true, userId: newSchoolId });
-		}
-	);
+		// Log additional information about the request
+		console.log("Request body:", req.body);
+		console.log("Request params:", req.params);
+		console.log("Request query:", req.query);
+
+		// Send an error response
+		res.status(500).json({ success: false, error: "Internal Server Error" });
+	}
 });
 
 // API to fetch user information by ID

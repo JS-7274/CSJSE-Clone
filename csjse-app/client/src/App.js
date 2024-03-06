@@ -11,9 +11,10 @@ import TeacherCreateAcc from "./pages/TeacherCreateAcc";
 import SchoolCreateAcc from "./pages/SchoolCreateAcc";
 import Schools from "./pages/Schools";
 import Jobs from "./pages/Jobs";
+import Schooljobs from "./pages/SchoolJobs";
 import Teachers from "./pages/Teachers";
 import { Routes, Route } from "react-router-dom";
-import { RequireAuth } from "react-auth-kit";
+import { auth } from './firebase';
 
 function App() {
 	return (
@@ -30,6 +31,7 @@ function App() {
 			<Route path="/TeacherCreateAcc" element={<TeacherCreateAcc />} />
 			<Route path="/Schools" element={<Schools />} />
 			<Route path="/Jobs" element={<Jobs />} />
+			<Route path="/Schooljobs" element={<Schooljobs />} />
 			<Route path="/Teachers" element={<Teachers />} />
 		</Routes>
 	);

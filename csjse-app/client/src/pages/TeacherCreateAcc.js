@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "../styles/LoginandCreate.css";
 import { Link } from "react-router-dom";
 import TeacherStaffProfile from "./TeacherStaffProfile";
+import { auth } from "../firebase";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 //This function will be called to bring up a form to create a new account for a teacher
 
@@ -24,35 +26,42 @@ export default function TeacherCreateAcc() {
 			return;
 		} else {
 			//creates an object to pass the user data to backend
-			const userData = {
-				firstName,
-				lastName,
-				pass,
-				email,
-			};
-
 			try {
-				const response = await fetch("http://localhost:5000/api/tCreateAccount", {
-				  method: "POST",
-				  headers: {
-					"Content-Type": "application/json",
-				  },
-				  body: JSON.stringify(userData),
+				// Use Firebase to create a new user account
+				const userCredential = await createUserWithEmailAndPassword(
+				auth,
+				email,
+				pass
+				);
+
+				const user = userCredential.user;
+
+				// API call to create teacher profile
+				const response = await fetch('http://localhost:5000/api/tCreateAccount', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						userId: user.uid,
+						firstName,
+						lastName,
+						email,
+					}),
 				});
-			
-				// Parse the response as JSON
+	
+				console.log(response);
+
 				const data = await response.json();
-			
-				console.log(data.success);
-			
-				// If response is successful, move to the profile page.
+	
 				if (data.success) {
-				  window.location.href = `/TeacherStaffProfile/${data.userId}`;
+					// Redirect to the profile page or any other page
+					window.location.href = `/TeacherStaffProfile/${data.userId}`;
 				} else {
-				  console.error("Error during account creation:", data.error);
+					console.error('Failed to create teacher profile');
 				}
 			  } catch (error) {
-				console.error("Error during account creation:", error);
+				console.error("Error during account creation:", error.message);
 			  }
 		}
 	};

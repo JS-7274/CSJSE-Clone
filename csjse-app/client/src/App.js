@@ -13,7 +13,7 @@ import Schools from "./pages/Schools";
 import Jobs from "./pages/Jobs";
 import Teachers from "./pages/Teachers";
 import { Routes, Route } from "react-router-dom";
-import { RequireAuth } from "react-auth-kit";
+import { auth } from './firebase';
 
 function App() {
 	return (

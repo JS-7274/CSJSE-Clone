@@ -33,7 +33,7 @@ function Home() {
 				</div>
 			</header>
 			<div className="hero">
-				<div class="hero-content">
+				<div className="hero-content">
 					<h1>Where Educators Embrace Faith and Calling</h1>
 					<p>
 						Explore a specialized platform tailored for educators seeking

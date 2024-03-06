@@ -1,9 +1,3 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-import { BrowserRouter as Router } from "react-router-dom";
-import "./index.css";
-import { createRoot } from 'react-dom/client';
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth';
 
@@ -25,15 +19,4 @@ const app = initializeApp(firebaseConfig);
 // Export the auth instance for authentication
 const auth = getAuth(app);
 
-
-const root = createRoot(
-	document.getElementById("root")
-);
-
-root.render(
-		<Router>
-			<App auth={auth} />
-		</Router>
-);
-
-
+export { auth };

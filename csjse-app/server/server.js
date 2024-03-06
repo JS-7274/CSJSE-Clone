@@ -30,8 +30,6 @@ db.connect((err) => {
     console.log('Connected to MySQL')
 })
 
-const jwt = require('jsonwebtoken');
-
 // API for teacher login
 app.post('/api/tlogin', (req, res) => {
     console.log('Received login request', req.body);
@@ -82,33 +80,43 @@ app.post('/api/slogin', (req, res) => {
 
 // Api to handle requests from teachers to create account
 app.post('/api/tCreateAccount', (req, res) => {
-    console.log('Received account creation request', req.body);
+    try {
+        console.log('Received account creation request', req.body);
 
-    // turns the information received into variables that can be used for db insertion
-    const { firstName, lastName, email, pass } = req.body;
+        // Destructuring the information received from the request body
+        const { userId, firstName, lastName, email } = req.body;
 
-    // updates the teacher_profile database so it can get the automatically generated ID
-    const insertProfileSql = `
-        INSERT INTO Teacher_Profile (
-            first_name, last_name, phone, email, home_church, education, experience, certifications, why_christian_ed, job_resume, testimony, personal_references, last_accessed, password
-        ) VALUES (?, ?, NULL, ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NOW(), ?)
-    `;
+        // SQL query to insert a new record into the Teacher_Profile table
+        const insertProfileSql = `
+            INSERT INTO Teacher_Profile (
+                teacher_id, first_name, last_name, contact_email, last_accessed
+            ) VALUES (?, ?, ?, ?, NOW())
+        `;
 
-    
+        // Execute the SQL query with parameters
+        db.query(insertProfileSql, [userId, firstName, lastName, email], (profileErr) => {
+            if (profileErr) {
+                console.error('Error creating teacher profile:', profileErr.message);
+                console.log('Request body:', req.body);
+                console.log('Request params:', req.params);
+                console.log('Request query:', req.query);
+                return res.status(500).json({ success: false, error: 'Internal Server Error' });
+            }
 
-    db.query(insertProfileSql, [firstName, lastName, email, pass], (profileErr, profileResults) => {
-        if (profileErr) {
-            console.error('Error creating teacher profile:', profileErr.message);
-            return res.status(500).json({ error: 'Internal Server Error' });
-        }
+            // Account creation successful, return the Firebase-generated userId
+            return res.json({ success: true, userId });
+        });
+    } catch (error) {
+        console.error('Error during database operation:', error);
 
-        // Retrieve the auto-generated teacher_id
-        const newTeacherId = profileResults.insertId;
+        // Log additional information about the request
+        console.log('Request body:', req.body);
+        console.log('Request params:', req.params);
+        console.log('Request query:', req.query);
 
-        // Account creation successful
-        const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        return res.json({ success: true, userId: newTeacherId });
-    });
+        // Send an error response
+        res.status(500).json({ success: false, error: 'Internal Server Error' });
+    }
 });
 
 app.post('/api/sCreateAccount', (req, res) => {

@@ -51,7 +51,7 @@ function SchoolProfile() {
 				setUser(user);
 
 				// Use the ID from the URL or any other source
-				const userId = id || user.uid;
+				const userId = school_id || user.uid;
 
 				// Retrieve user data
 				fetch(`http://localhost:5000/api/school/users/${userId}`)

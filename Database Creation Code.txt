@@ -342,7 +342,7 @@ INSERT INTO Teacher_Profile (
 
 DROP TABLE IF EXISTS School_Profile;
 CREATE TABLE School_Profile (
-    school_id int AUTO_INCREMENT PRIMARY KEY,
+    school_id  varchar(36) PRIMARY KEY,
     school_name varchar(30),
     primary_location varchar(30),
     campus_number int,
@@ -353,8 +353,7 @@ CREATE TABLE School_Profile (
     accreditation varchar(20),
     teachers_employed varchar(20),
     student_enrollment varchar(20),
-    email varchar(25),
-    password varchar(40),
+    contact_email varchar(25),
     photo longblob,
     logo longblob,
     last_accessed datetime
@@ -362,13 +361,12 @@ CREATE TABLE School_Profile (
 
 DROP TABLE IF EXISTS Teacher_Profile;
 CREATE TABLE Teacher_Staff_Profile (
-    teacher_staff_id INT AUTO_INCREMENT PRIMARY KEY,
+    teacher_staff_id varchar(36) PRIMARY KEY,
     first_name varchar(15),
     last_name varchar(15),
     looking boolean,
     phone varchar(15),
-    email varchar(25),
-    password varchar(40),
+    contact_email varchar(25),
     home_church varchar(30),
     resume longblob,
     testimony text,
@@ -380,7 +378,7 @@ CREATE TABLE Teacher_Staff_Profile (
 DROP TABLE IF EXISTS Job_Posting;
 CREATE TABLE Job_Posting (
     job_id int AUTO_INCREMENT PRIMARY KEY,
-    school_id int,
+    school_id varchar(36),
     job_title varchar(50),
     job_description text,
     job_location varchar(50),
@@ -428,3 +426,67 @@ DROP TABLE IF EXISTS Teachers_List;
 DROP TABLE IF EXISTS teachers_accounts;
 
 DROP TABLE IF EXISTS schools_accounts;
+
+#Add nca test account into database
+INSERT INTO School_Profile (
+    school_id,
+    school_name,
+    primary_location,
+    campus_number,
+    phone,
+    hiring,
+    website,
+    statement_of_faith,
+    accreditation,
+    teachers_employed,
+    student_enrollment,
+    contact_email,
+    photo,
+    logo,
+    last_accessed
+) VALUES (
+    'eeJ0oUJ7y8N8v3b3S3tETRaOiZJ3',
+    'New Covenant Academy',
+    NULL, 
+    NULL, 
+    NULL, 
+    NULL, 
+    NULL, 
+    NULL, 
+    NULL, 
+    NULL,
+    'nca@gmail.com',
+    NULL,
+    NULL,
+    NULL,
+    '2024-03-05 20:27:59'
+);
+
+#Add rfitzgerald to database
+INSERT INTO  Teacher_Staff_Profile (
+    teacher_staff_id,
+    first_name,
+    last_name,
+    looking,
+    phone,
+    contact_email,
+    home_church,
+    resume,
+    testimony,
+    cover_letter,
+    headshot,
+    last_accessed
+) VALUES (
+    'Fb3EBUkzqzQb6E7yzuin0RLrtpL2',
+    'Reginald',
+    'Fitzgerald',
+    NULL, 
+    NULL,
+    'rFitzgerald@gmail.com',
+    NULL, 
+    NULL, 
+    NULL, 
+    NULL, 
+    NULL,
+    '2024-03-05 20:12:38'
+);

@@ -145,13 +145,13 @@ app.get("/api/teacher/users/:id", (req, res) => {
 });
 
 // API to fetch user information by ID
-app.get("/api/school/users/:id", (req, res) => {
-	const { id } = req.params;
+app.get("/api/school/users/:school_id", (req, res) => {
+	const { school_id } = req.params;
 
 	// Choose the appropriate SQL query based on the user type
 	const sql = "SELECT * FROM school_profile WHERE school_id = ?";
 
-	db.query(sql, [id], (err, results) => {
+	db.query(sql, [school_id], (err, results) => {
 		if (err) {
 			return res.status(500).json({ error: "Internal Server Error" });
 		}

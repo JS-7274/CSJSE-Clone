@@ -239,6 +239,29 @@ app.post("/api/createJobPosting", (req, res) => {
 	});
 });
 
+app.get("/api/school/users/:school_id/jobPosting", (req, res) => {
+	const { school_id } = req.params;
+
+	// Choose the appropriate SQL query based on the user type
+	const sql = "SELECT * FROM job_posting WHERE school_id = ?";
+
+	db.query(sql, [school_id], (err, results) => {
+		if (err) {
+			return res.status(500).json({ error: "Internal Server Error" });
+		}
+
+		if (results.length > 0) {
+			// User information found
+			return res.json({ success: true, job: results });
+		} else {
+			// User not found
+			return res
+				.status(404)
+				.json({ success: false, message: "No job postings found" });
+		}
+	});
+});
+
 app.listen(port, () => {
 	console.log("Server started on port " + port);
 });

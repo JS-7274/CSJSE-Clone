@@ -4,8 +4,10 @@ import { useParams } from "react-router-dom";
 export default function JobListings({}) {
 	// State to manage the visibility of the create job posting form
 	const [showCreateJobPosting, setShowCreateJobPosting] = useState(false);
-	const [showNewJobPosting, setShowNewJobPosting] = useState(false);
+	const [showJobSnippet, setShowJobSnippet] = useState(true);
+	const [showEditPosting, setShowEditPosting] = useState(false);
 	const [userData, setUserData] = useState(null);
+	const [jobInfo, setJobInfo] = useState(null);
 	const [title, setTitle] = useState("");
 	const [des, setDes] = useState("");
 	const [loc, setLoc] = useState("");
@@ -19,13 +21,39 @@ export default function JobListings({}) {
 
 	const { school_id } = useParams();
 
+	const fetchJobInfo = async () => {
+		try {
+			const response = await fetch(
+				`http://localhost:5000/api/school/users/${school_id}/jobPosting`
+			);
+			const data = await response.json();
+
+			if (data.success) {
+				setJobInfo(data.job); // Set the job data directly
+			} else {
+				console.error("Error fetching job data:", data.message);
+			}
+		} catch (error) {
+			console.error("Error fetching job data:", error);
+		}
+	};
+
 	const handleCreate = () => {
 		setShowCreateJobPosting(true);
 	};
 
 	const handleCancel = () => {
 		setShowCreateJobPosting(false);
+		setShowEditPosting(false);
+		setShowJobSnippet(true);
 	};
+
+	const handleEdit = () => {
+		setShowJobSnippet(false);
+		setShowEditPosting(true);
+	};
+
+	const handleUpdate = () => {};
 
 	useEffect(() => {
 		const fetchUserData = async () => {
@@ -46,6 +74,10 @@ export default function JobListings({}) {
 		};
 
 		fetchUserData();
+	}, [school_id]);
+
+	useEffect(() => {
+		fetchJobInfo();
 	}, [school_id]);
 
 	const handleSave = async (e) => {
@@ -85,7 +117,7 @@ export default function JobListings({}) {
 			// If response is successful, ...
 			if (data.success) {
 				setShowCreateJobPosting(false);
-				setShowNewJobPosting(true);
+				fetchJobInfo();
 			} else {
 				console.error("Error during job posting creation:", data.error);
 			}
@@ -104,7 +136,6 @@ export default function JobListings({}) {
 					<input type="submit" value="Add a Posting" onClick={handleCreate} />
 				</div>
 			</div>
-
 			{showCreateJobPosting && (
 				<form className="create-listing">
 					<h2>Create a Job Posting</h2>
@@ -237,22 +268,170 @@ export default function JobListings({}) {
 					</div>
 				</form>
 			)}
-
-			{showNewJobPosting && (
+			{/*{showNewJobPosting && (
 				<div className="job-item">
 					<div className="job-posting">
 						<p>{title}</p>
 						<div className="job-buttons">
-							{/*<input type="submit" value="View Applicants"></input>*/}
+							<input type="submit" value="View Applicants"></input>
 							<input type="submit" value="Edit"></input>
 						</div>
 					</div>
 				</div>
-			)}
-
-			{/*{showEditPosting && (
-
 			)}*/}
+
+			{jobInfo &&
+				jobInfo
+					.slice(0)
+					.reverse()
+					.map((job) => (
+						<div className="job-item" key={job.id}>
+							{showJobSnippet && (
+								<div className="job-posting">
+									<p>{job.job_title}</p>
+									<div className="job-buttons">
+										{/*<input type="submit" value="View Applicants"></input>*/}
+										<input
+											type="submit"
+											value="Edit"
+											onClick={handleEdit}
+										></input>
+									</div>
+								</div>
+							)}
+							{showEditPosting && (
+								<form className="create-listing">
+									<div className="form-group">
+										<label className="label">Job Title</label>
+										<input
+											className="input-field"
+											value={title}
+											onChange={(e) => setTitle(e.target.value)}
+											type="text"
+											id="jobTitle"
+											name="jobTitle"
+											required
+										/>
+									</div>
+									<div className="form-group">
+										<label className="label">Job Description</label>
+										<textarea
+											value={des}
+											onChange={(e) => setDes(e.target.value)}
+											type="text"
+											id="jobDescription"
+											name="jobDescription"
+											//required
+										/>
+									</div>
+									<div className="form-group">
+										<label className="label">Job Location</label>
+										<input
+											className="input-field"
+											value={loc}
+											onChange={(e) => setLoc(e.target.value)}
+											type="text"
+											id="location"
+											name="location"
+											//required
+										/>
+									</div>
+									<div className="form-group">
+										<label className="label">Interview Location</label>
+										<input
+											className="input-field"
+											value={interviewLoc}
+											onChange={(e) => setInterviewLoc(e.target.value)}
+											type="text"
+											id="interviewLocation"
+											name="interviewLocation"
+											//required
+										/>
+									</div>
+									<div className="form-group">
+										<label className="label">Contact Email</label>
+										<input
+											className="input-field"
+											value={email}
+											onChange={(e) => setEmail(e.target.value)}
+											type="text"
+											id="contactEmail"
+											name="contactEmail"
+											//required
+										/>
+									</div>
+									<div className="form-group">
+										<label className="label">Salary Range</label>
+										<input
+											className="input-field"
+											value={salary}
+											onChange={(e) => setSalary(e.target.value)}
+											type="text"
+											id="salaryRange"
+											name="salaryRange"
+										/>
+									</div>
+									<div className="form-group">
+										<label className="label">Preferred Degree</label>
+										<input
+											className="input-field"
+											value={prefDeg}
+											onChange={(e) => setPrefDeg(e.target.value)}
+											type="text"
+											id="preferredDegree"
+											name="preferredDegree"
+										/>
+									</div>
+									<div className="form-group">
+										<label className="label">Required Degree</label>
+										<input
+											className="input-field"
+											value={reqDeg}
+											onChange={(e) => setReqDeg(e.target.value)}
+											type="text"
+											id="requiredDegree"
+											name="requiredDegree"
+											//required
+										/>
+									</div>
+									<div className="form-group">
+										<label className="label">Preferred Experience</label>
+										<textarea
+											value={prefExp}
+											onChange={(e) => setPrefExp(e.target.value)}
+											type="text"
+											id="preferredExperience"
+											name="preferredExperience"
+										/>
+									</div>
+									<div className="form-group">
+										<label className="label">Required Experience</label>
+										<textarea
+											value={reqExp}
+											onChange={(e) => setReqExp(e.target.value)}
+											type="text"
+											id="requiredExperience"
+											name="requiredExperience"
+											//required
+										/>
+									</div>
+									<div className="option-buttons">
+										<input
+											type="submit"
+											value="Cancel"
+											className="cancel-button"
+											onClick={handleCancel}
+										></input>
+										<input
+											type="submit"
+											value="Save"
+											onClick={handleUpdate}
+										></input>
+									</div>
+								</form>
+							)}
+						</div>
+					))}
 		</div>
 	);
 }

@@ -8,6 +8,7 @@ export default function JobListings({}) {
 	const [showEditPosting, setShowEditPosting] = useState(false);
 	const [userData, setUserData] = useState(null);
 	const [jobInfo, setJobInfo] = useState(null);
+	const [editJobId, setEditJobId] = useState(null);
 	const [title, setTitle] = useState("");
 	const [des, setDes] = useState("");
 	const [loc, setLoc] = useState("");
@@ -44,13 +45,15 @@ export default function JobListings({}) {
 
 	const handleCancel = () => {
 		setShowCreateJobPosting(false);
-		setShowEditPosting(false);
-		setShowJobSnippet(true);
+		//setShowEditPosting(false);
+		//setShowJobSnippet(true);
+		setEditJobId(null);
 	};
 
-	const handleEdit = () => {
-		setShowJobSnippet(false);
-		setShowEditPosting(true);
+	const handleEdit = (jobId) => {
+		//setShowJobSnippet(false);
+		setEditJobId(jobId);
+		//setShowEditPosting(true);
 	};
 
 	const handleUpdate = () => {};
@@ -285,27 +288,14 @@ export default function JobListings({}) {
 					.slice(0)
 					.reverse()
 					.map((job) => (
-						<div className="job-item" key={job.id}>
-							{showJobSnippet && (
-								<div className="job-posting">
-									<p>{job.job_title}</p>
-									<div className="job-buttons">
-										{/*<input type="submit" value="View Applicants"></input>*/}
-										<input
-											type="submit"
-											value="Edit"
-											onClick={handleEdit}
-										></input>
-									</div>
-								</div>
-							)}
-							{showEditPosting && (
+						<div className="job-item" key={job.job_id}>
+							{editJobId === job.job_id ? (
 								<form className="create-listing">
 									<div className="form-group">
 										<label className="label">Job Title</label>
 										<input
 											className="input-field"
-											value={title}
+											value={job.job_title}
 											onChange={(e) => setTitle(e.target.value)}
 											type="text"
 											id="jobTitle"
@@ -429,6 +419,18 @@ export default function JobListings({}) {
 										></input>
 									</div>
 								</form>
+							) : (
+								<div className="job-posting">
+									<p>{job.job_title}</p>
+									<div className="job-buttons">
+										{/*<input type="submit" value="View Applicants"></input>*/}
+										<input
+											type="submit"
+											value="Edit"
+											onClick={() => handleEdit(job.job_id)}
+										></input>
+									</div>
+								</div>
 							)}
 						</div>
 					))}

@@ -79,7 +79,7 @@ function SchoolProfile() {
 		return () => {
 			unsubscribe();
 		};
-	}, []);
+	});
 
 	// Sets the active tab to "Profile Information" when the component is first mounted
 	useEffect(() => {

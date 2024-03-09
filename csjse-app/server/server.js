@@ -262,6 +262,71 @@ app.get("/api/school/users/:school_id/jobPosting", (req, res) => {
 	});
 });
 
+app.post("/api/updateJobPosting", (req, res) => {
+	console.log("Received job posting update request", req.body);
+
+	// turns the information received into variables that can be used for db insertion
+	const {
+		job_id,
+		title,
+		des,
+		loc,
+		interviewLoc,
+		email,
+		salary,
+		prefDeg,
+		reqDeg,
+		prefExp,
+		reqExp,
+	} = req.body;
+
+	// Check if the provided school_id exists in the school_profile table
+	const checkJobIdSql = `SELECT * FROM job_postings WHERE job_id = ?`;
+
+	db.query(checkJobIdSql, [job_id], (err, jobResults) => {
+		if (err) {
+			console.error("Error checking job_id:", err.message);
+			return res.status(500).json({ error: "Internal Server Error" });
+		}
+
+		// If the school_id doesn't exist, return an error
+		if (jobResults.length === 0) {
+			return res.status(400).json({ error: "Invalid job_id" });
+		}
+
+		// updates the school_profile database first so it can get the automatically generated ID
+		const insertJobPostingSql = `
+		INSERT INTO Job_Posting (
+			 job_title, job_description, job_location, interview_location, contact_email, salary_range, preferred_degree, required_degree, preferred_experience, required_experience, posted_date 
+		) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+		`;
+
+		db.query(
+			insertJobPostingSql,
+			[
+				title,
+				des,
+				loc,
+				interviewLoc,
+				email,
+				salary,
+				prefDeg,
+				reqDeg,
+				prefExp,
+				reqExp,
+			],
+			(err, results) => {
+				if (err) {
+					console.error("Error updating job posting:", err.message);
+					return res.status(500).json({ error: "Internal Server Error" });
+				}
+
+				return res.json({ success: true });
+			}
+		);
+	});
+});
+
 app.listen(port, () => {
 	console.log("Server started on port " + port);
 });

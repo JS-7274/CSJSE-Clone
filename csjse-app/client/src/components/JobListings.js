@@ -45,18 +45,13 @@ export default function JobListings({}) {
 
 	const handleCancel = () => {
 		setShowCreateJobPosting(false);
-		//setShowEditPosting(false);
-		//setShowJobSnippet(true);
+
 		setEditJobId(null);
 	};
 
 	const handleEdit = (jobId) => {
-		//setShowJobSnippet(false);
 		setEditJobId(jobId);
-		//setShowEditPosting(true);
 	};
-
-	const handleUpdate = () => {};
 
 	useEffect(() => {
 		const fetchUserData = async () => {
@@ -126,6 +121,56 @@ export default function JobListings({}) {
 			}
 		} catch (error) {
 			console.error("Error during job posting creation:", error);
+		}
+	};
+
+	const handleInputChange = (e, setState) => {
+		setState(e.target.value);
+	};
+
+	const handleUpdate = async (jobId, e) => {
+		e.preventDefault();
+		//creates an object to pass the job data to backend
+		const jobData = {
+			job_id: jobId,
+			title,
+			des,
+			loc,
+			interviewLoc,
+			email,
+			salary,
+			prefDeg,
+			reqDeg,
+			prefExp,
+			reqExp,
+		};
+
+		try {
+			const response = await fetch(
+				"http://localhost:5000/api/updateJobPosting/",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(jobData),
+				}
+			);
+
+			// Parse the response as JSON
+			const data = await response.json();
+
+			console.log(data.success);
+
+			// If response is successful, ...
+			if (data.success) {
+				setEditJobId(null);
+				fetchJobInfo();
+			} else {
+				console.error("Error during job posting update:", data.error);
+			}
+		} catch (error) {
+			console.error("Error during job posting update:", error);
 		}
 	};
 
@@ -271,17 +316,6 @@ export default function JobListings({}) {
 					</div>
 				</form>
 			)}
-			{/*{showNewJobPosting && (
-				<div className="job-item">
-					<div className="job-posting">
-						<p>{title}</p>
-						<div className="job-buttons">
-							<input type="submit" value="View Applicants"></input>
-							<input type="submit" value="Edit"></input>
-						</div>
-					</div>
-				</div>
-			)}*/}
 
 			{jobInfo &&
 				jobInfo
@@ -296,7 +330,7 @@ export default function JobListings({}) {
 										<input
 											className="input-field"
 											value={job.job_title}
-											onChange={(e) => setTitle(e.target.value)}
+											onChange={(e) => handleInputChange(e, setTitle)}
 											type="text"
 											id="jobTitle"
 											name="jobTitle"
@@ -306,7 +340,7 @@ export default function JobListings({}) {
 									<div className="form-group">
 										<label className="label">Job Description</label>
 										<textarea
-											value={des}
+											value={job.job_description}
 											onChange={(e) => setDes(e.target.value)}
 											type="text"
 											id="jobDescription"
@@ -318,7 +352,7 @@ export default function JobListings({}) {
 										<label className="label">Job Location</label>
 										<input
 											className="input-field"
-											value={loc}
+											value={job.job_location}
 											onChange={(e) => setLoc(e.target.value)}
 											type="text"
 											id="location"
@@ -330,7 +364,7 @@ export default function JobListings({}) {
 										<label className="label">Interview Location</label>
 										<input
 											className="input-field"
-											value={interviewLoc}
+											value={job.interview_location}
 											onChange={(e) => setInterviewLoc(e.target.value)}
 											type="text"
 											id="interviewLocation"
@@ -342,7 +376,7 @@ export default function JobListings({}) {
 										<label className="label">Contact Email</label>
 										<input
 											className="input-field"
-											value={email}
+											value={job.contact_email}
 											onChange={(e) => setEmail(e.target.value)}
 											type="text"
 											id="contactEmail"
@@ -354,7 +388,7 @@ export default function JobListings({}) {
 										<label className="label">Salary Range</label>
 										<input
 											className="input-field"
-											value={salary}
+											value={job.salary_range}
 											onChange={(e) => setSalary(e.target.value)}
 											type="text"
 											id="salaryRange"
@@ -365,7 +399,7 @@ export default function JobListings({}) {
 										<label className="label">Preferred Degree</label>
 										<input
 											className="input-field"
-											value={prefDeg}
+											value={job.preferred_degree}
 											onChange={(e) => setPrefDeg(e.target.value)}
 											type="text"
 											id="preferredDegree"
@@ -376,7 +410,7 @@ export default function JobListings({}) {
 										<label className="label">Required Degree</label>
 										<input
 											className="input-field"
-											value={reqDeg}
+											value={job.required_degree}
 											onChange={(e) => setReqDeg(e.target.value)}
 											type="text"
 											id="requiredDegree"
@@ -387,7 +421,7 @@ export default function JobListings({}) {
 									<div className="form-group">
 										<label className="label">Preferred Experience</label>
 										<textarea
-											value={prefExp}
+											value={job.preferred_experience}
 											onChange={(e) => setPrefExp(e.target.value)}
 											type="text"
 											id="preferredExperience"
@@ -397,7 +431,7 @@ export default function JobListings({}) {
 									<div className="form-group">
 										<label className="label">Required Experience</label>
 										<textarea
-											value={reqExp}
+											value={job.required_experience}
 											onChange={(e) => setReqExp(e.target.value)}
 											type="text"
 											id="requiredExperience"

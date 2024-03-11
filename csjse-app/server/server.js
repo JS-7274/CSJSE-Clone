@@ -156,4 +156,27 @@ app.get('/api/school/users/:id', (req, res) => {
     });
 });
 
+// API to fetch information for all teachers with optional search query
+app.get('/api/teachers', (req, res) => {
+    // Extract the search query from the request parameters
+    const { searchQuery } = req.query;
+
+    // SQL query to select specific fields from the Teacher_Profile table for all teachers
+    let sql = "SELECT teacher_id, first_name, last_name, contact_email, education, experience, testimony FROM Teacher_Profile";
+
+    // If a search query is provided, add a WHERE clause to filter by name
+    if (searchQuery) {
+        sql += ` WHERE first_name LIKE '%${searchQuery}%' OR last_name LIKE '%${searchQuery}%'`;
+    }
+
+    db.query(sql, (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+
+        // Teachers information found
+        return res.json({ success: true, teachers: results });
+    });
+});
+
 app.listen(port, () => {console.log("Server started on port " + port)})

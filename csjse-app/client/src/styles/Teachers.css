@@ -69,6 +69,24 @@
 	color: #fff;
 }
 
+.columns-container {
+	display: flex;
+	width: 100%;
+}
+  
+.teacher-list-column {
+	flex: 1;
+	max-width: 33.33%;
+}
+  
+.teacher-info-column {
+	flex: 2;
+	max-width: 66.66%;
+	padding: 0 20px;
+	border-radius: 10px;
+	background-color: #f5f5f5;
+}
+  
 .teacher-info {
 	display: flex;
 	flex-direction: column;
@@ -78,3 +96,21 @@
 	padding-left: 20px;
 	background-color: #f5f5f5;
 }
+
+.teacher-boxes {
+	display: flex;
+	flex-wrap: wrap;
+	list-style-type: none; /* Remove bullet points from the list */
+  }
+  
+  .teacher-box {
+	cursor: pointer;
+	border: 1px solid #ccc;
+	padding: 10px;
+	margin: 5px;
+	border-radius: 5px;
+  }
+  
+  .teacher-box:hover {
+	background-color: #f0f0f0;
+  }

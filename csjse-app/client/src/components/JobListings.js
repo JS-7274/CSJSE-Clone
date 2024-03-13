@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-export default function JobListings({}) {
+export default function JobListings() {
 	// State to manage the visibility of the create job posting form
 	const [showCreateJobPosting, setShowCreateJobPosting] = useState(false);
-	const [showJobSnippet, setShowJobSnippet] = useState(true);
-	const [showEditPosting, setShowEditPosting] = useState(false);
-	const [userData, setUserData] = useState(null);
-	const [jobInfo, setJobInfo] = useState(null);
+	//const [userData, setUserData] = useState(null);
+	const [jobList, setJobList] = useState([]);
 	const [editJobId, setEditJobId] = useState(null);
 	const [title, setTitle] = useState("");
 	const [des, setDes] = useState("");
@@ -22,7 +20,7 @@ export default function JobListings({}) {
 
 	const { school_id } = useParams();
 
-	const fetchJobInfo = async () => {
+	const fetchJobList = async () => {
 		try {
 			const response = await fetch(
 				`http://localhost:5000/api/school/users/${school_id}/jobPosting`
@@ -30,7 +28,7 @@ export default function JobListings({}) {
 			const data = await response.json();
 
 			if (data.success) {
-				setJobInfo(data.job); // Set the job data directly
+				setJobList(data.job || []); // Make sure to handle the case when job is null
 			} else {
 				console.error("Error fetching job data:", data.message);
 			}
@@ -62,7 +60,7 @@ export default function JobListings({}) {
 				const data = await response.json();
 
 				if (data.success) {
-					setUserData(data.user); // Set the user data directly
+					//setUserData(data.user); // Set the user data directly
 				} else {
 					console.error("Error fetching user data:", data.message);
 				}
@@ -75,8 +73,16 @@ export default function JobListings({}) {
 	}, [school_id]);
 
 	useEffect(() => {
-		fetchJobInfo();
-	}, [school_id]);
+		const fetchJobData = async () => {
+			try {
+				await fetchJobList();
+			} catch (error) {
+				console.error("Error fetching job data:", error);
+			}
+		};
+
+		fetchJobData();
+	}, [school_id, fetchJobList]);
 
 	const handleSave = async (e) => {
 		e.preventDefault();
@@ -115,7 +121,8 @@ export default function JobListings({}) {
 			// If response is successful, ...
 			if (data.success) {
 				setShowCreateJobPosting(false);
-				fetchJobInfo();
+				setEditJobId(null);
+				fetchJobList();
 			} else {
 				console.error("Error during job posting creation:", data.error);
 			}
@@ -124,16 +131,22 @@ export default function JobListings({}) {
 		}
 	};
 
-	const handleInputChange = (e, setState) => {
-		setState(e.target.value);
+	const handleInputChange = (e, jobId) => {
+		console.log("handleInputChange called");
+		const { name, value } = e.target;
+		console.log("name:", name);
+		console.log("value:", value);
+		if (name === "job_title") {
+			setTitle(value);
+		}
 	};
 
-	const handleUpdate = async (jobId, e) => {
+	const handleUpdate = async (e, jobId) => {
 		e.preventDefault();
 		//creates an object to pass the job data to backend
 		const jobData = {
 			job_id: jobId,
-			title,
+			title, // Use the state variables directly here
 			des,
 			loc,
 			interviewLoc,
@@ -165,7 +178,7 @@ export default function JobListings({}) {
 			// If response is successful, ...
 			if (data.success) {
 				setEditJobId(null);
-				fetchJobInfo();
+				fetchJobList();
 			} else {
 				console.error("Error during job posting update:", data.error);
 			}
@@ -317,10 +330,9 @@ export default function JobListings({}) {
 				</form>
 			)}
 
-			{jobInfo &&
-				jobInfo
-					.slice(0)
-					.reverse()
+			{jobList &&
+				jobList
+					.toReversed() //reverses jobList array so that the most recently created job is first
 					.map((job) => (
 						<div className="job-item" key={job.job_id}>
 							{editJobId === job.job_id ? (
@@ -329,11 +341,12 @@ export default function JobListings({}) {
 										<label className="label">Job Title</label>
 										<input
 											className="input-field"
-											value={job.job_title}
-											onChange={(e) => handleInputChange(e, setTitle)}
+											placeholder={job.job_title}
+											value={title}
+											onChange={(e) => handleInputChange(e, job.job_title)}
 											type="text"
-											id="jobTitle"
-											name="jobTitle"
+											id={`jobTitle-${job.job_id}`}
+											name="job_title"
 											required
 										/>
 									</div>
@@ -449,7 +462,7 @@ export default function JobListings({}) {
 										<input
 											type="submit"
 											value="Save"
-											onClick={handleUpdate}
+											onClick={() => handleUpdate(job.job_id)}
 										></input>
 									</div>
 								</form>

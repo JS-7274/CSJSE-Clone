@@ -281,7 +281,7 @@ app.post("/api/updateJobPosting", (req, res) => {
 	} = req.body;
 
 	// Check if the provided school_id exists in the school_profile table
-	const checkJobIdSql = `SELECT * FROM job_postings WHERE job_id = ?`;
+	const checkJobIdSql = `SELECT * FROM job_posting WHERE job_id = ?`;
 
 	db.query(checkJobIdSql, [job_id], (err, jobResults) => {
 		if (err) {
@@ -289,7 +289,7 @@ app.post("/api/updateJobPosting", (req, res) => {
 			return res.status(500).json({ error: "Internal Server Error" });
 		}
 
-		// If the school_id doesn't exist, return an error
+		// If the job_id doesn't exist, return an error
 		if (jobResults.length === 0) {
 			return res.status(400).json({ error: "Invalid job_id" });
 		}

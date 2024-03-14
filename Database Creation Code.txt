@@ -342,7 +342,7 @@ INSERT INTO Teacher_Profile (
 
 DROP TABLE IF EXISTS School_Profile;
 CREATE TABLE School_Profile (
-    school_id  varchar(36) PRIMARY KEY,
+    school_id varchar(36) PRIMARY KEY,
     school_name varchar(30),
     primary_location varchar(30),
     campus_number int,
@@ -375,6 +375,7 @@ CREATE TABLE Teacher_Staff_Profile (
     last_accessed datetime
 );
 
+
 DROP TABLE IF EXISTS Job_Posting;
 CREATE TABLE Job_Posting (
     job_id int AUTO_INCREMENT PRIMARY KEY,
@@ -389,7 +390,8 @@ CREATE TABLE Job_Posting (
     required_degree varchar(50),
     preferred_experience text,
     required_experience text,
-    posted_date datetime
+    posted_date datetime,
+    FOREIGN KEY (school_id) REFERENCES School_Profile(school_id)
 );
 
 DROP TABLE IF EXISTS Reference;

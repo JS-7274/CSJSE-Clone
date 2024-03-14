@@ -174,20 +174,22 @@ app.post("/api/createJobPosting", (req, res) => {
 	// turns the information received into variables that can be used for db insertion
 	const {
 		school_id,
-		title,
-		des,
-		loc,
-		interviewLoc,
-		email,
-		salary,
-		prefDeg,
-		reqDeg,
-		prefExp,
-		reqExp,
+		job_title,
+		job_description,
+		job_location,
+		interview_location,
+		contact_email,
+		salary_range,
+		preferred_degree,
+		required_degree,
+		preferred_experience,
+		required_experience,
 	} = req.body;
+	console.log("School ID:", school_id);
 
 	// Check if the provided school_id exists in the school_profile table
 	const checkSchoolIdSql = `SELECT * FROM school_profile WHERE school_id = ?`;
+	//console.log("School ID:", school_id);
 
 	db.query(checkSchoolIdSql, [school_id], (err, schoolResults) => {
 		if (err) {
@@ -197,10 +199,11 @@ app.post("/api/createJobPosting", (req, res) => {
 
 		// If the school_id doesn't exist, return an error
 		if (schoolResults.length === 0) {
+			console.log("School ID:", school_id);
 			return res.status(400).json({ error: "Invalid school_id" });
 		}
 
-		// updates the school_profile database first so it can get the automatically generated ID
+		// updates the sjob_posting database first so it can get the automatically generated ID
 		const insertJobPostingSql = `
 		INSERT INTO Job_Posting (
 			school_id, job_title, job_description, job_location, interview_location, contact_email, salary_range, preferred_degree, required_degree, preferred_experience, required_experience, posted_date 
@@ -211,16 +214,16 @@ app.post("/api/createJobPosting", (req, res) => {
 			insertJobPostingSql,
 			[
 				school_id,
-				title,
-				des,
-				loc,
-				interviewLoc,
-				email,
-				salary,
-				prefDeg,
-				reqDeg,
-				prefExp,
-				reqExp,
+				job_title,
+				job_description,
+				job_location,
+				interview_location,
+				contact_email,
+				salary_range,
+				preferred_degree,
+				required_degree,
+				preferred_experience,
+				required_experience,
 			],
 			(err, results) => {
 				if (err) {

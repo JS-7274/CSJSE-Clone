@@ -1,2 +1,2 @@
 SELECT *
-FROM job_posting;
+FROM job_posting

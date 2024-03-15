@@ -337,3 +337,8 @@ INSERT INTO Teacher_Profile (
     NULL, 
     '2024-03-05 20:12:38'
 );
+
+#Change teacher/staff table for sort/filter
+ALTER TABLE Teacher_Profile
+ADD COLUMN degree varchar(15),
+ADD COLUMN location varchar(30);

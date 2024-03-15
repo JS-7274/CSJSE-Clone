@@ -1,40 +1,49 @@
 import React, { useEffect, useState } from 'react';
 
-function TeachersList({ onSelectTeacher, searchResult, searchTerm }) {
+function TeachersList({ onSelectTeacher, searchResult, searchTerm, selectedDegree, selectedLocation }) {
   const [allTeachers, setAllTeachers] = useState([]);
+  const [filteredTeachers, setFilteredTeachers] = useState([]); // Add state to store filtered teachers
   
   useEffect(() => {
     // Fetch all teachers when the component mounts
     fetch("http://localhost:5000/api/teachers")
       .then((response) => response.json())
-      .then((data) => setAllTeachers(data.teachers))
+      .then((data) => {
+        setAllTeachers(data.teachers);
+        setFilteredTeachers(data.teachers); // Initially set filtered teachers to all teachers
+      })
       .catch((error) => console.error("Error fetching all teachers:", error));
   }, []);
+
+  useEffect(() => {
+    // Update filtered teachers when search result, selected degree, or selected location changes
+    if (searchTerm || selectedDegree || selectedLocation) {
+      const filtered = allTeachers.filter(teacher =>
+        (teacher.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        teacher.last_name.toLowerCase().includes(searchTerm.toLowerCase())) &&
+        (selectedDegree ? teacher.degree === selectedDegree : true) &&
+        (selectedLocation ? teacher.location.toLowerCase() === selectedLocation.toLowerCase() : true)
+      );
+      setFilteredTeachers(filtered);
+    } else {
+      setFilteredTeachers(allTeachers);
+    }
+  }, [searchResult, searchTerm, selectedDegree, selectedLocation, allTeachers]);
   
   return (
     <div className="teacher-list-column teacher-boxes">
       <h2>Teachers List</h2>
-      {searchTerm ? (
-        <ul>
-          {searchResult.length > 0 ? (
-            searchResult.map((teacher) => (
-              <li key={teacher.teacher_id} onClick={() => onSelectTeacher(teacher)} className="teacher-box">
-                {teacher.first_name} {teacher.last_name}
-              </li>
-            ))
-          ) : (
-            <p>No teachers found</p>
-          )}
-        </ul>
-      ) : (
-        <ul>
-          {allTeachers.map((teacher) => (
+      <ul>
+        {filteredTeachers && filteredTeachers.length > 0 ? (
+          filteredTeachers.map((teacher) => (
             <li key={teacher.teacher_id} onClick={() => onSelectTeacher(teacher)} className="teacher-box">
               {teacher.first_name} {teacher.last_name}
             </li>
-          ))}
-        </ul>
-      )}
+          ))
+        ) : (
+          <p>No teachers found</p>
+        )}
+      </ul>
     </div>
   );
 }

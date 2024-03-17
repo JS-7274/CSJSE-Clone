@@ -168,6 +168,7 @@ app.get("/api/school/users/:school_id", (req, res) => {
 	});
 });
 
+//api that adds a job posting to the database
 app.post("/api/createJobPosting", (req, res) => {
 	console.log("Received job posting creation request", req.body);
 
@@ -242,6 +243,7 @@ app.post("/api/createJobPosting", (req, res) => {
 	});
 });
 
+//api that gets a schools list of jobs to view
 app.get("/api/school/users/:school_id/jobPosting", (req, res) => {
 	const { school_id } = req.params;
 
@@ -265,58 +267,81 @@ app.get("/api/school/users/:school_id/jobPosting", (req, res) => {
 	});
 });
 
+//api that gets the info of a job posting to edit
+app.get("/api/getJobPostingInfo", (req, res) => {
+	const jobId = req.query.jobId; // Access jobId from query parameters
+
+	// getting the job info using the job id
+	const sql = "SELECT * FROM job_posting WHERE job_id = ?";
+	db.query(sql, [jobId], (err, results) => {
+		if (err) {
+			console.error("Error fetching job data:", err.message);
+			return res.status(500).json({ error: "Internal Server Error" });
+		}
+
+		if (results.length === 0) {
+			return res.status(404).json({ error: "Job not found" });
+		}
+
+		const job = results[0];
+
+		// Send the job information as a JSON response
+		res.json({ success: true, job });
+	});
+});
+
+//api that updates the info of a job posting in the database
 app.post("/api/updateJobPosting", (req, res) => {
 	console.log("Received job posting update request", req.body);
 
-	// turns the information received into variables that can be used for db insertion
-	const {
-		job_id,
-		title,
-		des,
-		loc,
-		interviewLoc,
-		email,
-		salary,
-		prefDeg,
-		reqDeg,
-		prefExp,
-		reqExp,
-	} = req.body;
+	// getting jobId and jobData from req.body
+	const { jobId, jobData } = req.body;
 
-	// Check if the provided school_id exists in the school_profile table
+	// Checking if the job exists
 	const checkJobIdSql = `SELECT * FROM job_posting WHERE job_id = ?`;
 
-	db.query(checkJobIdSql, [job_id], (err, jobResults) => {
+	db.query(checkJobIdSql, [jobId], (err, jobResults) => {
 		if (err) {
 			console.error("Error checking job_id:", err.message);
 			return res.status(500).json({ error: "Internal Server Error" });
 		}
 
-		// If the job_id doesn't exist, return an error
+		// If the jobId doesn't exist, return an error
 		if (jobResults.length === 0) {
-			return res.status(400).json({ error: "Invalid job_id" });
+			return res.status(400).json({ error: "Invalid jobId" });
 		}
 
-		// updates the school_profile database first so it can get the automatically generated ID
-		const insertJobPostingSql = `
-		INSERT INTO Job_Posting (
-			 job_title, job_description, job_location, interview_location, contact_email, salary_range, preferred_degree, required_degree, preferred_experience, required_experience, posted_date 
-		) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
-		`;
+		// Update the job posting in the database
+		const updateJobPostingSql = `
+            UPDATE job_posting 
+            SET 
+                job_title = ?, 
+                job_description = ?, 
+                job_location = ?, 
+                interview_location = ?, 
+                contact_email = ?, 
+                salary_range = ?, 
+                preferred_degree = ?, 
+                required_degree = ?, 
+                preferred_experience = ?, 
+                required_experience = ?
+            WHERE job_id = ?
+        `;
 
 		db.query(
-			insertJobPostingSql,
+			updateJobPostingSql,
 			[
-				title,
-				des,
-				loc,
-				interviewLoc,
-				email,
-				salary,
-				prefDeg,
-				reqDeg,
-				prefExp,
-				reqExp,
+				jobData.job_title,
+				jobData.job_description,
+				jobData.job_location,
+				jobData.interview_location,
+				jobData.contact_email,
+				jobData.salary_range,
+				jobData.preferred_degree,
+				jobData.required_degree,
+				jobData.preferred_experience,
+				jobData.required_experience,
+				jobId, // jobId used in the WHERE
 			],
 			(err, results) => {
 				if (err) {

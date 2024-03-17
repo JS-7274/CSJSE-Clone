@@ -121,8 +121,37 @@ export default function JobListings() {
 	}, [school_id, fetchJobList]);
 
 	//opens edit job posting form for speific job in viewable list
-	const handleEdit = (jobId) => {
-		setEditJobId(jobId);
+	// opens edit job posting form for specific job in viewable list
+	const handleEdit = async (jobId) => {
+		try {
+			console.log("Editing job with ID:", jobId); // Add this console statement
+
+			const response = await fetch(
+				`http://localhost:5000/api/getJobPostingInfo?jobId=${jobId}`
+			);
+			const data = await response.json();
+			if (data.success) {
+				const job = data.job;
+				setJobData({
+					school_id: job.school_id,
+					job_title: job.job_title,
+					job_description: job.job_description,
+					job_location: job.job_location,
+					interview_location: job.interview_location,
+					contact_email: job.contact_email,
+					salary_range: job.salary_range,
+					preferred_degree: job.preferred_degree,
+					required_degree: job.required_degree,
+					preferred_experience: job.preferred_experience,
+					required_experience: job.required_experience,
+				});
+				setEditJobId(jobId);
+			} else {
+				console.error("Error fetching job data:", data.error);
+			}
+		} catch (error) {
+			console.error("Error fetching job data:", error);
+		}
 	};
 
 	//updates the value in specific input fields as they are changed in edit form
@@ -143,31 +172,26 @@ export default function JobListings() {
 
 	//saves the edited job data from edit form to database
 	//updates viewable job list
-	const handleUpdate = async (e, jobId) => {
+	const handleUpdate = async (e) => {
 		e.preventDefault();
-		//creates an object to pass the job data to backend
 
 		try {
 			const response = await fetch(
-				"http://localhost:5000/api/updateJobPosting/",
+				"http://localhost:5000/api/updateJobPosting",
 				{
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify(jobData),
+					body: JSON.stringify({ jobId: editJobId, jobData }),
 				}
 			);
 
-			// Parse the response as JSON
 			const data = await response.json();
 
-			console.log(data.success);
-
-			// If response is successful, ...
 			if (data.success) {
 				setEditJobId(null);
-				//fetchJobList();
+				fetchJobList();
 			} else {
 				console.error("Error during job posting update:", data.error);
 			}
@@ -344,12 +368,12 @@ export default function JobListings() {
 									<div className="form-group">
 										<label className="label">Job Description</label>
 										<textarea
-											value={jobData.job_descriptiondes}
+											value={jobData.job_description}
 											onChange={handleChange}
 											type="text"
 											id="job_description"
 											name="job_description"
-											//required
+											required
 										/>
 									</div>
 									<div className="form-group">
@@ -361,7 +385,7 @@ export default function JobListings() {
 											type="text"
 											id="job_location"
 											name="job_location"
-											//required
+											required
 										/>
 									</div>
 									<div className="form-group">
@@ -373,7 +397,7 @@ export default function JobListings() {
 											type="text"
 											id="interview_location"
 											name="interview_location"
-											//required
+											required
 										/>
 									</div>
 									<div className="form-group">
@@ -385,7 +409,7 @@ export default function JobListings() {
 											type="text"
 											id="contact_email"
 											name="contact_email"
-											//required
+											required
 										/>
 									</div>
 									<div className="form-group">
@@ -419,7 +443,7 @@ export default function JobListings() {
 											type="text"
 											id="required_degree"
 											name="required_degree"
-											//required
+											required
 										/>
 									</div>
 									<div className="form-group">
@@ -440,7 +464,7 @@ export default function JobListings() {
 											type="text"
 											id="required_experience"
 											name="required_experience"
-											//required
+											required
 										/>
 									</div>
 									<div className="option-buttons">

@@ -14,7 +14,7 @@ import JobListings from "../components/JobListings";
 
 function SchoolProfile() {
 	const [user, setUser] = useState(null);
-	const[userData, setUserData] = useState(null);
+	const [userData, setUserData] = useState(null);
 	const [loading, setLoading] = useState(true);
 
 	// State to track the active tab
@@ -23,7 +23,7 @@ function SchoolProfile() {
 	const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false); // State to manage the visibility of the logout confirmation popup
 
 	//gets id from url using react router dom
-	const { id } = useParams(); 
+	const { school_id } = useParams();
 
 	// Function to handle tab click
 	const handleTabClick = (tab) => {
@@ -50,40 +50,39 @@ function SchoolProfile() {
 	// Fetches user data from backend
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged((user) => {
-		  if (user) {
-			setUser(user);
+			if (user) {
+				setUser(user);
 
-			// Use the ID from the URL or any other source
-			const userId = id || user.uid;
+				// Use the ID from the URL or any other source
+				const userId = school_id || user.uid;
 
-			// Retrieve user data 
-			fetch(`http://localhost:5000/api/school/users/${userId}`)
-                    .then((response) => response.json())
-                    .then((data) => {
-                        if (data.success) {
-                            setUserData(data.user);
-                            setLoading(false);
-                        } else {
-                            console.error("Failed to fetch user data");
-                            setLoading(false);
-                        }
-                    })
-                    .catch((error) => {
-                        console.error("Error during API call:", error);
-                        setLoading(false);
-                    });
-
-		  } else {
-			// Redirect or handle non-authenticated user
-			// For example, redirect to the login page
-			window.location.href = "/SchoolLogin";
-		  }
+				// Retrieve user data
+				fetch(`http://localhost:5000/api/school/users/${userId}`)
+					.then((response) => response.json())
+					.then((data) => {
+						if (data.success) {
+							setUserData(data.user);
+							setLoading(false);
+						} else {
+							console.error("Failed to fetch user data");
+							setLoading(false);
+						}
+					})
+					.catch((error) => {
+						console.error("Error during API call:", error);
+						setLoading(false);
+					});
+			} else {
+				// Redirect or handle non-authenticated user
+				// For example, redirect to the login page
+				window.location.href = "/SchoolLogin";
+			}
 		});
-	
+
 		return () => {
-		  unsubscribe();
+			unsubscribe();
 		};
-	  }, []);
+	});
 
 	// Sets the active tab to "Profile Information" when the component is first mounted
 	useEffect(() => {
@@ -146,7 +145,7 @@ function SchoolProfile() {
 							<SchoolProfileInfo userData={userData}></SchoolProfileInfo>
 						)}
 
-						{activeTab === "Job Postings" && <JobListings></JobListings>}
+						{activeTab === "Job Postings" && <JobListings />}
 						{activeTab === "Optional Uploads" && (
 							<SchoolOptionalUploads></SchoolOptionalUploads>
 						)}
@@ -161,6 +160,6 @@ function SchoolProfile() {
 			)}
 		</div>
 	);
-};
+}
 
 export default SchoolProfile;

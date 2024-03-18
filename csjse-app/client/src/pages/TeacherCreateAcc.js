@@ -5,7 +5,10 @@ import "../styles/LoginandCreate.css";
 import { Link } from "react-router-dom";
 import TeacherStaffProfile from "./TeacherStaffProfile";
 import { auth } from "../firebase";
-import { createUserWithEmailAndPassword, fetchSignInMethodsForEmail } from "firebase/auth";
+import {
+	createUserWithEmailAndPassword,
+	fetchSignInMethodsForEmail,
+} from "firebase/auth";
 import ErrorPopup from "../components/ErrorPopup";
 import "../styles/ErrorPopup.css";
 
@@ -23,63 +26,67 @@ export default function TeacherCreateAcc() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-	  
+
 		// Check if the password and confirmation match
 		if (pass !== confirmPass) {
-		  // Display an error message or handle the mismatch
-		  console.error("Password and Confirm Password do not match");
-		  return;
-		}
-	  
-		try {
-		  // Check if the email is already in use
-		  const checkEmail = String(email);
-		  const methods = await fetchSignInMethodsForEmail(auth, checkEmail);
-	  
-		  if (methods.length > 0) {
-			// Email is already in use, show an error message
-			console.error("Email is already in use");
-			// You can show an error popup here
-			setErrorPopup(true);
+			// Display an error message or handle the mismatch
+			console.error("Password and Confirm Password do not match");
 			return;
-		  }
-	  
-		  // If the email is not in use, proceed with account creation
-		  const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-		  const user = userCredential.user;
-	  
-		  // API call to create a teacher profile
-		  const response = await fetch('http://localhost:5000/api/tCreateAccount', {
-			method: 'POST',
-			headers: {
-			  'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-			  userId: user.uid,
-			  firstName,
-			  lastName,
-			  email,
-			}),
-		  });
-	  
-		  const data = await response.json();
-	  
-		  if (data.success) {
-			// Redirect to the profile page or any other page
-			window.location.href = `/TeacherStaffProfile/${data.userId}`;
-		  } else {
-			console.error('Failed to create a teacher profile');
-		  }
-		} catch (error) {
-		  // Handle specific Firebase error codes
-		  if (error.code === "auth/email-already-in-use") {
-			console.error("Email is already in use");
-			setErrorPopup(true);
-		  } else {
-			console.error("Error during account creation:", error.message);
-		  }
 		}
-	  };
+
+		try {
+			// Check if the email is already in use
+			const checkEmail = String(email);
+			const methods = await fetchSignInMethodsForEmail(auth, checkEmail);
+
+			if (methods.length > 0) {
+				// Email is already in use, show an error message
+				console.error("Email is already in use");
+				// You can show an error popup here
+				setErrorPopup(true);
+				return;
+			}
+
+			// If the email is not in use, proceed with account creation
+			const userCredential = await createUserWithEmailAndPassword(
+				auth,
+				email,
+				pass
+			);
+			const user = userCredential.user;
+
+			// API call to create a teacher profile
+			const response = await fetch("http://localhost:5000/api/tCreateAccount", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					userId: user.uid,
+					firstName,
+					lastName,
+					email,
+				}),
+			});
+
+			const data = await response.json();
+
+			if (data.success) {
+				// Redirect to the profile page or any other page
+				window.location.href = `/TeacherStaffProfile/${data.userId}`;
+			} else {
+				console.error("Failed to create a teacher profile");
+			}
+		} catch (error) {
+			// Handle specific Firebase error codes
+			if (error.code === "auth/email-already-in-use") {
+				console.error("Email is already in use");
+				setErrorPopup(true);
+			} else {
+				console.error("Error during account creation:", error.message);
+			}
+		}
+	};
 
 	// Used for when the "Already have an Account?" button is clicked to redirect the user to the login page.
 	const handleAlreadyHaveAccount = () => {
@@ -95,7 +102,10 @@ export default function TeacherCreateAcc() {
 
 				{/* Show an error popup if the email is already in use */}
 				{showErrorPopup && (
-					<ErrorPopup message="Email is already in use" onClose={() => setErrorPopup(false)} />
+					<ErrorPopup
+						message="Email is already in use"
+						onClose={() => setErrorPopup(false)}
+					/>
 				)}
 				{/*creates a form that will take in the function 'handleSubmit' when the form receives a submti request, while keeping the styling from the login*/}
 				<form className="login-form" onSubmit={handleSubmit}>

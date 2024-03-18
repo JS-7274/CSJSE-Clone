@@ -186,7 +186,7 @@ function Teachers() {
                 <h2>{selectedTeacher.school_name}</h2>
                 <p>Name: {selectedTeacher.first_name} {selectedTeacher.last_name}</p>
                 <p>Testimony: {selectedTeacher.testimony}</p>
-                <p>degre: {selectedTeacher.degree}</p>
+                <p>Certifications: {selectedTeacher.degree}</p>
                 <p>Phone: {selectedTeacher.phone}</p>
                 <p>Contact Email: {selectedTeacher.contact_email}</p>
                 <p>Location: {selectedTeacher.location}</p>

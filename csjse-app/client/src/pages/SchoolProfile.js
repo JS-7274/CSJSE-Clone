@@ -1,3 +1,6 @@
+/* This file will be called when the school user goes to their profile and will work with the
+   SchoolProfileInfo file to display the users information. */
+
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { auth } from "../firebase";

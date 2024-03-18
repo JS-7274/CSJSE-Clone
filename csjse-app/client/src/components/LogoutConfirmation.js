@@ -1,3 +1,6 @@
+/* This file is used to display a popup when a user attempts to log out and is called by the
+   different profile flies. */
+
 import React from "react";
 
 const LogoutConfirmation = ({ onCancel, onConfirm }) => (

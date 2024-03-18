@@ -1,11 +1,14 @@
+/* The purpose of this file is to work in tandem with schools.js to display schools that are searched 
+   and filtered. This file creates a compoenent for the list of schools that will appear on the left. */
+
 import React, { useEffect, useState } from 'react';
 
 function SchoolList({ onSelectSchool, searchResult, searchTerm, selectedGradeRange, selectedLocation }) {
-  const [allSchools, setAllSchools] = useState([]);
+  const [allSchools, setAllSchools] = useState([]); // Add state
   const [filteredSchools, setFilteredSchools] = useState([]); // Add state to store filtered schools
   
   useEffect(() => {
-    // Fetch all schools when the component mounts
+    // Fetch all schools when the file is called
     fetch("http://localhost:5000/api/schools")
       .then((response) => response.json())
       .then((data) => {
@@ -23,9 +26,9 @@ function SchoolList({ onSelectSchool, searchResult, searchTerm, selectedGradeRan
         (selectedGradeRange ? school.grade_range === selectedGradeRange : true) &&
         (selectedLocation ? school.location.toLowerCase() === selectedLocation.toLowerCase() : true)
       );
-      setFilteredSchools(filtered);
+      setFilteredSchools(filtered); // Update state to filtered
     } else {
-      setFilteredSchools(allSchools);
+      setFilteredSchools(allSchools); // Update state to not filtered (if there are no filters)
     }
   }, [searchResult, searchTerm, selectedGradeRange, selectedLocation, allSchools]);
   

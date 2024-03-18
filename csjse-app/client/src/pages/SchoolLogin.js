@@ -1,3 +1,6 @@
+/* When this file is called it will display the school login page. This page will handle
+   the login functionality. */
+
 import React, { useState } from "react";
 import "../styles/LoginandCreate.css";
 import "../styles/FailedLogin.css";

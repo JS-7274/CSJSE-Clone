@@ -1,3 +1,6 @@
+/* This document will establish a connection to the database as well as
+   create all the APIs that the frontend will call to interact with the database. */
+
 const express = require('express')
 const mysql = require('mysql2')
 const bodyParser = require('body-parser')
@@ -5,9 +8,6 @@ const cors = require('cors')
 const app = express()
 const dotenv = require('dotenv');
 const port = process.env.PORT || 5000
-
-// This document will establish a connection to the database as well as
-// create all the APIs that the frontend will call to interact with the database
 
 app.use(cors()) // Enable CORS for all routes
 app.use(bodyParser.json()) // Use JSON parser for incoming requests

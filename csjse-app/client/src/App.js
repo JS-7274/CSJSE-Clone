@@ -1,5 +1,5 @@
-/* App.js */
-/*  */
+/* The purpose of this file is to render the App and use Route from react-router-dom to
+   allow navigation between the different files. It sets the default page "/" to the Home.*/
 
 import "./App.css";
 import Home from "./pages/Home";

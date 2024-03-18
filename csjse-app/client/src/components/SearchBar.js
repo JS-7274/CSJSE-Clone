@@ -1,3 +1,6 @@
+/* Unused file, was going to be used for search but issues arised requiring this file to be
+   merged with both search files. */
+
 import React, { useState } from "react";
 import "@fortawesome/fontawesome-free/css/all.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

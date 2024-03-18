@@ -1,3 +1,6 @@
+/* The purpose of this file is to display schools when they are searched and filtered along with
+   the SchoolList.js file. This file handles most of the logic required in the searching and filtering. */
+
 import React, { useState, useEffect } from "react";
 import { TeacherStaffHeader } from "../components/Headers";
 import "../styles/Schools.css";
@@ -5,21 +8,24 @@ import { SearchBar } from "../components/SearchBar";
 import SchoolList from "../components/SchoolList";
 
 function Schools() {
-  const [selectedSchool, setSelectedSchool] = useState(null);
-  const [searchResult, setSearchResult] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filterOptions, setFilterOptions] = useState({ gradeRange: "", location: "" });
-  const [selectedGradeRange, setSelectedGradeRange] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState("");
+  const [selectedSchool, setSelectedSchool] = useState(null); // Add state to store what school is selected
+  const [searchResult, setSearchResult] = useState([]); // Add state to store the result of search
+  const [searchTerm, setSearchTerm] = useState(""); // Add state to store the search term
+  const [filterOptions, setFilterOptions] = useState({ gradeRange: "", location: "" }); // Add state to store filter options
+  const [selectedGradeRange, setSelectedGradeRange] = useState(""); // Add state to sotre grade range filter
+  const [selectedLocation, setSelectedLocation] = useState(""); // Add state to store location filter
 
   useEffect(() => {
-    // Fetch all schools when the component mounts
+    // Fetch all schools when the file is called
     fetchSchools();
   }, []);
 
   // Function to fetch schools based on filter options
   const fetchSchools = () => {
+    // Create variable to store the filter options
     const { gradeRange, location } = filterOptions;
+
+    // Add filter options to url request for an API call based on server.js
     let url = `http://localhost:5000/api/schools?searchQuery=${searchTerm}`;
     if (gradeRange) {
       url += `&degree=${gradeRange}`;
@@ -28,6 +34,7 @@ function Schools() {
       url += `&location=${location}`;
     }
 
+    // Make api call
     fetch(url)
       .then(response => {
         if (!response.ok) {
@@ -43,6 +50,7 @@ function Schools() {
 
   // Function to reset filters
   const resetFilters = () => {
+    // Updates all states to "" or the equivalent of empty or NULL
     setSearchTerm("");
     setSelectedGradeRange("");
     setSelectedLocation("");
@@ -51,7 +59,7 @@ function Schools() {
 
   // Function to handle search
   const handleSearch = (searchTerm) => {
-    setSearchTerm(searchTerm);
+    setSearchTerm(searchTerm); // Updates search term state with whatever is searched
     fetchSchools(); // Trigger re-fetch when search term changes
   };
 
@@ -63,11 +71,12 @@ function Schools() {
 
   // Function to handle selecting a school
   const handleSelectSchool = (school) => {
-    setSelectedSchool(school);
+    setSelectedSchool(school); // Update state to whatever school is selected
   };
 
   // Function to handle grade range change
   const handleGradeRangeChange = (event) => {
+    // Create variable to store grade range and update filters accordingly
     const gradeRange = event.target.value;
     setSelectedGradeRange(gradeRange);
     setFilterOptions({ ...filterOptions, gradeRange });
@@ -76,6 +85,7 @@ function Schools() {
 
   // Function to handle location change
   const handleLocationChange = (event) => {
+    // Create variable to store location and update filters accordingly
     const location = event.target.value;
     setSelectedLocation(location);
     setFilterOptions({ ...filterOptions, location });
@@ -97,7 +107,6 @@ function Schools() {
         </select>
         {/* Filter by Location */}
         <select value={selectedLocation} onChange={handleLocationChange}>
-          <option value="">Filter by Location</option>
           <option value="">Filter by Location</option>
           <option value="alabama">Alabama</option>
           <option value="alaska">Alaska</option>
@@ -151,21 +160,24 @@ function Schools() {
           <option value="wyoming">Wyoming</option>
         </select>
         <div className="search">
+        {/* Search box */}
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
             placeholder="Search"
           />
-          {/* Search icon */}
+          {/* Search icon (not here yet) */}
         </div>
       </div>
       <div className="info-display">
         <div className="columns-container">
           <div className="school-list-column">
+            {/* Calls school list to return list of schools based on passed through criteria */}
             <SchoolList onSelectSchool={handleSelectSchool} searchResult={searchResult} searchTerm={searchTerm} selectedGradeRange={selectedGradeRange} selectedLocation={selectedLocation} />
           </div>
           <div className="school-info-column">
+            {/* Displays information of the school */}
             {selectedSchool && (
               <div>
                 <h2>{selectedSchool.school_name}</h2>

@@ -1,4 +1,6 @@
-// Importing necessary dependencies and components
+/* The purpose of this file is to display information for the teacher user on their own profile.
+   This file works with the ProfileInfo file to display the information correctly. */
+   
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { auth } from "../firebase";

@@ -1,3 +1,5 @@
+/* This file will be called to bring up a form to create a new account for a teacher. */
+
 import React, { useState } from "react";
 import "../styles/LoginandCreate.css";
 import { Link } from "react-router-dom";
@@ -6,8 +8,6 @@ import { auth } from "../firebase";
 import { createUserWithEmailAndPassword, fetchSignInMethodsForEmail } from "firebase/auth";
 import ErrorPopup from "../components/ErrorPopup";
 import "../styles/ErrorPopup.css";
-
-//This function will be called to bring up a form to create a new account for a teacher
 
 //create and export function 'TeacherCreateAcc' so that other pages can import and use the function
 export default function TeacherCreateAcc() {

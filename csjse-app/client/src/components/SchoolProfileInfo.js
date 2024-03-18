@@ -7,19 +7,19 @@ export default function SchoolProfileInfo({ userData }) {
 
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged((user) => {
-		  if (user) {
-			setUser(user);
-		  } else {
-			// Redirect or handle non-authenticated user
-			// For example, redirect to the login page
-			window.location.href = "/TeacherLogin";
-		  }
+			if (user) {
+				setUser(user);
+			} else {
+				// Redirect or handle non-authenticated user
+				// For example, redirect to the login page
+				window.location.href = "/TeacherLogin";
+			}
 		});
-	
+
 		return () => {
-		  unsubscribe();
+			unsubscribe();
 		};
-	  }, []);
+	}, []);
 
 	// State for managing editing mode
 	const [isEditing, setIsEditing] = useState(false);
@@ -64,7 +64,7 @@ export default function SchoolProfileInfo({ userData }) {
 		setName(userData?.school_name || "");
 		setPhoneNumber(userData?.phone || "");
 		// ... (update other state variables)
-	  }, [userData]);
+	}, [userData]);
 
 	return (
 		<div className="profile-content">

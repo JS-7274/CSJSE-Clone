@@ -191,6 +191,41 @@ app.get('/api/teachers', (req, res) => {
     });
 });
 
+// API to fetch information for all schools with optional search query and filter queries
+app.get('/api/schools', (req, res) => {
+    console.log('Request Query:', req.query); // Log request query parameters
+    // Extract the search query, grade range, and location from the request parameters
+    const { searchQuery, gradeRange, location } = req.query;
+
+    // SQL query to select specific fields from the School_Profile table for all schools
+    let sql = "SELECT school_id, school_name, school_population, statement_of_faith, covenantal, teacher_count, administrative_structure, phone, contact_email, location, campus_number, accreditation, grade_range, about FROM School_Profile WHERE 1 = 1";
+
+    // If a search query is provided, add a WHERE clause to filter by school name
+    if (searchQuery) {
+        sql += ` AND school_name LIKE '%${searchQuery}%'`;
+    }
+
+    // If a grade range filter is provided, add a WHERE clause to filter by grade range
+    if (gradeRange) {
+        sql += ` AND grade_range = '${gradeRange}'`;
+    }
+
+    // If a location filter is provided, add a WHERE clause to filter by location
+    if (location) {
+        sql += ` AND location LIKE '%${location}%'`; // Use LIKE for partial matches
+    }
+
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error fetching filtered schools list:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+
+        // Schools information found
+        return res.json({ success: true, schools: results });
+    });
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error('Error occurred:', err.stack);

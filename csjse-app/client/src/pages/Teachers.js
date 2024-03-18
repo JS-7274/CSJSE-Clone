@@ -181,6 +181,20 @@ function Teachers() {
           </div>
           <div className="teacher-info-column">
             {/* Teacher information */}
+            {selectedTeacher && (
+              <div>
+                <h2>{selectedTeacher.school_name}</h2>
+                <p>Name: {selectedTeacher.first_name} {selectedTeacher.last_name}</p>
+                <p>Testimony: {selectedTeacher.testimony}</p>
+                <p>degre: {selectedTeacher.degree}</p>
+                <p>Phone: {selectedTeacher.phone}</p>
+                <p>Contact Email: {selectedTeacher.contact_email}</p>
+                <p>Location: {selectedTeacher.location}</p>
+                <p>Resume: {selectedTeacher.job_resume}</p>
+                <p>certifications: {selectedTeacher.certifications}</p>
+                <p>Experience: {selectedTeacher.experience}</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

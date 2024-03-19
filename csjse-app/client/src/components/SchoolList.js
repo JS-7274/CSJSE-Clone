@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-function SchoolList({ onSelectSchool, searchResult, searchTerm, selectedGradeRange, selectedLocation, searchZip }) {
+function SchoolList({ onSelectSchool, searchResult, searchTerm, selectedGradeRange, selectedLocation, searchZip, looking }) {
   const [allSchools, setAllSchools] = useState([]); // Add state
   const [filteredSchools, setFilteredSchools] = useState([]); // Add state to store filtered schools
   
@@ -25,13 +25,14 @@ function SchoolList({ onSelectSchool, searchResult, searchTerm, selectedGradeRan
         (school.school_name.toLowerCase().includes(searchTerm.toLowerCase())) &&
         (selectedGradeRange ? school.grade_range === selectedGradeRange : true) &&
         (selectedLocation ? school.location.toLowerCase() === selectedLocation.toLowerCase() : true) &&
-        (school.zip.includes(searchZip))
+        (school.zip.includes(searchZip)) &&
+        (!looking || school.looking) 
       );
       setFilteredSchools(filtered); // Update state to filtered
     } else {
       setFilteredSchools(allSchools); // Update state to not filtered (if there are no filters)
     }
-  }, [searchResult, searchTerm, selectedGradeRange, selectedLocation, searchZip, allSchools]);
+  }, [searchResult, searchTerm, selectedGradeRange, selectedLocation, searchZip, looking, allSchools]);
   
   return (
     <div className="school-list-column school-boxes">

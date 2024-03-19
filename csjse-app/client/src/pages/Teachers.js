@@ -21,6 +21,8 @@ function Teachers() {
   const [selectedLocation, setSelectedLocation] = useState("");
   // Add state to store zip
   const [searchZip, setSearchZip] = useState("");
+  // Add state to store the looking filter
+  const [looking, setLooking] = useState(false);
 
   useEffect(() => {
     // Fetch all teachers when the file is called
@@ -30,7 +32,7 @@ function Teachers() {
   // Function to fetch teachers based on filter options
   const fetchTeachers = () => {
     // Create a variable to store the filters selected
-    const { degree, location, zip } = filterOptions;
+    const { degree, location, zip, looking } = filterOptions;
 
     // Organizes the filter information into the url for an API request
     let url = `http://localhost:5000/api/teachers?searchQuery=${searchTerm}`;
@@ -42,6 +44,9 @@ function Teachers() {
     }
     if (zip) {
       url += `&zip=${zip}`;
+    }
+    if (looking) {
+      url += `&looking=true`;
     }
 
     // Makes the API request for filter request
@@ -65,7 +70,8 @@ function Teachers() {
     setSelectedDegree("");
     setSelectedLocation("");
     setSearchZip("");
-    setFilterOptions({ degree: "", location: "", zip: "" });
+    setLooking(false);
+    setFilterOptions({ degree: "", location: "", zip: "", looking: false });
   };
 
   // Function to handle search
@@ -105,6 +111,13 @@ function Teachers() {
   const handleZipSearch = (searchZip) => {
     setSearchZip(searchZip);
     setFilterOptions({ ...filterOptions, zip: searchZip });
+    fetchTeachers();
+  };
+
+  // Function to handle looking filter change
+  const handleLookingChange = (event) => { 
+    const looking = event.target.checked;
+    setLooking(looking);
     fetchTeachers();
   };
 
@@ -176,6 +189,16 @@ function Teachers() {
           <option value="wyoming">Wyoming</option>
         </select>
         <div className="search">
+          <label>
+            Looking for Work:
+            <input
+              type="checkbox"
+              checked={looking}
+              onChange={handleLookingChange}
+            />
+          </label>
+        </div>
+        <div className="search">
           {/* Search for Zip */}
           <input
             type="text"
@@ -199,7 +222,15 @@ function Teachers() {
         <div className="columns-container">
           <div className="teacher-list-column">
             {/* Displays the list of teachers by calling the TeacherList file */}
-            <TeachersList onSelectTeacher={handleSelectTeacher} searchResult={searchResult} searchTerm={searchTerm} selectedDegree={selectedDegree} selectedLocation={selectedLocation} searchZip={searchZip} />
+            <TeachersList
+              onSelectTeacher={handleSelectTeacher}
+              searchResult={searchResult}
+              searchTerm={searchTerm}
+              selectedDegree={selectedDegree}
+              selectedLocation={selectedLocation}
+              searchZip={searchZip}
+              looking={looking} 
+            />
           </div>
           <div className="teacher-info-column">
             {/* Teacher information */}

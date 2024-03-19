@@ -171,11 +171,11 @@ app.get("/api/school/users/:school_id", (req, res) => {
 // API to fetch information for all teachers with optional search query and filter queries
 app.get('/api/teachers', (req, res) => {
     console.log('Request Query:', req.query); // Log request query parameters
-    // Extract the search query, degree, and location from the request parameters
-    const { searchQuery, degree, location, zip } = req.query;
+    // Extract the search query, degree, location, zip, and looking from the request parameters
+    const { searchQuery, degree, location, zip, looking } = req.query;
 
     // SQL query to select specific fields from the Teacher_Profile table for all teachers
-    let sql = "SELECT teacher_id, first_name, last_name, contact_email, experience, testimony, degree, location, zip FROM Teacher_Profile WHERE 1 = 1";
+    let sql = "SELECT teacher_id, first_name, last_name, contact_email, experience, testimony, degree, location, zip, looking FROM Teacher_Profile WHERE 1 = 1";
 
     // If a search query is provided, add a WHERE clause to filter by name
     if (searchQuery) {
@@ -192,10 +192,15 @@ app.get('/api/teachers', (req, res) => {
         sql += ` AND location LIKE '%${location}%'`; // Use LIKE for partial matches
     }
 
-	// If a zip is provided, add a WHERE clause to filter by zip
+    // If a zip is provided, add a WHERE clause to filter by zip
     if (zip !== undefined && zip !== '') {
-		sql += ` AND LEFT(zip, 3) = '${zip}'`; // Filter by first 3 digits of zip code
-	}
+        sql += ` AND LEFT(zip, 3) = '${zip}'`; // Filter by first 3 digits of zip code
+    }
+
+    // If looking filter is provided, add a WHERE clause to filter by looking
+    if (looking === 'true') {
+        sql += ` AND looking = true`;
+    }
 
     db.query(sql, (err, results) => {
         if (err) {
@@ -210,12 +215,11 @@ app.get('/api/teachers', (req, res) => {
 
 // API to fetch information for all schools with optional search query and filter queries
 app.get('/api/schools', (req, res) => {
-    console.log('Request Query:', req.query); // Log request query parameters
     // Extract the search query, grade range, location, and zip code from the request parameters
-    const { searchQuery, gradeRange, location, zip } = req.query;
+    const { searchQuery, gradeRange, location, zip, looking } = req.query;
 
     // SQL query to select specific fields from the School_Profile table for all schools
-    let sql = "SELECT school_id, school_name, school_population, statement_of_faith, covenantal, teacher_count, administrative_structure, phone, contact_email, location, campus_number, accreditation, grade_range, about, zip FROM School_Profile WHERE 1 = 1";
+    let sql = "SELECT school_id, school_name, school_population, statement_of_faith, covenantal, teacher_count, administrative_structure, phone, contact_email, location, campus_number, accreditation, grade_range, about, zip, looking FROM School_Profile WHERE 1 = 1";
 
     // If a search query is provided, add a WHERE clause to filter by school name
     if (searchQuery) {
@@ -236,6 +240,12 @@ app.get('/api/schools', (req, res) => {
     if (zip) {
         sql += ` AND LEFT(zip, 3) = '${zip}'`; // Use LEFT function to extract first 3 digits of zip code
     }
+
+	// If looking filter is provided, add a WHERE clause to filter by looking
+    if (looking === 'true') {
+        sql += ` AND looking = true`;
+    }
+
 
     db.query(sql, (err, results) => {
         if (err) {

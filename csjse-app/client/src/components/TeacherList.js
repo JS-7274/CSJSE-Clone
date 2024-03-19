@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-function TeachersList({ onSelectTeacher, searchResult, searchTerm, selectedDegree, selectedLocation, searchZip }) {
+function TeachersList({ onSelectTeacher, searchResult, searchTerm, selectedDegree, selectedLocation, searchZip, looking }) {
   const [allTeachers, setAllTeachers] = useState([]); // Add state to store non filtered teachers
   const [filteredTeachers, setFilteredTeachers] = useState([]); // Add state to store filtered teachers
   
@@ -26,13 +26,14 @@ function TeachersList({ onSelectTeacher, searchResult, searchTerm, selectedDegre
         teacher.last_name.toLowerCase().includes(searchTerm.toLowerCase())) &&
         (selectedDegree ? teacher.degree === selectedDegree : true) &&
         (selectedLocation ? teacher.location.toLowerCase() === selectedLocation.toLowerCase() : true) &&
-        (!searchZip || (teacher.zip && teacher.zip.includes(searchZip)))
+        (!searchZip || (teacher.zip && teacher.zip.includes(searchZip))) &&
+        (!looking || teacher.looking) 
       );
       setFilteredTeachers(filtered); // Sets the filter
     } else {
       setFilteredTeachers(allTeachers); // If no filter, stays as all teachers
     }
-  }, [searchResult, searchTerm, selectedDegree, selectedLocation, searchZip, allTeachers]);
+  }, [searchResult, searchTerm, selectedDegree, selectedLocation, searchZip, looking, allTeachers]);
   
   
   

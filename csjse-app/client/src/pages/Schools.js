@@ -15,6 +15,8 @@ function Schools() {
   const [selectedGradeRange, setSelectedGradeRange] = useState(""); // Add state to sotre grade range filter
   const [selectedLocation, setSelectedLocation] = useState(""); // Add state to store location filter
   const [searchZip, setSearchZip] = useState(""); // Add state to store zip
+  const [looking, setLooking] = useState(false); // Add state to store the looking filter
+  const [showMoreInfo, setShowMoreInfo] = useState(false); // State to toggle additional information
 
   useEffect(() => {
     // Fetch all schools when the file is called
@@ -24,7 +26,7 @@ function Schools() {
   // Function to fetch schools based on filter options
   const fetchSchools = () => {
     // Create variable to store the filter options
-    const { gradeRange, location, zip } = filterOptions;
+    const { gradeRange, location, zip, looking } = filterOptions;
 
     // Add filter options to url request for an API call based on server.js
     let url = `http://localhost:5000/api/schools?searchQuery=${searchTerm}`;
@@ -36,6 +38,9 @@ function Schools() {
     }
     if (zip) {
       url += `&zip=${zip}`;
+    }
+    if (looking) {
+      url += `&looking=true`;
     }
 
     // Make api call
@@ -59,7 +64,8 @@ function Schools() {
     setSelectedGradeRange("");
     setSelectedLocation("");
     setSearchZip("");
-    setFilterOptions({ gradeRange: "", location: "" });
+    setLooking(false);
+    setFilterOptions({ gradeRange: "", location: "", looking: false });
   };
 
   // Function to handle search
@@ -101,6 +107,17 @@ function Schools() {
     setSelectedLocation(location);
     setFilterOptions({ ...filterOptions, location });
     fetchSchools(); // Trigger fetching schools when location filter changes
+  };
+
+  // Function to handle looking filter change
+  const handleLookingChange = (event) => { 
+    const looking = event.target.checked;
+    setLooking(looking);
+    fetchSchools();
+  };
+
+  const toggleMoreInfo = () => {
+    setShowMoreInfo(!showMoreInfo);
   };
 
   return (
@@ -171,6 +188,16 @@ function Schools() {
           <option value="wyoming">Wyoming</option>
         </select>
         <div className="search">
+          <label>
+            Looking to Hire:
+            <input
+              type="checkbox"
+              checked={looking}
+              onChange={handleLookingChange}
+            />
+          </label>
+        </div>
+        <div className="search">
         {/* Zip Search box */}
           <input
             type="text"
@@ -202,6 +229,7 @@ function Schools() {
               selectedGradeRange={selectedGradeRange}
               selectedLocation={selectedLocation}
               searchZip={searchZip}
+              looking={looking}
             />
           </div>
           <div className="school-info-column">
@@ -217,13 +245,21 @@ function Schools() {
                 <p>Grade Range: {selectedSchool.grade_range}</p>
                 <p>Contact Email: {selectedSchool.contact_email}</p>
                 <p>Phone: {selectedSchool.phone}</p>
-                {/* Drop down for rest or some way to hide it until selected */}
-                <p>Population: {selectedSchool.school_population}</p>
-                <p>Statement of Faith: {selectedSchool.statement_of_faith}</p>
-                <p>Covenantal: {selectedSchool.covenantal}</p>
-                <p>Teacher Count: {selectedSchool.teacher_count}</p>
-                <p>Administrative Structure: {selectedSchool.administrative_structure}</p>
-              </div>
+                {/* Button to toggle more information */}
+                <button onClick={toggleMoreInfo}>
+                  {showMoreInfo ? "Hide More Info" : "Show More Info"}
+                </button>
+                {/* Additional information */}
+                {showMoreInfo && (
+                  <>
+                    <p>Population: {selectedSchool.school_population}</p>
+                    <p>Statement of Faith: {selectedSchool.statement_of_faith}</p>
+                    <p>Covenantal: {selectedSchool.covenantal}</p>
+                    <p>Teacher Count: {selectedSchool.teacher_count}</p>
+                    <p>Administrative Structure: {selectedSchool.administrative_structure}</p>
+                  </>
+                )}
+            </div>
             )}
           </div>
         </div>

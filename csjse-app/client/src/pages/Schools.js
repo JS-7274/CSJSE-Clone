@@ -132,6 +132,7 @@ function Schools() {
           <option value="Elementary">Elementary</option>
           <option value="Middle">Middle</option>
           <option value="High">High</option>
+          <option value="College">College</option>
         </select>
         {/* Filter by Location */}
         <select value={selectedLocation} onChange={handleLocationChange}>

@@ -40,8 +40,8 @@ app.post("/api/tCreateAccount", (req, res) => {
 
 		// SQL query to insert a new record into the Teacher_Profile table
 		const insertProfileSql = `
-            INSERT INTO Teacher_Profile (
-                teacher_id, first_name, last_name, contact_email, last_accessed
+            INSERT INTO Teacher_Staff_Profile (
+                teacher_staff_id, first_name, last_name, contact_email, last_accessed
             ) VALUES (?, ?, ?, ?, NOW())
         `;
 
@@ -125,7 +125,7 @@ app.get("/api/teacher/users/:id", (req, res) => {
 	const { id } = req.params;
 
 	// Choose the appropriate SQL query based on the user type
-	const sql = "SELECT * FROM teacher_profile WHERE teacher_id = ?";
+	const sql = "SELECT * FROM teacher_staff_profile WHERE teacher_staff_id = ?";
 
 	db.query(sql, [id], (err, results) => {
 		if (err) {
@@ -170,12 +170,11 @@ app.get("/api/school/users/:school_id", (req, res) => {
 
 // API to fetch information for all teachers with optional search query and filter queries
 app.get('/api/teachers', (req, res) => {
-    console.log('Request Query:', req.query); // Log request query parameters
     // Extract the search query, degree, location, zip, and looking from the request parameters
     const { searchQuery, degree, location, zip, looking } = req.query;
 
     // SQL query to select specific fields from the Teacher_Profile table for all teachers
-    let sql = "SELECT teacher_id, first_name, last_name, contact_email, experience, testimony, degree, location, zip, looking FROM Teacher_Profile WHERE 1 = 1";
+    let sql = "SELECT teacher_staff_id, first_name, last_name, looking, phone, contact_email, home_church, resume, testimony, cover_letter, degree, location, zip FROM Teacher_Staff_Profile WHERE 1 = 1";
 
     // If a search query is provided, add a WHERE clause to filter by name
     if (searchQuery) {
@@ -219,7 +218,7 @@ app.get('/api/schools', (req, res) => {
     const { searchQuery, gradeRange, location, zip, looking } = req.query;
 
     // SQL query to select specific fields from the School_Profile table for all schools
-    let sql = "SELECT school_id, school_name, school_population, statement_of_faith, covenantal, teacher_count, administrative_structure, phone, contact_email, location, campus_number, accreditation, grade_range, about, zip, looking FROM School_Profile WHERE 1 = 1";
+    let sql = "SELECT school_id, school_name, location, campus_number, phone, looking, website, statement_of_faith, accreditation, teachers_employed, student_enrollment, contact_email, grade_range, zip FROM School_Profile WHERE 1 = 1";
 
     // If a search query is provided, add a WHERE clause to filter by school name
     if (searchQuery) {

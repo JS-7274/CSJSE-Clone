@@ -245,7 +245,7 @@ function Teachers() {
                 <p>Location: {selectedTeacher.location}</p>
                 <p>Zip: {selectedTeacher.zip}</p>
                 <p>Resume: {selectedTeacher.job_resume}</p>
-                <p>certifications: {selectedTeacher.certifications}</p>
+                <p>certifications: {selectedTeacher.degree}</p>
                 <p>Experience: {selectedTeacher.experience}</p>
               </div>
             )}

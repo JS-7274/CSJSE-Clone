@@ -19,6 +19,8 @@ function Teachers() {
   const [selectedDegree, setSelectedDegree] = useState("");
   // Add state to store what location filter is selected
   const [selectedLocation, setSelectedLocation] = useState("");
+  // Add state to store zip
+  const [searchZip, setSearchZip] = useState("");
 
   useEffect(() => {
     // Fetch all teachers when the file is called
@@ -28,7 +30,7 @@ function Teachers() {
   // Function to fetch teachers based on filter options
   const fetchTeachers = () => {
     // Create a variable to store the filters selected
-    const { degree, location } = filterOptions;
+    const { degree, location, zip } = filterOptions;
 
     // Organizes the filter information into the url for an API request
     let url = `http://localhost:5000/api/teachers?searchQuery=${searchTerm}`;
@@ -37,6 +39,9 @@ function Teachers() {
     }
     if (location) {
       url += `&location=${location}`;
+    }
+    if (zip) {
+      url += `&zip=${zip}`;
     }
 
     // Makes the API request for filter request
@@ -59,7 +64,8 @@ function Teachers() {
     setSearchTerm("");
     setSelectedDegree("");
     setSelectedLocation("");
-    setFilterOptions({ degree: "", location: "" });
+    setSearchZip("");
+    setFilterOptions({ degree: "", location: "", zip: "" });
   };
 
   // Function to handle search
@@ -93,6 +99,13 @@ function Teachers() {
     setSelectedLocation(location);
     setFilterOptions({ ...filterOptions, location });
     fetchTeachers(); // Trigger fetching teachers when location filter changes
+  };
+
+  // Function to handle searching for zip
+  const handleZipSearch = (searchZip) => {
+    setSearchZip(searchZip);
+    setFilterOptions({ ...filterOptions, zip: searchZip });
+    fetchTeachers();
   };
 
   return (
@@ -163,6 +176,15 @@ function Teachers() {
           <option value="wyoming">Wyoming</option>
         </select>
         <div className="search">
+          {/* Search for Zip */}
+          <input
+            type="text"
+            value={searchZip}
+            onChange={(e) => handleZipSearch(e.target.value)}
+            placeholder="Zip (First 3 digits)"
+          />
+        </div>
+        <div className="search">
           {/* Search  box */}
           <input
             type="text"
@@ -177,7 +199,7 @@ function Teachers() {
         <div className="columns-container">
           <div className="teacher-list-column">
             {/* Displays the list of teachers by calling the TeacherList file */}
-            <TeachersList onSelectTeacher={handleSelectTeacher} searchResult={searchResult} searchTerm={searchTerm} selectedDegree={selectedDegree} selectedLocation={selectedLocation} />
+            <TeachersList onSelectTeacher={handleSelectTeacher} searchResult={searchResult} searchTerm={searchTerm} selectedDegree={selectedDegree} selectedLocation={selectedLocation} searchZip={searchZip} />
           </div>
           <div className="teacher-info-column">
             {/* Teacher information */}
@@ -190,6 +212,7 @@ function Teachers() {
                 <p>Phone: {selectedTeacher.phone}</p>
                 <p>Contact Email: {selectedTeacher.contact_email}</p>
                 <p>Location: {selectedTeacher.location}</p>
+                <p>Zip: {selectedTeacher.zip}</p>
                 <p>Resume: {selectedTeacher.job_resume}</p>
                 <p>certifications: {selectedTeacher.certifications}</p>
                 <p>Experience: {selectedTeacher.experience}</p>

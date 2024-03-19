@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-function TeachersList({ onSelectTeacher, searchResult, searchTerm, selectedDegree, selectedLocation }) {
+function TeachersList({ onSelectTeacher, searchResult, searchTerm, selectedDegree, selectedLocation, searchZip }) {
   const [allTeachers, setAllTeachers] = useState([]); // Add state to store non filtered teachers
   const [filteredTeachers, setFilteredTeachers] = useState([]); // Add state to store filtered teachers
   
@@ -20,18 +20,21 @@ function TeachersList({ onSelectTeacher, searchResult, searchTerm, selectedDegre
 
   useEffect(() => {
     // Update filtered teachers when search result, selected degree, or selected location changes
-    if (searchTerm || selectedDegree || selectedLocation) {
+    if (searchTerm || selectedDegree || selectedLocation || searchZip) {
       const filtered = allTeachers.filter(teacher =>
         (teacher.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         teacher.last_name.toLowerCase().includes(searchTerm.toLowerCase())) &&
         (selectedDegree ? teacher.degree === selectedDegree : true) &&
-        (selectedLocation ? teacher.location.toLowerCase() === selectedLocation.toLowerCase() : true)
+        (selectedLocation ? teacher.location.toLowerCase() === selectedLocation.toLowerCase() : true) &&
+        (!searchZip || (teacher.zip && teacher.zip.includes(searchZip)))
       );
       setFilteredTeachers(filtered); // Sets the filter
     } else {
       setFilteredTeachers(allTeachers); // If no filter, stays as all teachers
     }
-  }, [searchResult, searchTerm, selectedDegree, selectedLocation, allTeachers]);
+  }, [searchResult, searchTerm, selectedDegree, selectedLocation, searchZip, allTeachers]);
+  
+  
   
   return (
     <div className="teacher-list-column teacher-boxes">

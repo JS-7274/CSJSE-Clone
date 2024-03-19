@@ -14,6 +14,7 @@ function Schools() {
   const [filterOptions, setFilterOptions] = useState({ gradeRange: "", location: "" }); // Add state to store filter options
   const [selectedGradeRange, setSelectedGradeRange] = useState(""); // Add state to sotre grade range filter
   const [selectedLocation, setSelectedLocation] = useState(""); // Add state to store location filter
+  const [searchZip, setSearchZip] = useState(""); // Add state to store zip
 
   useEffect(() => {
     // Fetch all schools when the file is called
@@ -23,7 +24,7 @@ function Schools() {
   // Function to fetch schools based on filter options
   const fetchSchools = () => {
     // Create variable to store the filter options
-    const { gradeRange, location } = filterOptions;
+    const { gradeRange, location, zip } = filterOptions;
 
     // Add filter options to url request for an API call based on server.js
     let url = `http://localhost:5000/api/schools?searchQuery=${searchTerm}`;
@@ -32,6 +33,9 @@ function Schools() {
     }
     if (location) {
       url += `&location=${location}`;
+    }
+    if (zip) {
+      url += `&zip=${zip}`;
     }
 
     // Make api call
@@ -54,12 +58,19 @@ function Schools() {
     setSearchTerm("");
     setSelectedGradeRange("");
     setSelectedLocation("");
+    setSearchZip("");
     setFilterOptions({ gradeRange: "", location: "" });
   };
 
   // Function to handle search
   const handleSearch = (searchTerm) => {
     setSearchTerm(searchTerm); // Updates search term state with whatever is searched
+    fetchSchools(); // Trigger re-fetch when search term changes
+  };
+
+  // Function to handle zip search
+  const handleZipSearch = (searchZip) => {
+    setSearchZip(searchZip); // Updates search term state with whatever is searched
     fetchSchools(); // Trigger re-fetch when search term changes
   };
 
@@ -160,6 +171,16 @@ function Schools() {
           <option value="wyoming">Wyoming</option>
         </select>
         <div className="search">
+        {/* Zip Search box */}
+          <input
+            type="text"
+            value={searchZip}
+            onChange={(e) => handleZipSearch(e.target.value)}
+            placeholder="Zip (First 3 digits)"
+          />
+          {/* Search icon (not here yet) */}
+        </div>
+        <div className="search">
         {/* Search box */}
           <input
             type="text"
@@ -174,25 +195,34 @@ function Schools() {
         <div className="columns-container">
           <div className="school-list-column">
             {/* Calls school list to return list of schools based on passed through criteria */}
-            <SchoolList onSelectSchool={handleSelectSchool} searchResult={searchResult} searchTerm={searchTerm} selectedGradeRange={selectedGradeRange} selectedLocation={selectedLocation} />
+            <SchoolList
+              onSelectSchool={handleSelectSchool}
+              searchResult={searchResult}
+              searchTerm={searchTerm}
+              selectedGradeRange={selectedGradeRange}
+              selectedLocation={selectedLocation}
+              searchZip={searchZip}
+            />
           </div>
           <div className="school-info-column">
             {/* Displays information of the school */}
             {selectedSchool && (
               <div>
                 <h2>{selectedSchool.school_name}</h2>
+                <p>About: {selectedSchool.about}</p>
+                <p>Location: {selectedSchool.location}</p>
+                <p>Zip: {selectedSchool.zip}</p>
+                <p>Number of Campuses: {selectedSchool.campus_number}</p>
+                <p>Accreditation: {selectedSchool.accreditation}</p>
+                <p>Grade Range: {selectedSchool.grade_range}</p>
+                <p>Contact Email: {selectedSchool.contact_email}</p>
+                <p>Phone: {selectedSchool.phone}</p>
+                {/* Drop down for rest or some way to hide it until selected */}
                 <p>Population: {selectedSchool.school_population}</p>
                 <p>Statement of Faith: {selectedSchool.statement_of_faith}</p>
                 <p>Covenantal: {selectedSchool.covenantal}</p>
                 <p>Teacher Count: {selectedSchool.teacher_count}</p>
                 <p>Administrative Structure: {selectedSchool.administrative_structure}</p>
-                <p>Phone: {selectedSchool.phone}</p>
-                <p>Contact Email: {selectedSchool.contact_email}</p>
-                <p>Location: {selectedSchool.location}</p>
-                <p>Campus Number: {selectedSchool.campus_number}</p>
-                <p>Accreditation: {selectedSchool.accreditation}</p>
-                <p>Grade Range: {selectedSchool.grade_range}</p>
-                <p>About: {selectedSchool.about}</p>
               </div>
             )}
           </div>

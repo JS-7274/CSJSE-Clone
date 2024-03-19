@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-function SchoolList({ onSelectSchool, searchResult, searchTerm, selectedGradeRange, selectedLocation }) {
+function SchoolList({ onSelectSchool, searchResult, searchTerm, selectedGradeRange, selectedLocation, searchZip }) {
   const [allSchools, setAllSchools] = useState([]); // Add state
   const [filteredSchools, setFilteredSchools] = useState([]); // Add state to store filtered schools
   
@@ -20,17 +20,18 @@ function SchoolList({ onSelectSchool, searchResult, searchTerm, selectedGradeRan
 
   useEffect(() => {
     // Update filtered schools when search result, selected grade range, or selected location changes
-    if (searchTerm || selectedGradeRange || selectedLocation) {
+    if (searchTerm || selectedGradeRange || selectedLocation || searchZip) {
       const filtered = allSchools.filter(school =>
         (school.school_name.toLowerCase().includes(searchTerm.toLowerCase())) &&
         (selectedGradeRange ? school.grade_range === selectedGradeRange : true) &&
-        (selectedLocation ? school.location.toLowerCase() === selectedLocation.toLowerCase() : true)
+        (selectedLocation ? school.location.toLowerCase() === selectedLocation.toLowerCase() : true) &&
+        (school.zip.includes(searchZip))
       );
       setFilteredSchools(filtered); // Update state to filtered
     } else {
       setFilteredSchools(allSchools); // Update state to not filtered (if there are no filters)
     }
-  }, [searchResult, searchTerm, selectedGradeRange, selectedLocation, allSchools]);
+  }, [searchResult, searchTerm, selectedGradeRange, selectedLocation, searchZip, allSchools]);
   
   return (
     <div className="school-list-column school-boxes">

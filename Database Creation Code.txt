@@ -361,7 +361,8 @@ CREATE TABLE School_Profile (
     contact_email varchar(25),
     photo longblob,
     logo longblob,
-    last_accessed datetime
+    last_accessed datetime,
+    zip varchar(3)
 );
 
 DROP TABLE IF EXISTS Teacher_Profile;
@@ -379,7 +380,8 @@ CREATE TABLE Teacher_Staff_Profile (
     headshot longblob,
     last_accessed datetime,
     degree varchar(15),
-    location varchar(30);
+    location varchar(30),
+    zip varchar(3)
 );
 
 

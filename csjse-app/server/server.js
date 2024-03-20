@@ -263,7 +263,7 @@ app.get('/api/jobs', (req, res) => {
     const { searchTerm, job_location, required_degree } = req.query;
 
     // SQL query to select specific fields from the Job_Posting table for all jobs
-    let sql = "SELECT job_id, job_title, job_description, job_location, interview_location, contact_email, salary_range, preferred_degree, required_degree, preferred_experience, required_experience, posted_date FROM Job_Posting WHERE 1 = 1";
+    let sql = "SELECT job_id, job_title, job_description, job_location, interview_location, contact_email, salary_range, preferred_degree, required_degree, preferred_experience, required_experience, posted_date, application_url FROM Job_Posting WHERE 1 = 1";
 
     // If a search term is provided, add a WHERE clause to filter by job title
     if (searchTerm) {
@@ -310,6 +310,7 @@ app.post("/api/createJobPosting", (req, res) => {
 		required_degree,
 		preferred_experience,
 		required_experience,
+		application_url,
 	} = req.body;
 	console.log("School ID:", school_id);
 
@@ -332,8 +333,8 @@ app.post("/api/createJobPosting", (req, res) => {
 		// updates the sjob_posting database first so it can get the automatically generated ID
 		const insertJobPostingSql = `
 		INSERT INTO Job_Posting (
-			school_id, job_title, job_description, job_location, interview_location, contact_email, salary_range, preferred_degree, required_degree, preferred_experience, required_experience, posted_date 
-		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+			school_id, job_title, job_description, job_location, interview_location, contact_email, salary_range, preferred_degree, required_degree, preferred_experience, required_experience, posted_date, application_url 
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)
 		`;
 
 		db.query(
@@ -350,6 +351,7 @@ app.post("/api/createJobPosting", (req, res) => {
 				required_degree,
 				preferred_experience,
 				required_experience,
+				application_url,
 			],
 			(err, results) => {
 				if (err) {
@@ -449,7 +451,8 @@ app.post("/api/updateJobPosting", (req, res) => {
                 preferred_degree = ?, 
                 required_degree = ?, 
                 preferred_experience = ?, 
-                required_experience = ?
+                required_experience = ?,
+				application_url = ?
             WHERE job_id = ?
         `;
 
@@ -466,6 +469,7 @@ app.post("/api/updateJobPosting", (req, res) => {
 				jobData.required_degree,
 				jobData.preferred_experience,
 				jobData.required_experience,
+				jobData.application_url,
 				jobId, // jobId used in the WHERE
 			],
 			(err, results) => {

@@ -444,3 +444,7 @@ VALUES ('sOopgExukLMyzwdlnV4WTejwgkT2', 'John', 'Washington', 'jWashington@gmail
 # Insert statement for Teacher_Staff_Profile - Reginald Fitzgerald
 INSERT INTO Teacher_Staff_Profile (teacher_staff_id, first_name, last_name, contact_email, degree, location, zip)
 VALUES ('Fb3EBUkzqzQb6E7yzuin0RLrtpL2', 'Reginald', 'Fitzgerald', 'rFitzgerald@gmail.com', 'Master', 'Kansas', '660');
+
+# Adds field to allow storing of links to job posts
+ALTER TABLE Job_Posting
+ADD COLUMN application_url varchar(255);

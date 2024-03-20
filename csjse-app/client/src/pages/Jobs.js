@@ -70,6 +70,13 @@ function Jobs() {
     // No need to call fetchJobs here, useEffect will take care of it
   };
 
+  const handleApply = () => {
+    // Implement the apply functionality here
+    if (selectedJob && selectedJob.application_link) {
+      window.open(selectedJob.application_link, "_blank");
+    }
+  };
+
   return (
     <div>
       <TeacherStaffHeader />
@@ -107,19 +114,26 @@ function Jobs() {
             />
           </div>
           <div className="job-info-column">
-            {selectedJob && (
-              <div>
-                <h2>{selectedJob.job_title}</h2>
-                <p>Job Description: {selectedJob.job_description}</p>
-                <p>Job Location: {selectedJob.job_location}</p>
-                <p>Interview Location: {selectedJob.interview_location}</p>
-                <p>Contact Email: {selectedJob.contact_email}</p>
-                <p>Required Degree: {selectedJob.required_degree}</p>
-                <p>Required Experience: {selectedJob.required_experience}</p>
-                <p>Preferred Degree: {selectedJob.preferred_degree}</p>
-                <p>Preferred Experience: {selectedJob.preferred_experience}</p>
-              </div>
-            )}
+          {selectedJob && (
+            <div>
+              <h2>{selectedJob.job_title}</h2>
+              <p>Job Description: {selectedJob.job_description}</p>
+              <p>Job Location: {selectedJob.job_location}</p>
+              <p>Interview Location: {selectedJob.interview_location}</p>
+              <p>Contact Email: {selectedJob.contact_email}</p>
+              <p>Required Degree: {selectedJob.required_degree}</p>
+              <p>Required Experience: {selectedJob.required_experience}</p>
+              <p>Preferred Degree: {selectedJob.preferred_degree}</p>
+              <p>Preferred Experience: {selectedJob.preferred_experience}</p>
+              <p>Job Link: {selectedJob.application_url}</p>
+              {selectedJob.application_url && (
+                <div>
+                  <a href={selectedJob.application_url} target="_blank" rel="noopener noreferrer">Application Link</a>
+                  <button onClick={handleApply}>Apply</button>
+                </div>
+              )}
+            </div>
+          )}
           </div>
         </div>
       </div>

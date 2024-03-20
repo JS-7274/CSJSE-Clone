@@ -1,16 +1,16 @@
-const express = require("express");
-const mysql = require("mysql2");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const app = express();
-const dotenv = require("dotenv");
-const port = process.env.PORT || 5000;
+/* This document will establish a connection to the database as well as
+   create all the APIs that the frontend will call to interact with the database. */
 
-// This document will establish a connection to the database as well as
-// create all the APIs that the frontend will call to interact with the database
+const express = require('express')
+const mysql = require('mysql2')
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const app = express()
+const dotenv = require('dotenv');
+const port = process.env.PORT || 5000
 
-app.use(cors()); // Enable CORS for all routes
-app.use(bodyParser.json()); // Use JSON parser for incoming requests
+app.use(cors()) // Enable CORS for all routes
+app.use(bodyParser.json()) // Use JSON parser for incoming requests
 
 dotenv.config({ path: "./.env" });
 
@@ -40,8 +40,8 @@ app.post("/api/tCreateAccount", (req, res) => {
 
 		// SQL query to insert a new record into the Teacher_Profile table
 		const insertProfileSql = `
-            INSERT INTO Teacher_Profile (
-                teacher_id, first_name, last_name, contact_email, last_accessed
+            INSERT INTO Teacher_Staff_Profile (
+                teacher_staff_id, first_name, last_name, contact_email, last_accessed
             ) VALUES (?, ?, ?, ?, NOW())
         `;
 
@@ -125,7 +125,7 @@ app.get("/api/teacher/users/:id", (req, res) => {
 	const { id } = req.params;
 
 	// Choose the appropriate SQL query based on the user type
-	const sql = "SELECT * FROM teacher_profile WHERE teacher_id = ?";
+	const sql = "SELECT * FROM teacher_staff_profile WHERE teacher_staff_id = ?";
 
 	db.query(sql, [id], (err, results) => {
 		if (err) {
@@ -166,6 +166,95 @@ app.get("/api/school/users/:school_id", (req, res) => {
 				.json({ success: false, message: "User not found" });
 		}
 	});
+});
+
+// API to fetch information for all teachers with optional search query and filter queries
+app.get('/api/teachers', (req, res) => {
+    // Extract the search query, degree, location, zip, and looking from the request parameters
+    const { searchQuery, degree, location, zip, looking } = req.query;
+
+    // SQL query to select specific fields from the Teacher_Profile table for all teachers
+    let sql = "SELECT teacher_staff_id, first_name, last_name, looking, phone, contact_email, home_church, resume, testimony, cover_letter, degree, location, zip FROM Teacher_Staff_Profile WHERE 1 = 1";
+
+    // If a search query is provided, add a WHERE clause to filter by name
+    if (searchQuery) {
+        sql += ` AND (first_name LIKE '%${searchQuery}%' OR last_name LIKE '%${searchQuery}%')`;
+    }
+
+    // If a degree filter is provided, add a WHERE clause to filter by degree
+    if (degree) {
+        sql += ` AND degree = '${degree}'`;
+    }
+
+    // If a location filter is provided, add a WHERE clause to filter by location
+    if (location) {
+        sql += ` AND location LIKE '%${location}%'`; // Use LIKE for partial matches
+    }
+
+    // If a zip is provided, add a WHERE clause to filter by zip
+    if (zip !== undefined && zip !== '') {
+        sql += ` AND LEFT(zip, 3) = '${zip}'`; // Filter by first 3 digits of zip code
+    }
+
+    // If looking filter is provided, add a WHERE clause to filter by looking
+    if (looking === 'true') {
+        sql += ` AND looking = true`;
+    }
+
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error fetching filtered teachers list:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+
+        // Teachers information found
+        return res.json({ success: true, teachers: results });
+    });
+});
+
+// API to fetch information for all schools with optional search query and filter queries
+app.get('/api/schools', (req, res) => {
+    // Extract the search query, grade range, location, and zip code from the request parameters
+    const { searchQuery, gradeRange, location, zip, looking } = req.query;
+
+    // SQL query to select specific fields from the School_Profile table for all schools
+    let sql = "SELECT school_id, school_name, location, campus_number, phone, looking, website, statement_of_faith, accreditation, teachers_employed, student_enrollment, contact_email, grade_range, zip FROM School_Profile WHERE 1 = 1";
+
+    // If a search query is provided, add a WHERE clause to filter by school name
+    if (searchQuery) {
+        sql += ` AND school_name LIKE '%${searchQuery}%'`;
+    }
+
+    // If a grade range filter is provided, add a WHERE clause to filter by grade range
+    if (gradeRange) {
+        sql += ` AND grade_range = '${gradeRange}'`;
+    }
+
+    // If a location filter is provided, add a WHERE clause to filter by location
+    if (location) {
+        sql += ` AND location LIKE '%${location}%'`; // Use LIKE for partial matches
+    }
+
+    // If a zip is provided, add a WHERE clause to filter by zip
+    if (zip) {
+        sql += ` AND LEFT(zip, 3) = '${zip}'`; // Use LEFT function to extract first 3 digits of zip code
+    }
+
+	// If looking filter is provided, add a WHERE clause to filter by looking
+    if (looking === 'true') {
+        sql += ` AND looking = true`;
+    }
+
+
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error fetching filtered schools list:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+
+        // Schools information found
+        return res.json({ success: true, schools: results });
+    });
 });
 
 //api that adds a job posting to the database
@@ -355,6 +444,15 @@ app.post("/api/updateJobPosting", (req, res) => {
 	});
 });
 
-app.listen(port, () => {
-	console.log("Server started on port " + port);
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error('Error occurred:', err.stack);
+    res.status(500).json({ error: 'Internal Server Error' });
 });
+
+// 404 Not Found middleware
+app.use((req, res, next) => {
+    res.status(404).json({ error: 'Not Found' });
+});
+
+app.listen(port, () => {console.log("Server started on port " + port)})

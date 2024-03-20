@@ -1,3 +1,7 @@
+/* This document wraps around the app.js file and contains it in a router for routing.
+   This document also works with the firebase.js file to establish the connection to 
+   firebase authentication. */
+
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";

@@ -1,3 +1,5 @@
+/* This file handles the school information that will be displayed in the School Profile file. */
+
 import React, { useState, useEffect } from "react";
 import "../styles/Profiles.css";
 import { auth } from "../firebase";

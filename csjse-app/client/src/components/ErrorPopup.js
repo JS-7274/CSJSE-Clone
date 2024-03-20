@@ -1,3 +1,5 @@
+/* This file defines a generic error popup. */
+
 import React from "react";
 
 const ErrorPopup = ({ message, onClose }) => (

@@ -1,3 +1,5 @@
+/* This file handles the display of references in profiles. */
+
 import React, { useState } from "react";
 
 export default function References() {

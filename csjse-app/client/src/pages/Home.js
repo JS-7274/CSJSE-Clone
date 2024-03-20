@@ -1,5 +1,6 @@
 /* Home.js */
-/* Layout and content of the home page as seen by all users */
+/* This file handles what the home page displays and handles navigation to creating an account
+   as well as logging in. */
 
 import React from "react";
 import "../styles/Home.css";

@@ -395,6 +395,7 @@ CREATE TABLE Job_Posting (
     job_location varchar(50),
     interview_location varchar(50),
     contact_email varchar(50),
+    application_link text,
     salary_range text,
     preferred_degree varchar(50),
     required_degree varchar(50),

@@ -17,6 +17,7 @@ export default function JobListings() {
 		job_location: "",
 		interview_location: "",
 		contact_email: "",
+		application_link: "",
 		salary_range: "",
 		preferred_degree: "",
 		required_degree: "",
@@ -139,6 +140,7 @@ export default function JobListings() {
 					job_location: job.job_location,
 					interview_location: job.interview_location,
 					contact_email: job.contact_email,
+					application_link: job.application_link,
 					salary_range: job.salary_range,
 					preferred_degree: job.preferred_degree,
 					required_degree: job.required_degree,
@@ -156,13 +158,6 @@ export default function JobListings() {
 
 	//updates the value in specific input fields as they are changed in edit form
 	const handleChange = (e, jobId) => {
-		/*console.log("handleInputChange called");
-		const { name, value } = e.target;
-		console.log("name:", name);
-		console.log("value:", value);
-		if (name === "job_title") {
-			setTitle(value);
-		}*/
 		const { name, value } = e.target;
 		setJobData({
 			...jobData,
@@ -239,7 +234,7 @@ export default function JobListings() {
 							type="text"
 							id="job_description"
 							name="job_description"
-							//required
+							required
 						/>
 					</div>
 					<div className="form-group">
@@ -251,7 +246,7 @@ export default function JobListings() {
 							type="text"
 							id="job_location"
 							name="job_location"
-							//required
+							required
 						/>
 					</div>
 					<div className="form-group">
@@ -263,7 +258,7 @@ export default function JobListings() {
 							type="text"
 							id="interview_location"
 							name="interview_location"
-							//required
+							required
 						/>
 					</div>
 					<div className="form-group">
@@ -275,7 +270,19 @@ export default function JobListings() {
 							type="text"
 							id="contact_email"
 							name="contact_email"
-							//required
+							required
+						/>
+					</div>
+					<div className="form-group">
+						<label className="label">External Application Link</label>
+						<input
+							className="input-field"
+							value={jobData.application_link}
+							onChange={handleChange}
+							type="link"
+							id="application_link"
+							name="application_link"
+							required
 						/>
 					</div>
 					<div className="form-group">
@@ -309,7 +316,7 @@ export default function JobListings() {
 							type="text"
 							id="required_degree"
 							name="required_degree"
-							//required
+							required
 						/>
 					</div>
 					<div className="form-group">
@@ -330,7 +337,7 @@ export default function JobListings() {
 							type="text"
 							id="required_experience"
 							name="required_experience"
-							//required
+							required
 						/>
 					</div>
 					<div className="option-buttons">
@@ -409,6 +416,18 @@ export default function JobListings() {
 											type="text"
 											id="contact_email"
 											name="contact_email"
+											required
+										/>
+									</div>
+									<div className="form-group">
+										<label className="label">External Application Link</label>
+										<input
+											className="input-field"
+											value={jobData.application_link}
+											onChange={handleChange}
+											type="link"
+											id="application_link"
+											name="application_link"
 											required
 										/>
 									</div>

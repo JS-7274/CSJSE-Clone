@@ -98,8 +98,10 @@ function SchoolHeader() {
 					Teachers
 				</NavLink>
 				<NavLink
-					to="/schoolprofile"
-					className={`menuitem ${isActive("/schoolprofile") ? "active" : ""}`}
+					to={`/schoolprofile/${user?.uid}`}
+					className={`menuitem ${
+						isActive(`/schoolprofile/${user?.uid}`) ? "active" : ""
+					}`}
 				>
 					Profile
 				</NavLink>

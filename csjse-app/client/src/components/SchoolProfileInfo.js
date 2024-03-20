@@ -1,7 +1,28 @@
+/* This file handles the school information that will be displayed in the School Profile file. */
+
 import React, { useState, useEffect } from "react";
 import "../styles/Profiles.css";
+import { auth } from "../firebase";
 
 export default function SchoolProfileInfo({ userData }) {
+	const [user, setUser] = useState(null);
+
+	useEffect(() => {
+		const unsubscribe = auth.onAuthStateChanged((user) => {
+			if (user) {
+				setUser(user);
+			} else {
+				// Redirect or handle non-authenticated user
+				// For example, redirect to the login page
+				window.location.href = "/TeacherLogin";
+			}
+		});
+
+		return () => {
+			unsubscribe();
+		};
+	}, []);
+
 	// State for managing editing mode
 	const [isEditing, setIsEditing] = useState(false);
 	// State for tracking email input value
@@ -40,12 +61,12 @@ export default function SchoolProfileInfo({ userData }) {
 
 	useEffect(() => {
 		// Update state when userData changes
-		setEmail(userData?.email || "");
+		setEmail(userData?.contact_email || "");
 		setPassword(userData?.password || "");
 		setName(userData?.school_name || "");
 		setPhoneNumber(userData?.phone || "");
 		// ... (update other state variables)
-	  }, [userData]);
+	}, [userData]);
 
 	return (
 		<div className="profile-content">
@@ -286,7 +307,7 @@ export default function SchoolProfileInfo({ userData }) {
 			</div>
 
 			<div className="form-group">
-				<label>Login Email</label>
+				<label>Contact Email</label>
 				{/* Input field for email, enabled based on editing state */}
 				<input
 					className="input-field"

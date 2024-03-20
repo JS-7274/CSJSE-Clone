@@ -1,12 +1,26 @@
 /* Headers.js */
 /* Creates header components to be used for teacher/staff or school agent view of the website */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import { auth } from "../firebase";
 import "../styles/Headers.css";
 
 function TeacherStaffHeader() {
 	const location = useLocation();
+	const [user, setUser] = useState(null);
+
+	useEffect(() => {
+		const unsubscribe = auth.onAuthStateChanged((user) => {
+			if (user) {
+				setUser(user);
+			}
+		});
+
+		return () => {
+			unsubscribe();
+		};
+	}, []);
 
 	const isActive = (path) => {
 		return location.pathname === path;
@@ -32,9 +46,9 @@ function TeacherStaffHeader() {
 					Schools
 				</NavLink>
 				<NavLink
-					to="/TeacherStaffProfile/:id"
+					to={`/teacherstaffprofile/${user?.uid}`}
 					className={`menuitem ${
-						isActive("/teacherstaffprofile") ? "active" : ""
+						isActive(`/teacherstaffprofile/${user?.uid}`) ? "active" : ""
 					}`}
 				>
 					Profile
@@ -46,6 +60,19 @@ function TeacherStaffHeader() {
 
 function SchoolHeader() {
 	const location = useLocation();
+	const [user, setUser] = useState(null);
+
+	useEffect(() => {
+		const unsubscribe = auth.onAuthStateChanged((user) => {
+			if (user) {
+				setUser(user);
+			}
+		});
+
+		return () => {
+			unsubscribe();
+		};
+	}, []);
 
 	const isActive = (path) => {
 		return location.pathname === path;
@@ -71,7 +98,7 @@ function SchoolHeader() {
 					Teachers
 				</NavLink>
 				<NavLink
-					to="/SchoolProfile/:id"
+					to="/schoolprofile"
 					className={`menuitem ${isActive("/schoolprofile") ? "active" : ""}`}
 				>
 					Profile

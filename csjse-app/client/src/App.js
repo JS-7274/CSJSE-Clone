@@ -1,5 +1,5 @@
-/* App.js */
-/*  */
+/* The purpose of this file is to render the App and use Route from react-router-dom to
+   allow navigation between the different files. It sets the default page "/" to the Home.*/
 
 import "./App.css";
 import Home from "./pages/Home";
@@ -11,9 +11,10 @@ import TeacherCreateAcc from "./pages/TeacherCreateAcc";
 import SchoolCreateAcc from "./pages/SchoolCreateAcc";
 import Schools from "./pages/Schools";
 import Jobs from "./pages/Jobs";
+import Schooljobs from "./pages/SchoolJobs";
 import Teachers from "./pages/Teachers";
 import { Routes, Route } from "react-router-dom";
-import { RequireAuth } from "react-auth-kit";
+import { auth } from './firebase';
 
 function App() {
 	return (
@@ -21,12 +22,16 @@ function App() {
 			<Route path="/" element={<Home />} />
 			<Route path="/TeacherLogin" element={<TeacherLogin />} />
 			<Route path="/SchoolLogin" element={<SchoolLogin />} />
-			<Route path="/TeacherStaffProfile/:id" element={<TeacherStaffProfile />} />
-			<Route path="/SchoolProfile/:id" element={<SchoolProfile />} />
+			<Route
+				path="/TeacherStaffProfile/:id"
+				element={<TeacherStaffProfile />}
+			/>
+			<Route path="/SchoolProfile/:school_id" element={<SchoolProfile />} />
 			<Route path="/SchoolCreateAcc" element={<SchoolCreateAcc />} />
 			<Route path="/TeacherCreateAcc" element={<TeacherCreateAcc />} />
 			<Route path="/Schools" element={<Schools />} />
 			<Route path="/Jobs" element={<Jobs />} />
+			<Route path="/Schooljobs" element={<Schooljobs />} />
 			<Route path="/Teachers" element={<Teachers />} />
 		</Routes>
 	);

@@ -1,12 +1,32 @@
+/* This file handles the profile information of teachers and staff and is used with the 
+   TeacherStaffProfile file. */
+
 import React, { useState, useEffect } from "react";
+import { auth } from "../firebase";
 
 export default function ProfileInfo({ userData }) {
+	const [user, setUser] = useState(null);
+
+	useEffect(() => {
+		const unsubscribe = auth.onAuthStateChanged((user) => {
+		  if (user) {
+			setUser(user);
+		  } else {
+			// Redirect or handle non-authenticated user
+			// For example, redirect to the login page
+			window.location.href = "/TeacherLogin";
+		  }
+		});
+	
+		return () => {
+		  unsubscribe();
+		};
+	  }, []);
+
 	// State for managing editing mode
 	const [isEditing, setIsEditing] = useState(false);
-	// State for tracking email input value
+	// State for tracking contact email input value
 	const [email, setEmail] = useState("");
-	// State for tracking password input value
-	const [password, setPassword] = useState("");
 	// State for tracking first name input value
 	const [firstName, setFirstName] = useState("");
 	// State for tracking last name input value
@@ -21,6 +41,11 @@ export default function ProfileInfo({ userData }) {
 	const [resume, setResume] = useState("");
 	// State for tracking testimony input value
 	const [testimony, setTestimony] = useState("");
+	// State for tracking password input value
+	const [degree, setDegree] = useState("");
+	// State for tracking password input value
+	const [location, setLocation] = useState("");
+	
 
 	// Function to toggle editing mode
 	const toggleEditing = () => {
@@ -37,12 +62,21 @@ export default function ProfileInfo({ userData }) {
 		setter(event.target.value);
 	};
 
+	// Function to handle radio button changes for degree
+	const handleDegreeChange = (event) => {
+		setDegree(event.target.value);
+	  };
+
 	useEffect(() => {
 		// Update state when userData changes
-		setEmail(userData?.email || "");
-		setPassword(userData?.password || "");
+		setEmail(userData?.contact_email || "");
 		setFirstName(userData?.first_name || "");
 		setLastName(userData?.last_name || "");
+		setPhoneNumber(userData?.phone || "");
+		setHomeChurch(userData?.home_church || "");
+		setTestimony(userData?.testimony || "");
+		setLocation(userData?.location || "");
+		setDegree(userData?.degree || "");
 		// ... (update other state variables)
 	  }, [userData]);
 
@@ -122,23 +156,13 @@ export default function ProfileInfo({ userData }) {
 				/>
 			</div>
 			<div className="form-group">
-				<label>Email</label>
+				<label>Contact Email</label>
 				<input
 					className="input-field"
 					type="email"
 					value={email}
 					disabled={!isEditing}
 					onChange={(event) => handleInputChange(event, setEmail)}
-				/>
-			</div>
-			<div className="form-group">
-				<label>Password</label>
-				<input
-					className="input-field"
-					type="password"
-					value={password}
-					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setPassword)}
 				/>
 			</div>
 			<div className="form-group">
@@ -169,6 +193,51 @@ export default function ProfileInfo({ userData }) {
 					value={testimony}
 					disabled={!isEditing}
 					onChange={(event) => handleInputChange(event, setTestimony)}
+				/>
+			</div>
+			<div className="form-group">
+				<label>Degree Level</label>
+				{/* Radio buttons for degree levels */}
+				<label className="radio-label">
+				<input
+					type="radio"
+					value="Associate"
+					disabled={!isEditing}
+					checked={degree === "Associate's"}
+					onChange={handleDegreeChange}
+				/>
+				Associate's
+				</label>
+				<label className="radio-label">
+				<input
+					type="radio"
+					value="Bachelor"
+					disabled={!isEditing}
+					checked={degree === "Bachelor's"}
+					onChange={handleDegreeChange}
+				/>
+				Bachelor's
+				</label>
+				<label className="radio-label">
+				<input
+					type="radio"
+					value="Master"
+					disabled={!isEditing}
+					checked={degree === "Master's"}
+					onChange={handleDegreeChange}
+				/>
+				Master's
+				</label>
+				{/* Add more radio buttons for other degree levels as needed */}
+			</div>
+			<div className="form-group">
+				<label>Location (State)</label>
+				<input
+					className="input-field"
+					type="text"
+					value={location}
+					disabled={!isEditing}
+					onChange={(event) => handleInputChange(event, setLocation)}
 				/>
 			</div>
 		</div>

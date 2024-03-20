@@ -140,8 +140,7 @@ button.deactivate-button:hover {
 
 .job-item {
 	background-color: #fff;
-	padding-left: 20px;
-	padding-right: 20px;
+	padding: 10px 20px;
 	margin-bottom: 20px;
 	border-radius: 10px;
 }
@@ -151,7 +150,8 @@ button.deactivate-button:hover {
 	display: flex;
 }
 
-input[type="submit"] {
+input[type="submit"],
+input[type="button"] {
 	position: flex;
 	align-items: flex-end;
 	display: block;
@@ -234,10 +234,10 @@ p {
 	flex-wrap: nowrap;
 }
 
-input[type="submit"].cancel-button {
+input[type="button"].cancel-button {
 	background-color: #cd0001;
 }
 
-input[type="submit"].cancel-button:hover {
+input[type="button"].cancel-button:hover {
 	background-color: #8e0000;
 }

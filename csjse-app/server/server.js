@@ -614,6 +614,54 @@ app.delete('/api/deleteTeacherProfile/:teacherId', (req, res) => {
     });
 });
 
+// API to check if user exists in the Teacher table
+app.get("/api/checkTeacherAccount/:teacherId", (req, res) => {
+    const { teacherId } = req.params;
+
+    // SQL query to check if the user exists in the Teacher table
+    const sql = "SELECT * FROM Teacher_Staff_Profile WHERE teacher_staff_id = ?";
+
+    db.query(sql, [teacherId], (err, results) => {
+        if (err) {
+            console.error("Error checking teacher account:", err);
+            return res.status(500).json({ success: false, error: "Internal Server Error" });
+        }
+
+        // Check if any results are returned
+        if (results.length > 0) {
+            // User exists in the Teacher table
+            return res.json({ success: true, exists: true });
+        } else {
+            // User does not exist in the Teacher table
+            return res.json({ success: true, exists: false });
+        }
+    });
+});
+
+// API to check if user exists in the School table
+app.get("/api/checkSchoolAccount/:schoolId", (req, res) => {
+    const { schoolId } = req.params;
+
+    // SQL query to check if the user exists in the School table
+    const sql = "SELECT * FROM School_Profile WHERE school_id = ?";
+
+    db.query(sql, [schoolId], (err, results) => {
+        if (err) {
+            console.error("Error checking school account:", err);
+            return res.status(500).json({ success: false, error: "Internal Server Error" });
+        }
+
+        // Check if any results are returned
+        if (results.length > 0) {
+            // User exists in the School table
+            return res.json({ success: true, exists: true });
+        } else {
+            // User does not exist in the School table
+            return res.json({ success: true, exists: false });
+        }
+    });
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error('Error occurred:', err.stack);

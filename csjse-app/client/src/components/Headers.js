@@ -29,20 +29,18 @@ function TeacherStaffHeader() {
 	return (
 		<div className="header">
 			<div className="logo">
-				<NavLink to="/" className="title">
-					Christian Schools Job Search
-				</NavLink>
+				<NavLink className="title">Christian Schools Job Search</NavLink>
 			</div>
 
 			<div className="menu">
 				<NavLink
-					to="/jobs"
+					to="/Jobs"
 					className={`menuitem ${isActive("/jobs") ? "active" : ""}`}
 				>
 					Jobs
 				</NavLink>
 				<NavLink
-					to="/schools"
+					to="/Schools"
 					className={`menuitem ${isActive("/schools") ? "active" : ""}`}
 				>
 					Schools
@@ -83,20 +81,18 @@ function SchoolHeader() {
 	return (
 		<div className="header">
 			<div className="logo">
-				<NavLink to="/" className="title">
-					Christian Schools Job Search
-				</NavLink>
+				<NavLink className="title">Christian Schools Job Search</NavLink>
 			</div>
 
 			<div className="menu">
-				<NavLink
-					to="/schooljobs"
-					className={`menuitem ${isActive("/schooljobs") ? "active" : ""}`}
+				{/*<NavLink
+					to="/jobs"
+					className={`menuitem ${isActive("/jobs") ? "active" : ""}`}
 				>
 					Jobs
-				</NavLink>
+	</NavLink>*/}
 				<NavLink
-					to="/teachers"
+					to="/Teachers"
 					className={`menuitem ${isActive("/teachers") ? "active" : ""}`}
 				>
 					Teachers

@@ -257,6 +257,42 @@ app.get('/api/schools', (req, res) => {
     });
 });
 
+// API to fetch information for all jobs with optional search query and filter queries
+app.get('/api/jobs', (req, res) => {
+    // Extract the search query, job_location, and required_degree from the request parameters
+    const { searchTerm, job_location, required_degree } = req.query;
+
+    // SQL query to select specific fields from the Job_Posting table for all jobs
+    let sql = "SELECT job_id, job_title, job_description, job_location, interview_location, contact_email, salary_range, preferred_degree, required_degree, preferred_experience, required_experience, posted_date FROM Job_Posting WHERE 1 = 1";
+
+    // If a search term is provided, add a WHERE clause to filter by job title
+    if (searchTerm) {
+        sql += ` AND job_title LIKE '%${searchTerm}%'`;
+    }
+
+    // If a job_location filter is provided, add a WHERE clause to filter by job_location
+    if (job_location) {
+        sql += ` AND job_location LIKE '%${job_location}%'`;
+    }
+
+    // If a required degree filter is provided, add a WHERE clause to filter by required degree
+    if (required_degree) {
+        sql += ` AND required_degree LIKE '%${required_degree}%'`;
+    }
+
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error fetching filtered jobs list:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+
+        // Jobs information found
+        return res.json({ success: true, jobs: results });
+    });
+});
+
+
+
 //api that adds a job posting to the database
 app.post("/api/createJobPosting", (req, res) => {
 	console.log("Received job posting creation request", req.body);

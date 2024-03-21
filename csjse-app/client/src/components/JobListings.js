@@ -7,6 +7,10 @@ export default function JobListings() {
 	const [schoolId, setSchoolId] = useState(null);
 	const [jobList, setJobList] = useState([]);
 	const [editJobId, setEditJobId] = useState(null);
+	const [degreeOptions] = useState(["Bachelor", "Master", "PhD", "Associate"]); // Define degree options
+    const [selectedDegree, setSelectedDegree] = useState(""); // State to manage selected degree
+	const [location, setLocation] = useState(""); // State to manage the location input
+
 
 	const { school_id } = useParams();
 
@@ -62,6 +66,9 @@ export default function JobListings() {
 	const handleSave = async (e) => {
 		e.preventDefault();
 		try {
+			// Update jobData with the location state
+			setJobData({ ...jobData, job_location: location });
+	
 			const response = await fetch(
 				"http://localhost:5000/api/createJobPosting/",
 				{
@@ -72,12 +79,12 @@ export default function JobListings() {
 					body: JSON.stringify(jobData),
 				}
 			);
-
+	
 			// Parse the response as JSON
 			const data = await response.json();
-
+	
 			console.log(data.success);
-
+	
 			// If response is successful, ...
 			if (data.success) {
 				setShowCreateJobPosting(false);
@@ -125,7 +132,7 @@ export default function JobListings() {
 	const handleEdit = async (jobId) => {
 		try {
 			console.log("Editing job with ID:", jobId); // Add this console statement
-
+	
 			const response = await fetch(
 				`http://localhost:5000/api/getJobPostingInfo?jobId=${jobId}`
 			);
@@ -146,6 +153,10 @@ export default function JobListings() {
 					required_experience: job.required_experience,
 				});
 				setEditJobId(jobId);
+				// Set the location state when editing a job
+				setLocation(job.job_location);
+				// Set the selected degree when editing a job
+				setSelectedDegree(job.required_degree);
 			} else {
 				console.error("Error fetching job data:", data.error);
 			}
@@ -156,18 +167,27 @@ export default function JobListings() {
 
 	//updates the value in specific input fields as they are changed in edit form
 	const handleChange = (e, jobId) => {
-		/*console.log("handleInputChange called");
 		const { name, value } = e.target;
-		console.log("name:", name);
-		console.log("value:", value);
-		if (name === "job_title") {
-			setTitle(value);
-		}*/
-		const { name, value } = e.target;
-		setJobData({
-			...jobData,
-			[name]: value,
-		});
+		if (name === "location") {
+			setLocation(value);
+		} else {
+			setJobData({
+				...jobData,
+				[name]: value,
+			});
+		}
+	};
+
+    // Update handleDegreeChange to set the required_degree field
+	const handleDegreeChange = (degree) => {
+		setSelectedDegree(degree);
+		// Set the required_degree field in jobData
+		setJobData({ ...jobData, required_degree: degree });
+	};
+
+	// Update handleChange to capture location input
+    const handleLocationChange = (e) => {
+		setLocation(e.target.value);
 	};
 
 	//saves the edited job data from edit form to database
@@ -243,15 +263,14 @@ export default function JobListings() {
 						/>
 					</div>
 					<div className="form-group">
-						<label className="label">Job Location</label>
+						<label className="label">Job Location (State, City)</label>
 						<input
 							className="input-field"
-							value={jobData.job_location}
-							onChange={handleChange}
+							value={location}
+							onChange={handleLocationChange}
 							type="text"
-							id="job_location"
-							name="job_location"
-							//required
+							id="location"
+							name="location"  // Make sure the name attribute matches
 						/>
 					</div>
 					<div className="form-group">
@@ -302,15 +321,21 @@ export default function JobListings() {
 					</div>
 					<div className="form-group">
 						<label className="label">Required Degree</label>
-						<input
-							className="input-field"
-							value={jobData.required_degree}
-							onChange={handleChange}
-							type="text"
-							id="required_degree"
-							name="required_degree"
-							//required
-						/>
+						<div className="degree-options">
+							{/* Map over degree options to render radio buttons */}
+							{degreeOptions.map((option) => (
+								<label key={option}>
+									<input
+										type="radio"
+										name="preferred_degree"
+										value={option}
+										checked={selectedDegree === option}
+										onChange={() => handleDegreeChange(option)}
+									/>
+									{option}
+								</label>
+							))}
+						</div>
 					</div>
 					<div className="form-group">
 						<label className="label">Preferred Experience</label>
@@ -377,15 +402,14 @@ export default function JobListings() {
 										/>
 									</div>
 									<div className="form-group">
-										<label className="label">Job Location</label>
+										<label className="label">Job Location (State, City)</label>
 										<input
 											className="input-field"
-											value={jobData.job_location}
-											onChange={handleChange}
+											value={jobData.job_location}  
+											onChange={handleChange}  
 											type="text"
-											id="job_location"
-											name="job_location"
-											required
+											id="job_location"  
+											name="job_location"  
 										/>
 									</div>
 									<div className="form-group">
@@ -436,15 +460,21 @@ export default function JobListings() {
 									</div>
 									<div className="form-group">
 										<label className="label">Required Degree</label>
-										<input
-											className="input-field"
-											value={jobData.required_degree}
-											onChange={handleChange}
-											type="text"
-											id="required_degree"
-											name="required_degree"
-											required
-										/>
+										<div className="degree-options">
+											{/* Map over degree options to render radio buttons */}
+											{degreeOptions.map((option) => (
+												<label key={option}>
+													<input
+														type="radio"
+														name="required_degree"
+														value={option}
+														checked={selectedDegree === option}
+														onChange={() => handleDegreeChange(option)}
+													/>
+													{option}
+												</label>
+											))}
+										</div>
 									</div>
 									<div className="form-group">
 										<label className="label">Preferred Experience</label>

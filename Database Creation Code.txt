@@ -407,7 +407,7 @@ CREATE TABLE Job_Posting (
 DROP TABLE IF EXISTS Reference;
 CREATE TABLE Reference (
     reference_id int AUTO_INCREMENT PRIMARY KEY,
-    teacher_staff_id int,
+    teacher_staff_id varchar(36),
     name varchar(30),
     relation varchar(30),
     relation_type varchar(15),
@@ -419,23 +419,23 @@ DROP TABLE IF EXISTS Saved_Jobs;
 CREATE TABLE Saved_Jobs (
     saved_id int PRIMARY KEY,
     job_id int,
-    teacher_staff_id int
+    teacher_staff_id varchar(36)
 );
 
 DROP TABLE IF EXISTS Job_Applications;
 CREATE TABLE Job_Applications (
     saved_id int PRIMARY KEY,
     job_id int,
-    teacher_staff_id int
+    teacher_staff_id varchar(36)
 );
 
 #Inserts statement for School_Profile - NCA
 INSERT INTO School_Profile (school_id, school_name, location, contact_email, grade_range, zip)
-VALUES ('eeJ0oUJ7y8N8v3b3S3tETRaOiZJ3', 'New Covenant Academy', 'Missouri', 'NCA@gmail.com', K-12, '657');
+VALUES ('eeJ0oUJ7y8N8v3b3S3tETRaOiZJ3', 'New Covenant Academy', 'Missouri', 'NCA@gmail.com', 'K-12', '657');
 
 #Insert statement for School_Profile - SBU
 INSERT INTO School_Profile (school_id, school_name, location, contact_email, grade_range, zip) 
-VALUES ('tISFQe9fyEZ009sI0ItWqJDB8of2', 'Southwest Baptist University', 'Missouri', 'sbu@gmail.com', College, '656');
+VALUES ('tISFQe9fyEZ009sI0ItWqJDB8of2', 'Southwest Baptist University', 'Missouri', 'sbu@gmail.com', 'College', '656');
 
 # Insert statement for Teacher_Staff_Profile - John Washington
 INSERT INTO Teacher_Staff_Profile (teacher_staff_id, first_name, last_name, contact_email, degree, location, zip)
@@ -444,3 +444,11 @@ VALUES ('sOopgExukLMyzwdlnV4WTejwgkT2', 'John', 'Washington', 'jWashington@gmail
 # Insert statement for Teacher_Staff_Profile - Reginald Fitzgerald
 INSERT INTO Teacher_Staff_Profile (teacher_staff_id, first_name, last_name, contact_email, degree, location, zip)
 VALUES ('Fb3EBUkzqzQb6E7yzuin0RLrtpL2', 'Reginald', 'Fitzgerald', 'rFitzgerald@gmail.com', 'Master', 'Kansas', '660');
+
+# Adds field to allow storing of links to job posts
+ALTER TABLE Job_Posting
+ADD COLUMN application_url varchar(255);
+
+CREATE TABLE Admin (
+    admin_id varchar(36) PRIMARY KEY
+);

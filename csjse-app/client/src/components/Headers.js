@@ -110,4 +110,69 @@ function SchoolHeader() {
 	);
 }
 
-export { TeacherStaffHeader, SchoolHeader };
+function AdminHeader() {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+            if (user) {
+                setUser(user);
+            }
+        });
+
+        return () => {
+            unsubscribe();
+        };
+    }, []);
+
+	const isActive = (path) => {
+		return window.location.pathname === path;
+	};
+
+    const handleLogout = () => {
+		auth.signOut()
+			.then(() => {
+				window.location.href = "/"; 
+			})
+			.catch((error) => {
+				console.error("Error during logout:", error);
+			});
+	};
+
+    return (
+        <div className="header">
+            <div className="logo">
+                <NavLink to="/" className="title">
+                    Christian Schools Job Search
+                </NavLink>
+            </div>
+
+            <div className="menu">
+                <NavLink
+                    to="/adminjobs"
+                    className={`menuitem ${isActive("/adminjobs") ? "active" : ""}`}
+                >
+                    Jobs
+                </NavLink>
+                <NavLink
+                    to="/adminteachers"
+                    className={`menuitem ${isActive("/adminteachers") ? "active" : ""}`}
+                >
+                    Teachers
+                </NavLink>
+                <NavLink
+                    to="/adminschools"
+                    className={`menuitem ${isActive("/adminschools") ? "active" : ""}`}
+                >
+                    Schools
+                </NavLink>
+            </div>
+
+            <button className="logout-button" onClick={handleLogout}>
+                Logout
+            </button>
+        </div>
+    );
+}
+
+export { TeacherStaffHeader, SchoolHeader, AdminHeader };

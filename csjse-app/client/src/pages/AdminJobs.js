@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { TeacherStaffHeader } from "../components/Headers";
+import { AdminHeader } from "../components/Headers";
 import "../styles/Jobs.css";
 import JobList from "../components/JobList";
 
-function Jobs() {
+function AdminJobs() {
   const [selectedJob, setSelectedJob] = useState(null);
   const [searchResult, setSearchResult] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -38,7 +38,6 @@ function Jobs() {
 
   const handleSearch = (searchTerm) => {
     setSearchTerm(searchTerm);
-    // No need to call fetchJobs here, useEffect will take care of it
   };
 
   const handleSelectJob = (job) => {
@@ -48,13 +47,11 @@ function Jobs() {
   const handleFilterChange = (event) => {
     const { name, value } = event.target;
     setFilterOptions({ ...filterOptions, [name]: value });
-    // No need to call fetchJobs here, useEffect will take care of it
   };
 
   const handleLocationChange = (event) => {
     const { value } = event.target;
     setFilterOptions({ ...filterOptions, job_location: value });
-    // No need to call fetchJobs here, useEffect will take care of it
   };
 
   const handleReset = () => {
@@ -63,23 +60,29 @@ function Jobs() {
       job_location: "",
       required_degree: ""
     });
-    console.log("Resetting search term and filter options:", {
-      job_location: "",
-      required_degree: ""
-    });
-    // No need to call fetchJobs here, useEffect will take care of it
   };
 
-  const handleApply = () => {
-    // Implement the apply functionality here
-    if (selectedJob && selectedJob.application_link) {
-      window.open(selectedJob.application_link, "_blank");
+  const handleDeleteJob = async (jobId) => {
+    try {
+        const response = await fetch(`http://localhost:5000/api/deleteJob/${jobId}`, {
+            method: 'DELETE',
+        });
+        if (!response.ok) {
+            throw new Error('Failed to delete job');
+        }
+        // After successful deletion, refetch the jobs
+        fetchJobs();
+        // Clear the selected job
+        setSelectedJob(null);
+    } catch (error) {
+        console.error('Error deleting job:', error);
+        // Handle error as needed
     }
-  };
+};
 
   return (
     <div>
-      <TeacherStaffHeader />
+      <AdminHeader />
       <div className="search-bar">
         <input
           type="text"
@@ -111,29 +114,26 @@ function Jobs() {
               searchResult={searchResult}
               searchTerm={searchTerm}
               filterOptions={filterOptions}
+              onDeleteJob={handleDeleteJob} // Pass the delete handler to JobList component
             />
           </div>
           <div className="job-info-column">
-          {selectedJob && (
-            <div>
-              <h2>{selectedJob.job_title}</h2>
-              <p>Job Description: {selectedJob.job_description}</p>
-              <p>Job Location: {selectedJob.job_location}</p>
-              <p>Interview Location: {selectedJob.interview_location}</p>
-              <p>Contact Email: {selectedJob.contact_email}</p>
-              <p>Required Degree: {selectedJob.required_degree}</p>
-              <p>Required Experience: {selectedJob.required_experience}</p>
-              <p>Preferred Degree: {selectedJob.preferred_degree}</p>
-              <p>Preferred Experience: {selectedJob.preferred_experience}</p>
-              <p>Job Link: {selectedJob.application_url}</p>
-              {selectedJob.application_url && (
-                <div>
-                  <a href={selectedJob.application_url} target="_blank" rel="noopener noreferrer">Application Link</a>
-                  <button onClick={handleApply}>Apply</button>
-                </div>
-              )}
-            </div>
-          )}
+            {selectedJob && (
+              <div>
+                <h2>{selectedJob.job_title}</h2>
+                <p>Job Description: {selectedJob.job_description}</p>
+                <p>Job Location: {selectedJob.job_location}</p>
+                <p>Interview Location: {selectedJob.interview_location}</p>
+                <p>Contact Email: {selectedJob.contact_email}</p>
+                <p>Required Degree: {selectedJob.required_degree}</p>
+                <p>Required Experience: {selectedJob.required_experience}</p>
+                <p>Preferred Degree: {selectedJob.preferred_degree}</p>
+                <p>Preferred Experience: {selectedJob.preferred_experience}</p>
+                <p>Job Link: {selectedJob.application_url}</p>
+                {/* Button to delete the selected job */}
+                <button onClick={() => handleDeleteJob(selectedJob.job_id)}>Delete Job</button>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -141,4 +141,4 @@ function Jobs() {
   );
 }
 
-export default Jobs;
+export default AdminJobs;

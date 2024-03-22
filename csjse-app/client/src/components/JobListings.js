@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
@@ -10,6 +11,8 @@ export default function JobListings() {
 	const [degreeOptions] = useState(["Bachelor", "Master", "PhD", "Associate"]); // Define degree options
     const [selectedDegree, setSelectedDegree] = useState(""); // State to manage selected degree
 	const [location, setLocation] = useState(""); // State to manage the location input
+	const [applicationUrl, setApplicationUrl] = useState("");
+
 
 
 	const { school_id } = useParams();
@@ -26,6 +29,7 @@ export default function JobListings() {
 		required_degree: "",
 		preferred_experience: "",
 		required_experience: "",
+		application_url: "",
 	});
 
 	//opens the job posting creation form
@@ -66,8 +70,8 @@ export default function JobListings() {
 	const handleSave = async (e) => {
 		e.preventDefault();
 		try {
-			// Update jobData with the location state
-			setJobData({ ...jobData, job_location: location });
+			// Update jobData with the location state and applicationUrl state
+			setJobData({ ...jobData, job_location: location, application_url: applicationUrl });
 	
 			const response = await fetch(
 				"http://localhost:5000/api/createJobPosting/",
@@ -151,12 +155,15 @@ export default function JobListings() {
 					required_degree: job.required_degree,
 					preferred_experience: job.preferred_experience,
 					required_experience: job.required_experience,
+					application_url: job.application_url, // Update this line
 				});
 				setEditJobId(jobId);
 				// Set the location state when editing a job
 				setLocation(job.job_location);
 				// Set the selected degree when editing a job
 				setSelectedDegree(job.required_degree);
+				// Set the url when editing a job
+				setApplicationUrl(job.application_url);
 			} else {
 				console.error("Error fetching job data:", data.error);
 			}
@@ -185,17 +192,28 @@ export default function JobListings() {
 		setJobData({ ...jobData, required_degree: degree });
 	};
 
-	// Update handleChange to capture location input
+	// Update handleLocationChange to capture location input
     const handleLocationChange = (e) => {
 		setLocation(e.target.value);
-	};
+	};	
+
+	// Update handleApplicationChange to capture the link
+	const handleApplicationUrlChange = (e) => {
+		setApplicationUrl(e.target.value);
+	  };
+	  
 
 	//saves the edited job data from edit form to database
 	//updates viewable job list
 	const handleUpdate = async (e) => {
 		e.preventDefault();
-
+	
 		try {
+			console.log("Sending application URL to backend:", applicationUrl);
+	
+			// Explicitly set the application_url property of jobData
+			const updatedJobData = { ...jobData, application_url: applicationUrl };
+	
 			const response = await fetch(
 				"http://localhost:5000/api/updateJobPosting",
 				{
@@ -203,12 +221,12 @@ export default function JobListings() {
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify({ jobId: editJobId, jobData }),
+					body: JSON.stringify({ jobId: editJobId, jobData: updatedJobData }),
 				}
 			);
-
+	
 			const data = await response.json();
-
+	
 			if (data.success) {
 				setEditJobId(null);
 				fetchJobList();
@@ -254,7 +272,7 @@ export default function JobListings() {
 					<div className="form-group">
 						<label className="label">Job Description</label>
 						<textarea
-							value={jobData.job_descriptiondes}
+							value={jobData.job_description}
 							onChange={handleChange}
 							type="text"
 							id="job_description"
@@ -266,11 +284,11 @@ export default function JobListings() {
 						<label className="label">Job Location (State, City)</label>
 						<input
 							className="input-field"
-							value={location}
-							onChange={handleLocationChange}
+							value={jobData.job_location}
+							onChange={handleChange}
 							type="text"
-							id="location"
-							name="location"  // Make sure the name attribute matches
+							id="job_location"
+							name="job_location"  // Make sure the name attribute matches
 						/>
 					</div>
 					<div className="form-group">
@@ -357,6 +375,17 @@ export default function JobListings() {
 							name="required_experience"
 							//required
 						/>
+					</div>
+					<div className="form-group">
+						<label className="label">Application Link</label>
+							<input
+							className="input-field"
+							value={applicationUrl}
+							onChange={handleApplicationUrlChange}
+							type="text"
+							id="application_url"
+							name="application_url"
+							/>
 					</div>
 					<div className="option-buttons">
 						<input
@@ -496,6 +525,17 @@ export default function JobListings() {
 											name="required_experience"
 											required
 										/>
+									</div>
+									<div className="form-group">
+										<label className="label">Application Link</label>
+											<input
+											className="input-field"
+											value={applicationUrl}
+											onChange={handleApplicationUrlChange}
+											type="text"
+											id="application_url"
+											name="application_url"
+											/>
 									</div>
 									<div className="option-buttons">
 										<input

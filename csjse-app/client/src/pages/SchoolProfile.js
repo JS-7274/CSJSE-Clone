@@ -41,7 +41,9 @@ function SchoolProfile() {
 
 	const checkSchoolAccount = async (schoolId) => {
 		try {
-			const response = await fetch(`http://localhost:5000/api/checkSchoolAccount/${schoolId}`);
+			const response = await fetch(
+				`http://localhost:5000/api/checkSchoolAccount/${schoolId}`
+			);
 			const data = await response.json();
 
 			if (!data.exists) {
@@ -141,8 +143,8 @@ function SchoolProfile() {
 							Logout
 						</button>
 
-						{/* Deactivate account button */}
-						<button className="deactivate-button">Deactivate Account</button>
+						{/* Deactivate account button
+						<button className="deactivate-button">Deactivate Account</button> */}
 					</div>
 				</div>
 				<div className="content">

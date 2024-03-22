@@ -9,19 +9,19 @@ export default function ProfileInfo({ userData }) {
 
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged((user) => {
-		  if (user) {
-			setUser(user);
-		  } else {
-			// Redirect or handle non-authenticated user
-			// For example, redirect to the login page
-			window.location.href = "/TeacherLogin";
-		  }
+			if (user) {
+				setUser(user);
+			} else {
+				// Redirect or handle non-authenticated user
+				// For example, redirect to the login page
+				window.location.href = "/TeacherLogin";
+			}
 		});
-	
+
 		return () => {
-		  unsubscribe();
+			unsubscribe();
 		};
-	  }, []);
+	}, []);
 
 	// State for managing editing mode
 	const [isEditing, setIsEditing] = useState(false);
@@ -45,7 +45,7 @@ export default function ProfileInfo({ userData }) {
 	const [degree, setDegree] = useState("");
 	// State for tracking password input value
 	const [location, setLocation] = useState("");
-	
+	const [zip, setZip] = useState("");
 
 	// Function to toggle editing mode
 	const toggleEditing = () => {
@@ -65,7 +65,7 @@ export default function ProfileInfo({ userData }) {
 	// Function to handle radio button changes for degree
 	const handleDegreeChange = (event) => {
 		setDegree(event.target.value);
-	  };
+	};
 
 	useEffect(() => {
 		// Update state when userData changes
@@ -78,7 +78,7 @@ export default function ProfileInfo({ userData }) {
 		setLocation(userData?.location || "");
 		setDegree(userData?.degree || "");
 		// ... (update other state variables)
-	  }, [userData]);
+	}, [userData]);
 
 	return (
 		<div>
@@ -127,6 +127,7 @@ export default function ProfileInfo({ userData }) {
 				<label className="radio-label">
 					<input
 						type="radio"
+						name="looking-for-job"
 						id="looking-for-job"
 						value="Yes"
 						disabled={!isEditing}
@@ -137,6 +138,7 @@ export default function ProfileInfo({ userData }) {
 				<label className="radio-label">
 					<input
 						type="radio"
+						name="looking-for-job"
 						id="looking-for-job"
 						value="No"
 						disabled={!isEditing}
@@ -165,6 +167,29 @@ export default function ProfileInfo({ userData }) {
 					onChange={(event) => handleInputChange(event, setEmail)}
 				/>
 			</div>
+
+			<div className="form-group">
+				<label>Location State</label>
+				<input
+					className="input-field"
+					type="text"
+					value={location}
+					disabled={!isEditing}
+					onChange={(event) => handleInputChange(event, setLocation)}
+				/>
+			</div>
+
+			<div className="form-group">
+				<label>Location Zip Code</label>
+				<input
+					className="input-field"
+					type="text"
+					value={zip}
+					disabled={!isEditing}
+					onChange={(event) => handleInputChange(event, setZip)}
+				/>
+			</div>
+
 			<div className="form-group">
 				<label>Home Church</label>
 				<input
@@ -174,6 +199,47 @@ export default function ProfileInfo({ userData }) {
 					disabled={!isEditing}
 					onChange={(event) => handleInputChange(event, setHomeChurch)}
 				/>
+			</div>
+			<div className="form-group">
+				<label>Degree Level</label>
+				{/* Radio buttons for degree levels */}
+				<label className="radio-label">
+					<input
+						type="radio"
+						name="degree-level"
+						id="degree-level"
+						value="Associate"
+						disabled={!isEditing}
+						//checked={degree === "Associate's"}
+						onChange={handleDegreeChange}
+					/>
+					Associate's
+				</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						name="degree-level"
+						id="degree-level"
+						value="Bachelor"
+						disabled={!isEditing}
+						//checked={degree === "Bachelor's"}
+						onChange={handleDegreeChange}
+					/>
+					Bachelor's
+				</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						name="degree-level"
+						id="degree-level"
+						value="Master"
+						disabled={!isEditing}
+						//checked={degree === "Master's"}
+						onChange={handleDegreeChange}
+					/>
+					Master's
+				</label>
+				{/* Add more radio buttons for other degree levels as needed */}
 			</div>
 			<div className="form-group">
 				<label>Resume</label>
@@ -193,51 +259,6 @@ export default function ProfileInfo({ userData }) {
 					value={testimony}
 					disabled={!isEditing}
 					onChange={(event) => handleInputChange(event, setTestimony)}
-				/>
-			</div>
-			<div className="form-group">
-				<label>Degree Level</label>
-				{/* Radio buttons for degree levels */}
-				<label className="radio-label">
-				<input
-					type="radio"
-					value="Associate"
-					disabled={!isEditing}
-					checked={degree === "Associate's"}
-					onChange={handleDegreeChange}
-				/>
-				Associate's
-				</label>
-				<label className="radio-label">
-				<input
-					type="radio"
-					value="Bachelor"
-					disabled={!isEditing}
-					checked={degree === "Bachelor's"}
-					onChange={handleDegreeChange}
-				/>
-				Bachelor's
-				</label>
-				<label className="radio-label">
-				<input
-					type="radio"
-					value="Master"
-					disabled={!isEditing}
-					checked={degree === "Master's"}
-					onChange={handleDegreeChange}
-				/>
-				Master's
-				</label>
-				{/* Add more radio buttons for other degree levels as needed */}
-			</div>
-			<div className="form-group">
-				<label>Location (State)</label>
-				<input
-					className="input-field"
-					type="text"
-					value={location}
-					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setLocation)}
 				/>
 			</div>
 		</div>

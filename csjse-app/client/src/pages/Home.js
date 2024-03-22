@@ -29,6 +29,7 @@ function Home() {
 						<div className="dropdown-content">
 							<Link to="/TeacherLogin">Teachers/Staff</Link>
 							<Link to="/SchoolLogin">Schools</Link>
+							<Link to="/AdminLogin">Admin</Link>
 						</div>
 					</div>
 				</div>

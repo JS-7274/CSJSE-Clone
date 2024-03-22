@@ -23,12 +23,12 @@ const db = mysql.createConnection({
 });
 
 // Connect MySQL
-db.connect((err) => {
+/* db.connect((err) => {
 	if (err) {
 		throw err;
 	}
 	console.log("Connected to MySQL");
-});
+}); */
 
 // Api to handle requests from teachers to create account
 app.post("/api/tCreateAccount", (req, res) => {
@@ -263,7 +263,7 @@ app.get('/api/jobs', (req, res) => {
     const { searchTerm, job_location, required_degree } = req.query;
 
     // SQL query to select specific fields from the Job_Posting table for all jobs
-    let sql = "SELECT job_id, job_title, job_description, job_location, interview_location, contact_email, salary_range, preferred_degree, required_degree, preferred_experience, required_experience, posted_date FROM Job_Posting WHERE 1 = 1";
+    let sql = "SELECT job_id, job_title, job_description, job_location, interview_location, contact_email, salary_range, preferred_degree, required_degree, preferred_experience, required_experience, posted_date, application_url FROM Job_Posting WHERE 1 = 1";
 
     // If a search term is provided, add a WHERE clause to filter by job title
     if (searchTerm) {
@@ -310,6 +310,7 @@ app.post("/api/createJobPosting", (req, res) => {
 		required_degree,
 		preferred_experience,
 		required_experience,
+		application_url,
 	} = req.body;
 	console.log("School ID:", school_id);
 
@@ -332,8 +333,8 @@ app.post("/api/createJobPosting", (req, res) => {
 		// updates the sjob_posting database first so it can get the automatically generated ID
 		const insertJobPostingSql = `
 		INSERT INTO Job_Posting (
-			school_id, job_title, job_description, job_location, interview_location, contact_email, salary_range, preferred_degree, required_degree, preferred_experience, required_experience, posted_date 
-		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+			school_id, job_title, job_description, job_location, interview_location, contact_email, salary_range, preferred_degree, required_degree, preferred_experience, required_experience, posted_date, application_url 
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)
 		`;
 
 		db.query(
@@ -350,6 +351,7 @@ app.post("/api/createJobPosting", (req, res) => {
 				required_degree,
 				preferred_experience,
 				required_experience,
+				application_url,
 			],
 			(err, results) => {
 				if (err) {
@@ -449,7 +451,8 @@ app.post("/api/updateJobPosting", (req, res) => {
                 preferred_degree = ?, 
                 required_degree = ?, 
                 preferred_experience = ?, 
-                required_experience = ?
+                required_experience = ?,
+				application_url = ?
             WHERE job_id = ?
         `;
 
@@ -466,6 +469,7 @@ app.post("/api/updateJobPosting", (req, res) => {
 				jobData.required_degree,
 				jobData.preferred_experience,
 				jobData.required_experience,
+				jobData.application_url,
 				jobId, // jobId used in the WHERE
 			],
 			(err, results) => {
@@ -478,6 +482,184 @@ app.post("/api/updateJobPosting", (req, res) => {
 			}
 		);
 	});
+});
+
+// API to check if user exists in the Admin table
+app.get("/api/checkAdminAccount/:uid", (req, res) => {
+    const { uid } = req.params;
+
+    // SQL query to check if the user exists in the Admin table
+    const sql = "SELECT * FROM Admin WHERE admin_id = ?";
+
+    db.query(sql, [uid], (err, results) => {
+        if (err) {
+            console.error("Error checking admin account:", err);
+            return res.status(500).json({ success: false, error: "Internal Server Error" });
+        }
+
+        // Check if any results are returned
+        if (results.length > 0) {
+            // User exists in the Admin table
+            return res.json({ success: true, exists: true });
+        } else {
+            // User does not exist in the Admin table
+            return res.json({ success: true, exists: false });
+        }
+    });
+});
+
+// API to delete a job posting
+app.delete("/api/deleteJob/:jobId", (req, res) => {
+    const { jobId } = req.params;
+
+    // SQL query to delete the job posting with the given jobId
+    const sql = "DELETE FROM Job_Posting WHERE job_id = ?";
+
+    db.query(sql, [jobId], (err, results) => {
+        if (err) {
+            console.error("Error deleting job:", err);
+            return res.status(500).json({ success: false, error: "Internal Server Error" });
+        }
+
+        // Check if any rows were affected (i.e., if the job was deleted)
+        if (results.affectedRows > 0) {
+            return res.json({ success: true, message: "Job deleted successfully" });
+        } else {
+            return res.status(404).json({ success: false, error: "Job not found" });
+        }
+    });
+});
+
+// DELETE endpoint for deleting records from Job_Posting table by school_id
+app.delete('/api/deleteJobPostingsBySchool/:schoolId', (req, res) => {
+    const { schoolId } = req.params;
+    const query = 'DELETE FROM Job_Posting WHERE school_id = ?';
+    console.log(query);
+    console.log(schoolId);
+    db.query(query, [schoolId], (error, result) => {
+        if (error) {
+            console.error('Error deleting from Job_Posting table:', error);
+            return res.status(500).json({ success: false, error: 'Internal Server Error' });
+        }
+        res.status(200).json({ success: true, message: 'Records deleted from Job_Posting table successfully' });
+    });
+});
+
+// DELETE endpoint for deleting records from School_Profile table
+app.delete('/api/deleteSchool/:schoolId', (req, res) => {
+    const { schoolId } = req.params;
+    const query = 'DELETE FROM School_Profile WHERE school_id = ?';
+    console.log(query);
+    console.log(schoolId);
+    db.query(query, [schoolId], (error, result) => {
+        if (error) {
+            console.error('Error deleting from School_Profile table:', error);
+            return res.status(500).json({ success: false, error: 'Internal Server Error' });
+        }
+        res.status(200).json({ success: true, message: 'Record deleted from School_Profile table successfully' });
+    });
+});
+
+// DELETE endpoint for deleting records from Saved_Jobs table
+app.delete('/api/deleteSavedJobs/:teacherId', (req, res) => {
+    const { teacherId } = req.params;
+    const query = 'DELETE FROM Saved_Jobs WHERE teacher_staff_id = ?';
+	console.log(query);
+	console.log(teacherId);
+    db.query(query, [teacherId], (error, result) => {
+        if (error) {
+            console.error('Error deleting from Saved_Jobs table:', error);
+            return res.status(500).json({ success: false, error: 'Internal Server Error' });
+        }
+        res.status(200).json({ success: true, message: 'Records deleted from Saved_Jobs table successfully' });
+    });
+});
+
+// DELETE endpoint for deleting records from Job_Applications table
+app.delete('/api/deleteJobApplications/:teacherId', (req, res) => {
+    const { teacherId } = req.params;
+    const query = 'DELETE FROM Job_Applications WHERE teacher_staff_id = ?';
+    db.query(query, [teacherId], (error, result) => {
+        if (error) {
+            console.error('Error deleting from Job_Applications table:', error);
+            return res.status(500).json({ success: false, error: 'Internal Server Error' });
+        }
+        res.status(200).json({ success: true, message: 'Records deleted from Job_Applications table successfully' });
+    });
+});
+
+// DELETE endpoint for deleting records from Reference table
+app.delete('/api/deleteReference/:teacherId', (req, res) => {
+    const { teacherId } = req.params;
+    const query = 'DELETE FROM Reference WHERE teacher_staff_id = ?';
+    db.query(query, [teacherId], (error, result) => {
+        if (error) {
+            console.error('Error deleting from Reference table:', error);
+            return res.status(500).json({ success: false, error: 'Internal Server Error' });
+        }
+        res.status(200).json({ success: true, message: 'Records deleted from Reference table successfully' });
+    });
+});
+
+// DELETE endpoint for deleting records from Teacher_Staff_Profile table
+app.delete('/api/deleteTeacherProfile/:teacherId', (req, res) => {
+    const { teacherId } = req.params;
+    const query = 'DELETE FROM Teacher_Staff_Profile WHERE teacher_staff_id = ?';
+    db.query(query, [teacherId], (error, result) => {
+        if (error) {
+            console.error('Error deleting from Teacher_Staff_Profile table:', error);
+            return res.status(500).json({ success: false, error: 'Internal Server Error' });
+        }
+        res.status(200).json({ success: true, message: 'Records deleted from Teacher_Staff_Profile table successfully' });
+    });
+});
+
+// API to check if user exists in the Teacher table
+app.get("/api/checkTeacherAccount/:teacherId", (req, res) => {
+    const { teacherId } = req.params;
+
+    // SQL query to check if the user exists in the Teacher table
+    const sql = "SELECT * FROM Teacher_Staff_Profile WHERE teacher_staff_id = ?";
+
+    db.query(sql, [teacherId], (err, results) => {
+        if (err) {
+            console.error("Error checking teacher account:", err);
+            return res.status(500).json({ success: false, error: "Internal Server Error" });
+        }
+
+        // Check if any results are returned
+        if (results.length > 0) {
+            // User exists in the Teacher table
+            return res.json({ success: true, exists: true });
+        } else {
+            // User does not exist in the Teacher table
+            return res.json({ success: true, exists: false });
+        }
+    });
+});
+
+// API to check if user exists in the School table
+app.get("/api/checkSchoolAccount/:schoolId", (req, res) => {
+    const { schoolId } = req.params;
+
+    // SQL query to check if the user exists in the School table
+    const sql = "SELECT * FROM School_Profile WHERE school_id = ?";
+
+    db.query(sql, [schoolId], (err, results) => {
+        if (err) {
+            console.error("Error checking school account:", err);
+            return res.status(500).json({ success: false, error: "Internal Server Error" });
+        }
+
+        // Check if any results are returned
+        if (results.length > 0) {
+            // User exists in the School table
+            return res.json({ success: true, exists: true });
+        } else {
+            // User does not exist in the School table
+            return res.json({ success: true, exists: false });
+        }
+    });
 });
 
 // Error handling middleware

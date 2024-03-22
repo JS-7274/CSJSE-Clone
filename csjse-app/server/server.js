@@ -1,16 +1,16 @@
 /* This document will establish a connection to the database as well as
    create all the APIs that the frontend will call to interact with the database. */
 
-const express = require('express')
-const mysql = require('mysql2')
-const bodyParser = require('body-parser')
-const cors = require('cors')
-const app = express()
-const dotenv = require('dotenv');
-const port = process.env.PORT || 5000
+const express = require("express");
+const mysql = require("mysql2");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const app = express();
+const dotenv = require("dotenv");
+const port = process.env.PORT || 5000;
 
-app.use(cors()) // Enable CORS for all routes
-app.use(bodyParser.json()) // Use JSON parser for incoming requests
+app.use(cors()); // Enable CORS for all routes
+app.use(bodyParser.json()); // Use JSON parser for incoming requests
 
 dotenv.config({ path: "./.env" });
 
@@ -169,129 +169,129 @@ app.get("/api/school/users/:school_id", (req, res) => {
 });
 
 // API to fetch information for all teachers with optional search query and filter queries
-app.get('/api/teachers', (req, res) => {
-    // Extract the search query, degree, location, zip, and looking from the request parameters
-    const { searchQuery, degree, location, zip, looking } = req.query;
+app.get("/api/teachers", (req, res) => {
+	// Extract the search query, degree, location, zip, and looking from the request parameters
+	const { searchQuery, degree, location, zip, looking } = req.query;
 
-    // SQL query to select specific fields from the Teacher_Profile table for all teachers
-    let sql = "SELECT teacher_staff_id, first_name, last_name, looking, phone, contact_email, home_church, resume, testimony, cover_letter, degree, location, zip FROM Teacher_Staff_Profile WHERE 1 = 1";
+	// SQL query to select specific fields from the Teacher_Profile table for all teachers
+	let sql =
+		"SELECT teacher_staff_id, first_name, last_name, looking, phone, contact_email, home_church, resume, testimony, cover_letter, degree, location, zip FROM Teacher_Staff_Profile WHERE 1 = 1";
 
-    // If a search query is provided, add a WHERE clause to filter by name
-    if (searchQuery) {
-        sql += ` AND (first_name LIKE '%${searchQuery}%' OR last_name LIKE '%${searchQuery}%')`;
-    }
+	// If a search query is provided, add a WHERE clause to filter by name
+	if (searchQuery) {
+		sql += ` AND (first_name LIKE '%${searchQuery}%' OR last_name LIKE '%${searchQuery}%')`;
+	}
 
-    // If a degree filter is provided, add a WHERE clause to filter by degree
-    if (degree) {
-        sql += ` AND degree = '${degree}'`;
-    }
+	// If a degree filter is provided, add a WHERE clause to filter by degree
+	if (degree) {
+		sql += ` AND degree = '${degree}'`;
+	}
 
-    // If a location filter is provided, add a WHERE clause to filter by location
-    if (location) {
-        sql += ` AND location LIKE '%${location}%'`; // Use LIKE for partial matches
-    }
+	// If a location filter is provided, add a WHERE clause to filter by location
+	if (location) {
+		sql += ` AND location LIKE '%${location}%'`; // Use LIKE for partial matches
+	}
 
-    // If a zip is provided, add a WHERE clause to filter by zip
-    if (zip !== undefined && zip !== '') {
-        sql += ` AND LEFT(zip, 3) = '${zip}'`; // Filter by first 3 digits of zip code
-    }
+	// If a zip is provided, add a WHERE clause to filter by zip
+	if (zip !== undefined && zip !== "") {
+		sql += ` AND LEFT(zip, 3) = '${zip}'`; // Filter by first 3 digits of zip code
+	}
 
-    // If looking filter is provided, add a WHERE clause to filter by looking
-    if (looking === 'true') {
-        sql += ` AND looking = true`;
-    }
+	// If looking filter is provided, add a WHERE clause to filter by looking
+	if (looking === "true") {
+		sql += ` AND looking = true`;
+	}
 
-    db.query(sql, (err, results) => {
-        if (err) {
-            console.error('Error fetching filtered teachers list:', err);
-            return res.status(500).json({ error: 'Internal Server Error' });
-        }
+	db.query(sql, (err, results) => {
+		if (err) {
+			console.error("Error fetching filtered teachers list:", err);
+			return res.status(500).json({ error: "Internal Server Error" });
+		}
 
-        // Teachers information found
-        return res.json({ success: true, teachers: results });
-    });
+		// Teachers information found
+		return res.json({ success: true, teachers: results });
+	});
 });
 
 // API to fetch information for all schools with optional search query and filter queries
-app.get('/api/schools', (req, res) => {
-    // Extract the search query, grade range, location, and zip code from the request parameters
-    const { searchQuery, gradeRange, location, zip, looking } = req.query;
+app.get("/api/schools", (req, res) => {
+	// Extract the search query, grade range, location, and zip code from the request parameters
+	const { searchQuery, gradeRange, location, zip, looking } = req.query;
 
-    // SQL query to select specific fields from the School_Profile table for all schools
-    let sql = "SELECT school_id, school_name, location, campus_number, phone, looking, website, statement_of_faith, accreditation, teachers_employed, student_enrollment, contact_email, grade_range, zip FROM School_Profile WHERE 1 = 1";
+	// SQL query to select specific fields from the School_Profile table for all schools
+	let sql =
+		"SELECT school_id, school_name, location, campus_number, phone, looking, website, statement_of_faith, accreditation, teachers_employed, student_enrollment, contact_email, grade_range, zip FROM School_Profile WHERE 1 = 1";
 
-    // If a search query is provided, add a WHERE clause to filter by school name
-    if (searchQuery) {
-        sql += ` AND school_name LIKE '%${searchQuery}%'`;
-    }
+	// If a search query is provided, add a WHERE clause to filter by school name
+	if (searchQuery) {
+		sql += ` AND school_name LIKE '%${searchQuery}%'`;
+	}
 
-    // If a grade range filter is provided, add a WHERE clause to filter by grade range
-    if (gradeRange) {
-        sql += ` AND grade_range = '${gradeRange}'`;
-    }
+	// If a grade range filter is provided, add a WHERE clause to filter by grade range
+	if (gradeRange) {
+		sql += ` AND grade_range = '${gradeRange}'`;
+	}
 
-    // If a location filter is provided, add a WHERE clause to filter by location
-    if (location) {
-        sql += ` AND location LIKE '%${location}%'`; // Use LIKE for partial matches
-    }
+	// If a location filter is provided, add a WHERE clause to filter by location
+	if (location) {
+		sql += ` AND location LIKE '%${location}%'`; // Use LIKE for partial matches
+	}
 
-    // If a zip is provided, add a WHERE clause to filter by zip
-    if (zip) {
-        sql += ` AND LEFT(zip, 3) = '${zip}'`; // Use LEFT function to extract first 3 digits of zip code
-    }
+	// If a zip is provided, add a WHERE clause to filter by zip
+	if (zip) {
+		sql += ` AND LEFT(zip, 3) = '${zip}'`; // Use LEFT function to extract first 3 digits of zip code
+	}
 
 	// If looking filter is provided, add a WHERE clause to filter by looking
-    if (looking === 'true') {
-        sql += ` AND looking = true`;
-    }
+	if (looking === "true") {
+		sql += ` AND looking = true`;
+	}
 
+	db.query(sql, (err, results) => {
+		if (err) {
+			console.error("Error fetching filtered schools list:", err);
+			return res.status(500).json({ error: "Internal Server Error" });
+		}
 
-    db.query(sql, (err, results) => {
-        if (err) {
-            console.error('Error fetching filtered schools list:', err);
-            return res.status(500).json({ error: 'Internal Server Error' });
-        }
-
-        // Schools information found
-        return res.json({ success: true, schools: results });
-    });
+		// Schools information found
+		return res.json({ success: true, schools: results });
+	});
 });
 
 // API to fetch information for all jobs with optional search query and filter queries
-app.get('/api/jobs', (req, res) => {
-    // Extract the search query, job_location, and required_degree from the request parameters
-    const { searchTerm, job_location, required_degree } = req.query;
+app.get("/api/jobs", (req, res) => {
+	// Extract the search query, job_location, and required_degree from the request parameters
+	const { searchTerm, job_location, required_degree } = req.query;
 
-    // SQL query to select specific fields from the Job_Posting table for all jobs
-    let sql = "SELECT job_id, job_title, job_description, job_location, interview_location, contact_email, salary_range, preferred_degree, required_degree, preferred_experience, required_experience, posted_date, application_url FROM Job_Posting WHERE 1 = 1";
+	// SQL query to select specific fields from the Job_Posting table for all jobs
+	let sql =
+		"SELECT job_id, job_title, job_description, job_location, interview_location, contact_email, salary_range, preferred_degree, required_degree, preferred_experience, required_experience, posted_date, application_url FROM Job_Posting WHERE 1 = 1";
 
-    // If a search term is provided, add a WHERE clause to filter by job title
-    if (searchTerm) {
-        sql += ` AND job_title LIKE '%${searchTerm}%'`;
-    }
+	// If a search term is provided, add a WHERE clause to filter by job title
+	if (searchTerm) {
+		sql += ` AND job_title LIKE '%${searchTerm}%'`;
+	}
 
-    // If a job_location filter is provided, add a WHERE clause to filter by job_location
-    if (job_location) {
-        sql += ` AND job_location LIKE '%${job_location}%'`;
-    }
+	// If a job_location filter is provided, add a WHERE clause to filter by job_location
+	if (job_location) {
+		sql += ` AND job_location LIKE '%${job_location}%'`;
+	}
 
-    // If a required degree filter is provided, add a WHERE clause to filter by required degree
-    if (required_degree) {
-        sql += ` AND required_degree LIKE '%${required_degree}%'`;
-    }
+	// If a required degree filter is provided, add a WHERE clause to filter by required degree
+	if (required_degree) {
+		sql += ` AND required_degree LIKE '%${required_degree}%'`;
+	}
 
-    db.query(sql, (err, results) => {
-        if (err) {
-            console.error('Error fetching filtered jobs list:', err);
-            return res.status(500).json({ error: 'Internal Server Error' });
-        }
+	db.query(sql, (err, results) => {
+		if (err) {
+			console.error("Error fetching filtered jobs list:", err);
+			return res.status(500).json({ error: "Internal Server Error" });
+		}
 
-        // Jobs information found
-        return res.json({ success: true, jobs: results });
-    });
+		// Jobs information found
+		return res.json({ success: true, jobs: results });
+	});
 });
-
-
 
 //api that adds a job posting to the database
 app.post("/api/createJobPosting", (req, res) => {
@@ -486,191 +486,244 @@ app.post("/api/updateJobPosting", (req, res) => {
 
 // API to check if user exists in the Admin table
 app.get("/api/checkAdminAccount/:uid", (req, res) => {
-    const { uid } = req.params;
+	const { uid } = req.params;
 
-    // SQL query to check if the user exists in the Admin table
-    const sql = "SELECT * FROM Admin WHERE admin_id = ?";
+	// SQL query to check if the user exists in the Admin table
+	const sql = "SELECT * FROM Admin WHERE admin_id = ?";
 
-    db.query(sql, [uid], (err, results) => {
-        if (err) {
-            console.error("Error checking admin account:", err);
-            return res.status(500).json({ success: false, error: "Internal Server Error" });
-        }
+	db.query(sql, [uid], (err, results) => {
+		if (err) {
+			console.error("Error checking admin account:", err);
+			return res
+				.status(500)
+				.json({ success: false, error: "Internal Server Error" });
+		}
 
-        // Check if any results are returned
-        if (results.length > 0) {
-            // User exists in the Admin table
-            return res.json({ success: true, exists: true });
-        } else {
-            // User does not exist in the Admin table
-            return res.json({ success: true, exists: false });
-        }
-    });
+		// Check if any results are returned
+		if (results.length > 0) {
+			// User exists in the Admin table
+			return res.json({ success: true, exists: true });
+		} else {
+			// User does not exist in the Admin table
+			return res.json({ success: true, exists: false });
+		}
+	});
 });
 
 // API to delete a job posting
 app.delete("/api/deleteJob/:jobId", (req, res) => {
-    const { jobId } = req.params;
+	const { jobId } = req.params;
 
-    // SQL query to delete the job posting with the given jobId
-    const sql = "DELETE FROM Job_Posting WHERE job_id = ?";
+	// SQL query to delete the job posting with the given jobId
+	const sql = "DELETE FROM Job_Posting WHERE job_id = ?";
 
-    db.query(sql, [jobId], (err, results) => {
-        if (err) {
-            console.error("Error deleting job:", err);
-            return res.status(500).json({ success: false, error: "Internal Server Error" });
-        }
+	db.query(sql, [jobId], (err, results) => {
+		if (err) {
+			console.error("Error deleting job:", err);
+			return res
+				.status(500)
+				.json({ success: false, error: "Internal Server Error" });
+		}
 
-        // Check if any rows were affected (i.e., if the job was deleted)
-        if (results.affectedRows > 0) {
-            return res.json({ success: true, message: "Job deleted successfully" });
-        } else {
-            return res.status(404).json({ success: false, error: "Job not found" });
-        }
-    });
+		// Check if any rows were affected (i.e., if the job was deleted)
+		if (results.affectedRows > 0) {
+			return res.json({ success: true, message: "Job deleted successfully" });
+		} else {
+			return res.status(404).json({ success: false, error: "Job not found" });
+		}
+	});
 });
 
 // DELETE endpoint for deleting records from Job_Posting table by school_id
-app.delete('/api/deleteJobPostingsBySchool/:schoolId', (req, res) => {
-    const { schoolId } = req.params;
-    const query = 'DELETE FROM Job_Posting WHERE school_id = ?';
-    console.log(query);
-    console.log(schoolId);
-    db.query(query, [schoolId], (error, result) => {
-        if (error) {
-            console.error('Error deleting from Job_Posting table:', error);
-            return res.status(500).json({ success: false, error: 'Internal Server Error' });
-        }
-        res.status(200).json({ success: true, message: 'Records deleted from Job_Posting table successfully' });
-    });
+app.delete("/api/deleteJobPostingsBySchool/:schoolId", (req, res) => {
+	const { schoolId } = req.params;
+	const query = "DELETE FROM Job_Posting WHERE school_id = ?";
+	console.log(query);
+	console.log(schoolId);
+	db.query(query, [schoolId], (error, result) => {
+		if (error) {
+			console.error("Error deleting from Job_Posting table:", error);
+			return res
+				.status(500)
+				.json({ success: false, error: "Internal Server Error" });
+		}
+		res
+			.status(200)
+			.json({
+				success: true,
+				message: "Records deleted from Job_Posting table successfully",
+			});
+	});
 });
 
 // DELETE endpoint for deleting records from School_Profile table
-app.delete('/api/deleteSchool/:schoolId', (req, res) => {
-    const { schoolId } = req.params;
-    const query = 'DELETE FROM School_Profile WHERE school_id = ?';
-    console.log(query);
-    console.log(schoolId);
-    db.query(query, [schoolId], (error, result) => {
-        if (error) {
-            console.error('Error deleting from School_Profile table:', error);
-            return res.status(500).json({ success: false, error: 'Internal Server Error' });
-        }
-        res.status(200).json({ success: true, message: 'Record deleted from School_Profile table successfully' });
-    });
+app.delete("/api/deleteSchool/:schoolId", (req, res) => {
+	const { schoolId } = req.params;
+	const query = "DELETE FROM School_Profile WHERE school_id = ?";
+	console.log(query);
+	console.log(schoolId);
+	db.query(query, [schoolId], (error, result) => {
+		if (error) {
+			console.error("Error deleting from School_Profile table:", error);
+			return res
+				.status(500)
+				.json({ success: false, error: "Internal Server Error" });
+		}
+		res
+			.status(200)
+			.json({
+				success: true,
+				message: "Record deleted from School_Profile table successfully",
+			});
+	});
 });
 
 // DELETE endpoint for deleting records from Saved_Jobs table
-app.delete('/api/deleteSavedJobs/:teacherId', (req, res) => {
-    const { teacherId } = req.params;
-    const query = 'DELETE FROM Saved_Jobs WHERE teacher_staff_id = ?';
+app.delete("/api/deleteSavedJobs/:teacherId", (req, res) => {
+	const { teacherId } = req.params;
+	const query = "DELETE FROM Saved_Jobs WHERE teacher_staff_id = ?";
 	console.log(query);
 	console.log(teacherId);
-    db.query(query, [teacherId], (error, result) => {
-        if (error) {
-            console.error('Error deleting from Saved_Jobs table:', error);
-            return res.status(500).json({ success: false, error: 'Internal Server Error' });
-        }
-        res.status(200).json({ success: true, message: 'Records deleted from Saved_Jobs table successfully' });
-    });
+	db.query(query, [teacherId], (error, result) => {
+		if (error) {
+			console.error("Error deleting from Saved_Jobs table:", error);
+			return res
+				.status(500)
+				.json({ success: false, error: "Internal Server Error" });
+		}
+		res
+			.status(200)
+			.json({
+				success: true,
+				message: "Records deleted from Saved_Jobs table successfully",
+			});
+	});
 });
 
 // DELETE endpoint for deleting records from Job_Applications table
-app.delete('/api/deleteJobApplications/:teacherId', (req, res) => {
-    const { teacherId } = req.params;
-    const query = 'DELETE FROM Job_Applications WHERE teacher_staff_id = ?';
-    db.query(query, [teacherId], (error, result) => {
-        if (error) {
-            console.error('Error deleting from Job_Applications table:', error);
-            return res.status(500).json({ success: false, error: 'Internal Server Error' });
-        }
-        res.status(200).json({ success: true, message: 'Records deleted from Job_Applications table successfully' });
-    });
+app.delete("/api/deleteJobApplications/:teacherId", (req, res) => {
+	const { teacherId } = req.params;
+	const query = "DELETE FROM Job_Applications WHERE teacher_staff_id = ?";
+	db.query(query, [teacherId], (error, result) => {
+		if (error) {
+			console.error("Error deleting from Job_Applications table:", error);
+			return res
+				.status(500)
+				.json({ success: false, error: "Internal Server Error" });
+		}
+		res
+			.status(200)
+			.json({
+				success: true,
+				message: "Records deleted from Job_Applications table successfully",
+			});
+	});
 });
 
 // DELETE endpoint for deleting records from Reference table
-app.delete('/api/deleteReference/:teacherId', (req, res) => {
-    const { teacherId } = req.params;
-    const query = 'DELETE FROM Reference WHERE teacher_staff_id = ?';
-    db.query(query, [teacherId], (error, result) => {
-        if (error) {
-            console.error('Error deleting from Reference table:', error);
-            return res.status(500).json({ success: false, error: 'Internal Server Error' });
-        }
-        res.status(200).json({ success: true, message: 'Records deleted from Reference table successfully' });
-    });
+app.delete("/api/deleteReference/:teacherId", (req, res) => {
+	const { teacherId } = req.params;
+	const query = "DELETE FROM Reference WHERE teacher_staff_id = ?";
+	db.query(query, [teacherId], (error, result) => {
+		if (error) {
+			console.error("Error deleting from Reference table:", error);
+			return res
+				.status(500)
+				.json({ success: false, error: "Internal Server Error" });
+		}
+		res
+			.status(200)
+			.json({
+				success: true,
+				message: "Records deleted from Reference table successfully",
+			});
+	});
 });
 
 // DELETE endpoint for deleting records from Teacher_Staff_Profile table
-app.delete('/api/deleteTeacherProfile/:teacherId', (req, res) => {
-    const { teacherId } = req.params;
-    const query = 'DELETE FROM Teacher_Staff_Profile WHERE teacher_staff_id = ?';
-    db.query(query, [teacherId], (error, result) => {
-        if (error) {
-            console.error('Error deleting from Teacher_Staff_Profile table:', error);
-            return res.status(500).json({ success: false, error: 'Internal Server Error' });
-        }
-        res.status(200).json({ success: true, message: 'Records deleted from Teacher_Staff_Profile table successfully' });
-    });
+app.delete("/api/deleteTeacherProfile/:teacherId", (req, res) => {
+	const { teacherId } = req.params;
+	const query = "DELETE FROM Teacher_Staff_Profile WHERE teacher_staff_id = ?";
+	db.query(query, [teacherId], (error, result) => {
+		if (error) {
+			console.error("Error deleting from Teacher_Staff_Profile table:", error);
+			return res
+				.status(500)
+				.json({ success: false, error: "Internal Server Error" });
+		}
+		res
+			.status(200)
+			.json({
+				success: true,
+				message:
+					"Records deleted from Teacher_Staff_Profile table successfully",
+			});
+	});
 });
 
 // API to check if user exists in the Teacher table
 app.get("/api/checkTeacherAccount/:teacherId", (req, res) => {
-    const { teacherId } = req.params;
+	const { teacherId } = req.params;
 
-    // SQL query to check if the user exists in the Teacher table
-    const sql = "SELECT * FROM Teacher_Staff_Profile WHERE teacher_staff_id = ?";
+	// SQL query to check if the user exists in the Teacher table
+	const sql = "SELECT * FROM Teacher_Staff_Profile WHERE teacher_staff_id = ?";
 
-    db.query(sql, [teacherId], (err, results) => {
-        if (err) {
-            console.error("Error checking teacher account:", err);
-            return res.status(500).json({ success: false, error: "Internal Server Error" });
-        }
+	db.query(sql, [teacherId], (err, results) => {
+		if (err) {
+			console.error("Error checking teacher account:", err);
+			return res
+				.status(500)
+				.json({ success: false, error: "Internal Server Error" });
+		}
 
-        // Check if any results are returned
-        if (results.length > 0) {
-            // User exists in the Teacher table
-            return res.json({ success: true, exists: true });
-        } else {
-            // User does not exist in the Teacher table
-            return res.json({ success: true, exists: false });
-        }
-    });
+		// Check if any results are returned
+		if (results.length > 0) {
+			// User exists in the Teacher table
+			return res.json({ success: true, exists: true });
+		} else {
+			// User does not exist in the Teacher table
+			return res.json({ success: true, exists: false });
+		}
+	});
 });
 
 // API to check if user exists in the School table
 app.get("/api/checkSchoolAccount/:schoolId", (req, res) => {
-    const { schoolId } = req.params;
+	const { schoolId } = req.params;
 
-    // SQL query to check if the user exists in the School table
-    const sql = "SELECT * FROM School_Profile WHERE school_id = ?";
+	// SQL query to check if the user exists in the School table
+	const sql = "SELECT * FROM School_Profile WHERE school_id = ?";
 
-    db.query(sql, [schoolId], (err, results) => {
-        if (err) {
-            console.error("Error checking school account:", err);
-            return res.status(500).json({ success: false, error: "Internal Server Error" });
-        }
+	db.query(sql, [schoolId], (err, results) => {
+		if (err) {
+			console.error("Error checking school account:", err);
+			return res
+				.status(500)
+				.json({ success: false, error: "Internal Server Error" });
+		}
 
-        // Check if any results are returned
-        if (results.length > 0) {
-            // User exists in the School table
-            return res.json({ success: true, exists: true });
-        } else {
-            // User does not exist in the School table
-            return res.json({ success: true, exists: false });
-        }
-    });
+		// Check if any results are returned
+		if (results.length > 0) {
+			// User exists in the School table
+			return res.json({ success: true, exists: true });
+		} else {
+			// User does not exist in the School table
+			return res.json({ success: true, exists: false });
+		}
+	});
 });
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-    console.error('Error occurred:', err.stack);
-    res.status(500).json({ error: 'Internal Server Error' });
+	console.error("Error occurred:", err.stack);
+	res.status(500).json({ error: "Internal Server Error" });
 });
 
 // 404 Not Found middleware
 app.use((req, res, next) => {
-    res.status(404).json({ error: 'Not Found' });
+	res.status(404).json({ error: "Not Found" });
 });
 
-app.listen(port, () => {console.log("Server started on port " + port)})
+app.listen(port, () => {
+	console.log("Server started on port " + port);
+});

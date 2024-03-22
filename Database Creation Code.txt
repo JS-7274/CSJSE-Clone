@@ -345,11 +345,15 @@ ADD COLUMN location varchar(30);
 
 # Code changes for almost final functionality March 19, 2024
 
+# disable foreign key checks so you can do what you want
+SET FOREIGN_KEY_CHECKS = 0;
+
 DROP TABLE IF EXISTS School_Profile;
 CREATE TABLE School_Profile (
     school_id varchar(36) PRIMARY KEY,
     school_name varchar(30),
     location varchar(30),
+    zip varchar(3),
     campus_number int,
     phone varchar(15),
     looking boolean DEFAULT TRUE,
@@ -358,15 +362,15 @@ CREATE TABLE School_Profile (
     accreditation varchar(20),
     teachers_employed varchar(20),
     student_enrollment varchar(20),
+    grade_range varchar(10),    
     contact_email varchar(25),
     photo longblob,
     logo longblob,
-    last_accessed datetime,
-    grade_range varchar(10),
-    zip varchar(3)
+    last_accessed datetime
 );
 
 DROP TABLE IF EXISTS Teacher_Profile;
+DROP TABLE IF EXISTS Teacher_Staff_Profile;
 CREATE TABLE Teacher_Staff_Profile (
     teacher_staff_id varchar(36) PRIMARY KEY,
     first_name varchar(15),
@@ -374,17 +378,16 @@ CREATE TABLE Teacher_Staff_Profile (
     looking boolean DEFAULT TRUE,
     phone varchar(15),
     contact_email varchar(25),
+    location varchar(30),
+    zip varchar(3),
     home_church varchar(30),
+    degree varchar(15),
     resume longblob,
     testimony text,
     cover_letter longblob,
     headshot longblob,
-    last_accessed datetime,
-    degree varchar(15),
-    location varchar(30),
-    zip varchar(3)
+    last_accessed datetime
 );
-
 
 DROP TABLE IF EXISTS Job_Posting;
 CREATE TABLE Job_Posting (
@@ -395,6 +398,8 @@ CREATE TABLE Job_Posting (
     job_location varchar(50),
     interview_location varchar(50),
     contact_email varchar(50),
+    application_link text,
+    application_url varchar(255),
     salary_range text,
     preferred_degree varchar(50),
     required_degree varchar(50),
@@ -417,16 +422,25 @@ CREATE TABLE Reference (
 
 DROP TABLE IF EXISTS Saved_Jobs;
 CREATE TABLE Saved_Jobs (
-    saved_id int PRIMARY KEY,
+    saved_id int AUTO_INCREMENT PRIMARY KEY,
     job_id int,
-    teacher_staff_id varchar(36)
+    teacher_staff_id varchar(36),
+    FOREIGN KEY (job_id) REFERENCES Job_Posting(job_id),
+    FOREIGN KEY (teacher_staff_id) REFERENCES Teacher_Staff_Profile(teacher_staff_id)
 );
 
 DROP TABLE IF EXISTS Job_Applications;
 CREATE TABLE Job_Applications (
-    saved_id int PRIMARY KEY,
+    application_id int AUTO_INCREMENT PRIMARY KEY,
     job_id int,
-    teacher_staff_id varchar(36)
+    teacher_staff_id varchar(36),
+    FOREIGN KEY (job_id) REFERENCES Job_Posting(job_id),
+    FOREIGN KEY (teacher_staff_id) REFERENCES Teacher_Staff_Profile(teacher_staff_id)
+);
+
+DROP TABLE IF EXISTS Admin;
+CREATE TABLE Admin (
+    admin_id varchar(36) PRIMARY KEY
 );
 
 #Inserts statement for School_Profile - NCA
@@ -445,10 +459,5 @@ VALUES ('sOopgExukLMyzwdlnV4WTejwgkT2', 'John', 'Washington', 'jWashington@gmail
 INSERT INTO Teacher_Staff_Profile (teacher_staff_id, first_name, last_name, contact_email, degree, location, zip)
 VALUES ('Fb3EBUkzqzQb6E7yzuin0RLrtpL2', 'Reginald', 'Fitzgerald', 'rFitzgerald@gmail.com', 'Master', 'Kansas', '660');
 
-# Adds field to allow storing of links to job posts
-ALTER TABLE Job_Posting
-ADD COLUMN application_url varchar(255);
-
-CREATE TABLE Admin (
-    admin_id varchar(36) PRIMARY KEY
-);
+# re-enable forigen key checks
+SET FOREIGN_KEY_CHECKS = 1; 

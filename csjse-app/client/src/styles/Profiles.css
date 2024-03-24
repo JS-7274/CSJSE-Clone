@@ -202,6 +202,13 @@ label {
 	margin-bottom: 5px;
 }
 
+.form-group p {
+	text-align: left;
+	font-size: 14px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
 .input-field {
 	width: 100%;
 	padding: 8px;

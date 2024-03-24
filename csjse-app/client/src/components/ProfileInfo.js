@@ -17,7 +17,6 @@ export default function ProfileInfo({ userData }) {
 				window.location.href = "/TeacherLogin";
 			}
 		});
-
 		return () => {
 			unsubscribe();
 		};
@@ -41,10 +40,11 @@ export default function ProfileInfo({ userData }) {
 	const [resume, setResume] = useState("");
 	// State for tracking testimony input value
 	const [testimony, setTestimony] = useState("");
-	// State for tracking password input value
+	// State for tracking degreee level input value
 	const [degree, setDegree] = useState("");
-	// State for tracking password input value
+	// State for tracking location input value
 	const [location, setLocation] = useState("");
+	// State for tracking zip input value
 	const [zip, setZip] = useState("");
 
 	// Function to toggle editing mode
@@ -69,14 +69,17 @@ export default function ProfileInfo({ userData }) {
 
 	useEffect(() => {
 		// Update state when userData changes
-		setEmail(userData?.contact_email || "");
 		setFirstName(userData?.first_name || "");
 		setLastName(userData?.last_name || "");
+		setLooking(userData?.looking || "");
 		setPhoneNumber(userData?.phone || "");
-		setHomeChurch(userData?.home_church || "");
-		setTestimony(userData?.testimony || "");
+		setEmail(userData?.contact_email || "");
 		setLocation(userData?.location || "");
+		setZip(userData?.zip || "");
+		setHomeChurch(userData?.home_church || "");
 		setDegree(userData?.degree || "");
+		setResume(userData?.resume || "");
+		setTestimony(userData?.testimony || "");
 		// ... (update other state variables)
 	}, [userData]);
 
@@ -181,6 +184,7 @@ export default function ProfileInfo({ userData }) {
 
 			<div className="form-group">
 				<label>Location Zip Code</label>
+				<p>First 3 Numbers Only</p>
 				<input
 					className="input-field"
 					type="text"

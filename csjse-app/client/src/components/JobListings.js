@@ -8,17 +8,22 @@ export default function JobListings() {
 	const [jobList, setJobList] = useState([]);
 	const [editJobId, setEditJobId] = useState(null);
 	const [degreeOptions] = useState(["Bachelor", "Master", "PhD", "Associate"]); // Define degree options
-	const [selectedDegree, setSelectedDegree] = useState(""); // State to manage selected degree
+	const [selectedPreferredDegree, setSelectedPreferredDegree] = useState(""); // State to manage selected degree
+	const [selectedRequiredDegree, setSelectedRequiredDegree] = useState(""); // State to manage selected degree
+
 	const [location, setLocation] = useState(""); // State to manage the location input
 	const [applicationUrl, setApplicationUrl] = useState("");
 
 	const { school_id } = useParams();
+	const job_location = location;
+	const application_url = applicationUrl;
 
 	const [jobData, setJobData] = useState({
 		school_id,
 		job_title: "",
 		job_description: "",
-		job_location: "",
+		job_location,
+		job_zip: "",
 		interview_location: "",
 		contact_email: "",
 		salary_range: "",
@@ -26,12 +31,36 @@ export default function JobListings() {
 		required_degree: "",
 		preferred_experience: "",
 		required_experience: "",
-		application_url: "",
+		application_url,
 	});
+
+	//resets create form after a job has been created
+	const clearFormFields = () => {
+		setJobData({
+			school_id,
+			job_title: "",
+			job_description: "",
+			job_location: "",
+			job_zip: "",
+			interview_location: "",
+			contact_email: "",
+			salary_range: "",
+			preferred_degree: "",
+			required_degree: "",
+			preferred_experience: "",
+			required_experience: "",
+			application_url,
+		});
+		setLocation("");
+		setApplicationUrl("");
+		setSelectedPreferredDegree("");
+		setSelectedRequiredDegree("");
+	};
 
 	//opens the job posting creation form
 	const handleCreate = () => {
 		setShowCreateJobPosting(true);
+		clearFormFields();
 	};
 
 	//fetches the school id from the school_profile table
@@ -149,6 +178,7 @@ export default function JobListings() {
 					job_title: job.job_title,
 					job_description: job.job_description,
 					job_location: job.job_location,
+					job_zip: job.job_zip,
 					interview_location: job.interview_location,
 					contact_email: job.contact_email,
 					salary_range: job.salary_range,
@@ -161,8 +191,10 @@ export default function JobListings() {
 				setEditJobId(jobId);
 				// Set the location state when editing a job
 				setLocation(job.job_location);
+				// Set the selected preferred degree when editing a job
+				setSelectedPreferredDegree(job.preferred_degree);
 				// Set the selected degree when editing a job
-				setSelectedDegree(job.required_degree);
+				setSelectedRequiredDegree(job.required_degree);
 				// Set the url when editing a job
 				setApplicationUrl(job.application_url);
 			} else {
@@ -187,10 +219,16 @@ export default function JobListings() {
 	};
 
 	// Update handleDegreeChange to set the required_degree field
-	const handleDegreeChange = (degree) => {
-		setSelectedDegree(degree);
+	const handleRequiredDegreeChange = (degree) => {
+		setSelectedRequiredDegree(degree);
 		// Set the required_degree field in jobData
 		setJobData({ ...jobData, required_degree: degree });
+	};
+
+	const handlePreferredDegreeChange = (degree) => {
+		setSelectedPreferredDegree(degree);
+		// Set the required_degree field in jobData
+		setJobData({ ...jobData, preferred_degree: degree });
 	};
 
 	// Update handleLocationChange to capture location input
@@ -277,12 +315,11 @@ export default function JobListings() {
 							type="text"
 							id="job_description"
 							name="job_description"
-							//required
+							required
 						/>
 					</div>
 					<div className="form-group">
 						<label className="label">Job Location State</label>
-						<p>First 3 Numbers Only</p>
 						<input
 							className="input-field"
 							value={jobData.job_location}
@@ -290,10 +327,13 @@ export default function JobListings() {
 							type="text"
 							id="job_location"
 							name="job_location" // Make sure the name attribute matches
+							required
 						/>
 					</div>
 					<div className="form-group">
 						<label className="label">Job Location Zip</label>
+						<p>First 3 Numbers Only</p>
+
 						<input
 							className="input-field"
 							value={jobData.job_zip}
@@ -301,6 +341,7 @@ export default function JobListings() {
 							type="text"
 							id="job_zip"
 							name="job_zip" // Make sure the name attribute matches
+							required
 						/>
 					</div>
 					<div className="form-group">
@@ -312,7 +353,7 @@ export default function JobListings() {
 							type="text"
 							id="interview_location"
 							name="interview_location"
-							//required
+							required
 						/>
 					</div>
 					<div className="form-group">
@@ -324,7 +365,7 @@ export default function JobListings() {
 							type="text"
 							id="contact_email"
 							name="contact_email"
-							//required
+							required
 						/>
 					</div>
 					<div className="form-group">
@@ -359,8 +400,8 @@ export default function JobListings() {
 									name="preferred_degree"
 									id="preferred_degree"
 									value={option}
-									checked={selectedDegree === option}
-									onChange={() => handleDegreeChange(option)}
+									checked={selectedPreferredDegree === option}
+									onChange={() => handlePreferredDegreeChange(option)}
 								/>
 								{option}
 							</label>
@@ -373,11 +414,11 @@ export default function JobListings() {
 							<label className="radio-label" key={option}>
 								<input
 									type="radio"
-									name="preferred_degree"
-									id="preferred_degree"
+									name="required_degree"
+									id="required_degree"
 									value={option}
-									checked={selectedDegree === option}
-									onChange={() => handleDegreeChange(option)}
+									checked={selectedRequiredDegree === option}
+									onChange={() => handleRequiredDegreeChange(option)}
 								/>
 								{option}
 							</label>
@@ -401,7 +442,7 @@ export default function JobListings() {
 							type="text"
 							id="required_experience"
 							name="required_experience"
-							//required
+							required
 						/>
 					</div>
 
@@ -451,7 +492,6 @@ export default function JobListings() {
 
 									<div className="form-group">
 										<label className="label">Job Location State</label>
-										<p>First 3 Numbers Only</p>
 										<input
 											className="input-field"
 											value={jobData.job_location}
@@ -463,6 +503,8 @@ export default function JobListings() {
 									</div>
 									<div className="form-group">
 										<label className="label">Job Location Zip</label>
+										<p>First 3 Numbers Only</p>
+
 										<input
 											className="input-field"
 											value={jobData.job_zip}
@@ -527,8 +569,8 @@ export default function JobListings() {
 													name="preferred_degree"
 													id="preferred_degree"
 													value={option}
-													checked={selectedDegree === option}
-													onChange={() => handleDegreeChange(option)}
+													checked={selectedPreferredDegree === option}
+													onChange={() => handlePreferredDegreeChange(option)}
 												/>
 												{option}
 											</label>
@@ -543,8 +585,8 @@ export default function JobListings() {
 													type="radio"
 													name="required_degree"
 													value={option}
-													checked={selectedDegree === option}
-													onChange={() => handleDegreeChange(option)}
+													checked={selectedRequiredDegree === option}
+													onChange={() => handleRequiredDegreeChange(option)}
 												/>
 												{option}
 											</label>

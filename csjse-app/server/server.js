@@ -303,6 +303,7 @@ app.post("/api/createJobPosting", (req, res) => {
 		job_title,
 		job_description,
 		job_location,
+		job_zip,
 		interview_location,
 		contact_email,
 		salary_range,
@@ -333,8 +334,8 @@ app.post("/api/createJobPosting", (req, res) => {
 		// updates the sjob_posting database first so it can get the automatically generated ID
 		const insertJobPostingSql = `
 		INSERT INTO Job_Posting (
-			school_id, job_title, job_description, job_location, interview_location, contact_email, salary_range, preferred_degree, required_degree, preferred_experience, required_experience, posted_date, application_url 
-		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)
+			school_id, job_title, job_description, job_location, job_zip, interview_location, contact_email, salary_range, preferred_degree, required_degree, preferred_experience, required_experience, posted_date, application_url 
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)
 		`;
 
 		db.query(
@@ -344,6 +345,7 @@ app.post("/api/createJobPosting", (req, res) => {
 				job_title,
 				job_description,
 				job_location,
+				job_zip,
 				interview_location,
 				contact_email,
 				salary_range,
@@ -445,6 +447,7 @@ app.post("/api/updateJobPosting", (req, res) => {
                 job_title = ?, 
                 job_description = ?, 
                 job_location = ?, 
+				job_zip = ?,
                 interview_location = ?, 
                 contact_email = ?, 
                 salary_range = ?, 
@@ -462,6 +465,7 @@ app.post("/api/updateJobPosting", (req, res) => {
 				jobData.job_title,
 				jobData.job_description,
 				jobData.job_location,
+				jobData.job_zip,
 				jobData.interview_location,
 				jobData.contact_email,
 				jobData.salary_range,
@@ -547,12 +551,10 @@ app.delete("/api/deleteJobPostingsBySchool/:schoolId", (req, res) => {
 				.status(500)
 				.json({ success: false, error: "Internal Server Error" });
 		}
-		res
-			.status(200)
-			.json({
-				success: true,
-				message: "Records deleted from Job_Posting table successfully",
-			});
+		res.status(200).json({
+			success: true,
+			message: "Records deleted from Job_Posting table successfully",
+		});
 	});
 });
 
@@ -569,12 +571,10 @@ app.delete("/api/deleteSchool/:schoolId", (req, res) => {
 				.status(500)
 				.json({ success: false, error: "Internal Server Error" });
 		}
-		res
-			.status(200)
-			.json({
-				success: true,
-				message: "Record deleted from School_Profile table successfully",
-			});
+		res.status(200).json({
+			success: true,
+			message: "Record deleted from School_Profile table successfully",
+		});
 	});
 });
 
@@ -591,12 +591,10 @@ app.delete("/api/deleteSavedJobs/:teacherId", (req, res) => {
 				.status(500)
 				.json({ success: false, error: "Internal Server Error" });
 		}
-		res
-			.status(200)
-			.json({
-				success: true,
-				message: "Records deleted from Saved_Jobs table successfully",
-			});
+		res.status(200).json({
+			success: true,
+			message: "Records deleted from Saved_Jobs table successfully",
+		});
 	});
 });
 
@@ -611,12 +609,10 @@ app.delete("/api/deleteJobApplications/:teacherId", (req, res) => {
 				.status(500)
 				.json({ success: false, error: "Internal Server Error" });
 		}
-		res
-			.status(200)
-			.json({
-				success: true,
-				message: "Records deleted from Job_Applications table successfully",
-			});
+		res.status(200).json({
+			success: true,
+			message: "Records deleted from Job_Applications table successfully",
+		});
 	});
 });
 
@@ -631,12 +627,10 @@ app.delete("/api/deleteReference/:teacherId", (req, res) => {
 				.status(500)
 				.json({ success: false, error: "Internal Server Error" });
 		}
-		res
-			.status(200)
-			.json({
-				success: true,
-				message: "Records deleted from Reference table successfully",
-			});
+		res.status(200).json({
+			success: true,
+			message: "Records deleted from Reference table successfully",
+		});
 	});
 });
 
@@ -651,13 +645,10 @@ app.delete("/api/deleteTeacherProfile/:teacherId", (req, res) => {
 				.status(500)
 				.json({ success: false, error: "Internal Server Error" });
 		}
-		res
-			.status(200)
-			.json({
-				success: true,
-				message:
-					"Records deleted from Teacher_Staff_Profile table successfully",
-			});
+		res.status(200).json({
+			success: true,
+			message: "Records deleted from Teacher_Staff_Profile table successfully",
+		});
 	});
 });
 

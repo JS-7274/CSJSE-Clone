@@ -113,6 +113,7 @@ export default function SchoolProfileInfo({ userData }) {
 
 			<div className="form-group">
 				<label>School Location Zip Code</label>
+				<p>First 3 Numbers Only</p>
 				<input
 					className="input-field"
 					type="text"

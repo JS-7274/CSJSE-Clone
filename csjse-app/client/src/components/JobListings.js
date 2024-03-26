@@ -282,6 +282,7 @@ export default function JobListings() {
 					</div>
 					<div className="form-group">
 						<label className="label">Job Location State</label>
+						<p>First 3 Numbers Only</p>
 						<input
 							className="input-field"
 							value={jobData.job_location}
@@ -447,15 +448,28 @@ export default function JobListings() {
 											required
 										/>
 									</div>
+
 									<div className="form-group">
-										<label className="label">Job Location (State, City)</label>
+										<label className="label">Job Location State</label>
+										<p>First 3 Numbers Only</p>
 										<input
 											className="input-field"
 											value={jobData.job_location}
 											onChange={handleChange}
 											type="text"
 											id="job_location"
-											name="job_location"
+											name="job_location" // Make sure the name attribute matches
+										/>
+									</div>
+									<div className="form-group">
+										<label className="label">Job Location Zip</label>
+										<input
+											className="input-field"
+											value={jobData.job_zip}
+											onChange={handleChange}
+											type="text"
+											id="job_zip"
+											name="job_zip" // Make sure the name attribute matches
 										/>
 									</div>
 									<div className="form-group">
@@ -524,7 +538,7 @@ export default function JobListings() {
 										<label className="label">Required Degree</label>
 										{/* Map over degree options to render radio buttons */}
 										{degreeOptions.map((option) => (
-											<label key={option}>
+											<label className="radio-label" key={option}>
 												<input
 													type="radio"
 													name="required_degree"

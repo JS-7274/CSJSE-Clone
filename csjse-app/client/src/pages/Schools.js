@@ -4,7 +4,6 @@
 import React, { useState, useEffect } from "react";
 import { TeacherStaffHeader } from "../components/Headers";
 import "../styles/SearchPage.css";
-import { SearchBar } from "../components/SearchBar";
 import SchoolList from "../components/SchoolList";
 
 function Schools() {

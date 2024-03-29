@@ -7,9 +7,8 @@ import { useParams } from "react-router-dom";
 
 export default function ProfileInfo() {
 	const [user, setUser] = useState(null);
-
 	const { teacher_staff_id } = useParams();
-
+	const { id } = useParams();
 	const [userData, setUserData] = useState({
 		teacher_staff_id,
 		first_name: "",
@@ -24,48 +23,29 @@ export default function ProfileInfo() {
 		headshot: "",
 		degree: "",
 		location: "",
-		zip: ""
+		zip: "",
 	});
 
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged((user) => {
-		  if (user) {
-			setUser(user);
-		  } else {
-			// Redirect or handle non-authenticated user
-			// For example, redirect to the login page
-			window.location.href = "/TeacherLogin";
-		  }
+			if (user) {
+				setUser(user);
+			} else {
+				// Redirect or handle non-authenticated user
+				// For example, redirect to the login page
+				window.location.href = "/TeacherLogin";
+			}
 		});
-	
+
 		return () => {
-		  unsubscribe();
+			unsubscribe();
 		};
-	  }, []);
+	}, []);
 
 	// State for managing editing mode
 	const [isEditing, setIsEditing] = useState(false);
-	// State for tracking contact email input value
-	const [email, setEmail] = useState("");
-	// State for tracking first name input value
-	const [firstName, setFirstName] = useState("");
-	// State for tracking last name input value
-	const [lastName, setLastName] = useState("");
-	// State for tracking whether user is looking for a job
-	const [looking, setLooking] = useState("");
-	// State for tracking phone number input value
-	const [phoneNumber, setPhoneNumber] = useState("");
-	// State for tracking home church input value
-	const [homeChurch, setHomeChurch] = useState("");
-	// State for tracking resume file
-	const [resume, setResume] = useState("");
-	// State for tracking testimony input value
-	const [testimony, setTestimony] = useState("");
-	// State for tracking password input value
+
 	const [degree, setDegree] = useState("");
-	// State for tracking password input value
-	const [location, setLocation] = useState("");
-	
 
 	// Function to toggle editing mode
 	const toggleEditing = () => {
@@ -76,12 +56,12 @@ export default function ProfileInfo() {
 		const fetchUser = async () => {
 			try {
 				const response = await fetch(
-					`http://localhost:5000/api/users/${teacher_staff_id}`
+					`http://localhost:5000/api/teacher/users/${id}`
 				);
 				const data = await response.json();
 
 				if (data.success) {
-					setUser(data.teacher_staff_id);
+					setUserData(data.user);
 				} else {
 					console.error("Error fetching user data:", data.message);
 				}
@@ -91,15 +71,15 @@ export default function ProfileInfo() {
 		};
 
 		fetchUser();
-	}, [teacher_staff_id]);
+	}, [id]);
 
 	// Function to handle saving changes
 	const handleSave = async (e) => {
 		setIsEditing(false); // Disable editing mode
-		
+
 		e.preventDefault();
 		try {
-			const response = await fetch (
+			const response = await fetch(
 				"http://localhost:5000/api/tCreateAccount/",
 				{
 					method: "POST",
@@ -124,14 +104,14 @@ export default function ProfileInfo() {
 		} catch {
 			console.error("Error saving changes:", e);
 		}
-	}; 
-	
+	};
+
 	const handleEdit = async (teacher_staff_id) => {
 		try {
 			console.log("Editing job with ID:", teacher_staff_id);
 
 			const response = await fetch(
-				`http://localhost:5000/api/updateProfileInfo/${teacher_staff_id}`,
+				`http://localhost:5000/api/updateProfileInfo/${teacher_staff_id}`
 			);
 			const data = await response.json();
 			if (data.success) {
@@ -150,7 +130,7 @@ export default function ProfileInfo() {
 					headshot: profile.headshot,
 					degree: profile.degree,
 					location: profile.location,
-					zip: profile.zip
+					zip: profile.zip,
 				});
 				setUserData(teacher_staff_id);
 			} else {
@@ -162,7 +142,7 @@ export default function ProfileInfo() {
 	};
 
 	// Function to handle input changes
-	const handleInputChange = (e, teacher_staff_id) => {
+	const handleChange = (e) => {
 		// setter(event.target.value);
 		const { name, value } = e.target;
 		setUserData({
@@ -174,9 +154,9 @@ export default function ProfileInfo() {
 	// Function to handle radio button changes for degree
 	const handleDegreeChange = (event) => {
 		setDegree(event.target.value);
-	  };
+	};
 
-	useEffect(() => {
+	/* useEffect(() => {
 		// Update state when userData changes
 		setEmail(userData?.contact_email || "");
 		setFirstName(userData?.first_name || "");
@@ -187,7 +167,7 @@ export default function ProfileInfo() {
 		setLocation(userData?.location || "");
 		setDegree(userData?.degree || "");
 		// ... (update other state variables)
-	  }, [userData]);
+	}, [userData]); */
 
 	return (
 		<div>
@@ -216,9 +196,9 @@ export default function ProfileInfo() {
 				<input
 					className="input-field"
 					type="text"
-					value={firstName}
+					value={userData.first_name}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setFirstName)}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="form-group">
@@ -226,9 +206,9 @@ export default function ProfileInfo() {
 				<input
 					className="input-field"
 					type="text"
-					value={lastName}
+					value={userData.last_name}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setLastName)}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="form-group">
@@ -237,9 +217,10 @@ export default function ProfileInfo() {
 					<input
 						type="radio"
 						id="looking-for-job"
+						name="looking-for-job"
 						value="Yes"
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setLooking)}
+						onChange={handleChange}
 					/>
 					Yes
 				</label>
@@ -247,9 +228,10 @@ export default function ProfileInfo() {
 					<input
 						type="radio"
 						id="looking-for-job"
+						name="looking-for-job"
 						value="No"
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setLooking)}
+						onChange={handleChange}
 					/>
 					No
 				</label>
@@ -259,9 +241,9 @@ export default function ProfileInfo() {
 				<input
 					className="input-field"
 					type="text"
-					value={phoneNumber}
+					value={userData.phone}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setPhoneNumber)}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="form-group">
@@ -269,9 +251,9 @@ export default function ProfileInfo() {
 				<input
 					className="input-field"
 					type="email"
-					value={email}
+					value={userData.contact_email}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setEmail)}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="form-group">
@@ -279,9 +261,9 @@ export default function ProfileInfo() {
 				<input
 					className="input-field"
 					type="text"
-					value={homeChurch}
+					value={userData.home_church}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setHomeChurch)}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="form-group">
@@ -289,9 +271,9 @@ export default function ProfileInfo() {
 				<input
 					className=""
 					type="file"
-					value={resume}
+					value={userData.resume}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setResume)}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="form-group">
@@ -299,43 +281,46 @@ export default function ProfileInfo() {
 				<textarea
 					className="input-field"
 					type="text"
-					value={testimony}
+					value={userData.testimony}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setTestimony)}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="form-group">
 				<label>Degree Level</label>
 				{/* Radio buttons for degree levels */}
 				<label className="radio-label">
-				<input
-					type="radio"
-					value="Associate"
-					disabled={!isEditing}
-					checked={degree === "Associate's"}
-					onChange={handleDegreeChange}
-				/>
-				Associate's
+					<input
+						type="radio"
+						name="degree-level"
+						value="Associate"
+						disabled={!isEditing}
+						//checked={degree === "Associate's"}
+						onChange={handleDegreeChange}
+					/>
+					Associate's
 				</label>
 				<label className="radio-label">
-				<input
-					type="radio"
-					value="Bachelor"
-					disabled={!isEditing}
-					checked={degree === "Bachelor's"}
-					onChange={handleDegreeChange}
-				/>
-				Bachelor's
+					<input
+						type="radio"
+						name="degree-level"
+						value="Bachelor"
+						disabled={!isEditing}
+						//checked={degree === "Bachelor's"}
+						onChange={handleDegreeChange}
+					/>
+					Bachelor's
 				</label>
 				<label className="radio-label">
-				<input
-					type="radio"
-					value="Master"
-					disabled={!isEditing}
-					checked={degree === "Master's"}
-					onChange={handleDegreeChange}
-				/>
-				Master's
+					<input
+						type="radio"
+						name="degree-level"
+						value="Master"
+						disabled={!isEditing}
+						//checked={degree === "Master's"}
+						onChange={handleDegreeChange}
+					/>
+					Master's
 				</label>
 				{/* Add more radio buttons for other degree levels as needed */}
 			</div>
@@ -344,9 +329,9 @@ export default function ProfileInfo() {
 				<input
 					className="input-field"
 					type="text"
-					value={location}
+					value={userData.location}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setLocation)}
+					onChange={handleChange}
 				/>
 			</div>
 		</div>

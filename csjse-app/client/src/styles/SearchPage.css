@@ -12,6 +12,7 @@
 
 .filter {
 	display: flex;
+	flex-direction: row;
 	flex-wrap: nowrap;
 }
 
@@ -21,6 +22,7 @@
 
 .filter-options {
 	display: flex;
+	flex-direction: row;
 	align-items: center;
 }
 
@@ -96,12 +98,23 @@ input {
 	margin-right: 20px;
 }
 
-.sidebar {
-	width: 200px;
+.list-side {
+	width: 300px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.list-side h2 {
+	margin-top: 0px;
+}
+
+.list-sidebar {
+	width: 300px;
 	border-radius: 10px;
 }
 
-.sidebar button {
+.list-sidebar button {
 	position: relative;
 	display: block;
 	border: 1px solid #fff;
@@ -115,37 +128,32 @@ input {
 	font-weight: normal;
 	text-align: center;
 	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 /* Sets the top corners of the top button in the sidebar navigation to be rounded */
-.sidebar button:nth-child(1) {
+.list-sidebar button:nth-child(1) {
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
 }
 
 /* Sets the top corners of the bottom button in the sidebar navigation to be rounded */
-.sidebar button:nth-last-child(1) {
+.list-sidebar button:nth-last-child(1) {
 	border-bottom-left-radius: 10px;
 	border-bottom-right-radius: 10px;
 	border-bottom: none;
 }
 
-.sidebar button:hover {
+.list-sidebar button:hover {
 	background-color: #26b170;
 	color: #fff;
 }
 
 /* Changes the button's color if that button's tab is active */
-.sidebar button.active {
+.list-sidebar button:active {
 	background-color: #01377d;
 	color: #fff;
-}
-
-.side {
-	width: 200px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
 }
 
 .info-display {

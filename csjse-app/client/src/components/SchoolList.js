@@ -56,9 +56,9 @@ function SchoolList({
 	]);
 
 	return (
-		<div className="side">
+		<div className="list-side">
 			<h2>Schools List</h2>
-			<div className="sidebar">
+			<div className="list-sidebar">
 				{filteredSchools && filteredSchools.length > 0 ? (
 					filteredSchools.map((school) => (
 						<button

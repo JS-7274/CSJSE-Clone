@@ -235,7 +235,7 @@ function Teachers() {
 							/>
 						</div>
 						{/* Creates a button to clear filters when clicked using handleShowAll */}
-						<button onClick={handleShowAll}>Clear Filters</button>
+						<button onClick={handleShowAll}>Clear Search & Filters</button>
 					</div>
 				</div>
 				<div className="search">
@@ -251,7 +251,7 @@ function Teachers() {
 			</div>
 
 			<div className="info-display">
-				<div className="sidebar">
+				<div className="list-sidebar">
 					{/* Displays the list of teachers by calling the TeacherList file */}
 					<TeachersList
 						onSelectTeacher={handleSelectTeacher}

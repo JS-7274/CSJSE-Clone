@@ -47,9 +47,9 @@ function JobList({ onSelectJob, searchResult, searchTerm, filterOptions }) {
 	useEffect(() => {}, [filterOptions]);
 
 	return (
-		<div className="side">
+		<div className="list-side">
 			<h2>Jobs List</h2>
-			<div className="sidebar">
+			<div className="list-sidebar">
 				{filteredJobs && filteredJobs.length > 0 ? (
 					filteredJobs.map((job) => (
 						<button key={job.job_id} onClick={() => onSelectJob(job)}>

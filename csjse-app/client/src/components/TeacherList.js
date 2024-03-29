@@ -59,9 +59,9 @@ function TeachersList({
 	]);
 
 	return (
-		<div className="side">
+		<div className="list-side">
 			<h2>Teachers List</h2>
-			<div className="sidebar">
+			<div className="list-sidebar">
 				{filteredTeachers && filteredTeachers.length > 0 ? (
 					filteredTeachers.map((teacher) => (
 						<button

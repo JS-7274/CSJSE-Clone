@@ -190,7 +190,7 @@ function Jobs() {
 								placeholder="First 3 Digits"
 							/>
 						</div>
-						<button onClick={handleReset}>Clear Filters</button>
+						<button onClick={handleReset}>Clear Search & Filters</button>
 					</div>
 				</div>
 
@@ -199,13 +199,13 @@ function Jobs() {
 						type="text"
 						value={searchTerm}
 						onChange={(e) => handleSearch(e.target.value)}
-						placeholder="Search by job title"
+						placeholder="Search"
 					/>
 					<FontAwesomeIcon icon={fas.faSearch} style={{ cursor: "pointer" }} />
 				</div>
 			</div>
 			<div className="info-display">
-				<div className="sidebar">
+				<div className="list-sidebar">
 					<JobList
 						onSelectJob={handleSelectJob}
 						searchResult={searchResult}

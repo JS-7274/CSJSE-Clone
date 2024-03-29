@@ -673,4 +673,74 @@ app.use((req, res, next) => {
     res.status(404).json({ error: 'Not Found' });
 });
 
+// API to Update Profile Information on Edit
+app.post("/api/updateProfileInfo", (req, res) => {
+    console.log("Received profile information update request", req.body);
+
+    // Gets teacherId and teacherData from req.body
+    const { teacherId, teacherData } = req.body;
+
+    // Checking if the job exists
+    const checkTeacherIdSql = `SELECT * FROM teacher_staff_profile WHERE teacher_staff_id =?`;
+
+    db.query(checkTeacherIdSql, [teacherId], (err, teacherResults) => {
+        if (err) {
+            console.error("Error checking teacher_id:", err.message);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
+
+        // If the teacherId doesn't exist return an error
+        if (teacherResults.length == 0) {
+            return res.status(400).json({ error: "Invalid teacherId" });
+        }
+
+        // Update the teacher profile in the database
+        const updateTeacherSql = `
+            UPDATE teacher_staff_profile
+            SET
+                first_name = ?,
+                last_name = ?,
+                looking = ?,
+                phone = ?,
+                contact_email = ?,
+                home_church = ?,
+                resume = ?,
+                testimony = ?,
+                cover_letter = ?,
+                headshot = ?
+                degree = ?,
+                location = ?,
+                zip = ?
+            WHERE teacher_id = ?
+        `;
+
+            db.query(
+                updateTeacherSql,
+                [
+                    teacherData.firstName,
+                    teacherData.lastName,
+                    teacherData.looking,
+                    teacherData.phone,
+                    teacherData.contactEmail,
+                    teacherData.homeChurch,
+                    teacherData.jobResume,
+                    teacherData.testimony,
+                    teacherData.coverLetter,
+                    teacherData.headshot,
+                    teacherData.degree,
+                    teacherData.location,
+                    teacherData.zip,
+                    teacherId
+                ],
+                (err, results) => {
+                    if (err) {
+                        console.error("Error updating teacher profile:", err.message);
+                        return res.status(500).json({ error: 'Internal Server Error' });
+                    }
+                    return res.json({ success: true });
+                }
+            );
+        });
+});
+
 app.listen(port, () => {console.log("Server started on port " + port)})

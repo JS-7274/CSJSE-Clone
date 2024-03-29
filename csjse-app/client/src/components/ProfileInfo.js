@@ -3,9 +3,29 @@
 
 import React, { useState, useEffect } from "react";
 import { auth } from "../firebase";
+import { useParams } from "react-router-dom";
 
-export default function ProfileInfo({ userData }) {
+export default function ProfileInfo() {
 	const [user, setUser] = useState(null);
+
+	const { teacher_staff_id } = useParams();
+
+	const [userData, setUserData] = useState({
+		teacher_staff_id,
+		first_name: "",
+		last_name: "",
+		looking: "",
+		phone: "",
+		contact_email: "",
+		home_church: "",
+		resume: "",
+		testimony: "",
+		cover_letter: "",
+		headshot: "",
+		degree: "",
+		location: "",
+		zip: ""
+	});
 
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -52,14 +72,103 @@ export default function ProfileInfo({ userData }) {
 		setIsEditing(!isEditing);
 	};
 
+	useEffect(() => {
+		const fetchUser = async () => {
+			try {
+				const response = await fetch(
+					`http://localhost:5000/api/users/${teacher_staff_id}`
+				);
+				const data = await response.json();
+
+				if (data.success) {
+					setUser(data.teacher_staff_id);
+				} else {
+					console.error("Error fetching user data:", data.message);
+				}
+			} catch (error) {
+				console.error("Error fetching user data:", error);
+			}
+		};
+
+		fetchUser();
+	}, [teacher_staff_id]);
+
 	// Function to handle saving changes
-	const handleSave = () => {
+	const handleSave = async (e) => {
 		setIsEditing(false); // Disable editing mode
+		
+		e.preventDefault();
+		try {
+			const response = await fetch (
+				"http://localhost:5000/api/tCreateAccount/",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(userData),
+				}
+			);
+
+			// Parse the response as JSON
+			const data = await response.json();
+
+			console.log(data.success);
+
+			// If response is successful, ...
+			if (data.success) {
+				setUserData(data);
+			} else {
+				console.error("Error saving changes:", data.error);
+			}
+		} catch {
+			console.error("Error saving changes:", e);
+		}
+	}; 
+	
+	const handleEdit = async (teacher_staff_id) => {
+		try {
+			console.log("Editing job with ID:", teacher_staff_id);
+
+			const response = await fetch(
+				`http://localhost:5000/api/updateProfileInfo/${teacher_staff_id}`,
+			);
+			const data = await response.json();
+			if (data.success) {
+				const profile = data.profile;
+				setUserData({
+					teacher_staff_id: profile.teacher_staff_id,
+					first_name: profile.first_name,
+					last_name: profile.last_name,
+					looking: profile.looking,
+					phone: profile.phone,
+					contact_email: profile.contact_email,
+					home_church: profile.home_church,
+					resume: profile.resume,
+					testimony: profile.testimony,
+					cover_letter: profile.cover_letter,
+					headshot: profile.headshot,
+					degree: profile.degree,
+					location: profile.location,
+					zip: profile.zip
+				});
+				setUserData(teacher_staff_id);
+			} else {
+				console.error("Error fetching profile data:", data.error);
+			}
+		} catch (error) {
+			console.error("Error fetching profile data:", error);
+		}
 	};
 
 	// Function to handle input changes
-	const handleInputChange = (event, setter) => {
-		setter(event.target.value);
+	const handleInputChange = (e, teacher_staff_id) => {
+		// setter(event.target.value);
+		const { name, value } = e.target;
+		setUserData({
+			...userData,
+			[name]: value,
+		});
 	};
 
 	// Function to handle radio button changes for degree

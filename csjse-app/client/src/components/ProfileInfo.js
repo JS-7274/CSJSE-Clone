@@ -199,6 +199,8 @@ export default function ProfileInfo() {
 					value={userData.first_name}
 					disabled={!isEditing}
 					onChange={handleChange}
+					id="first_name"
+					name="first_name"
 				/>
 			</div>
 			<div className="form-group">
@@ -209,6 +211,8 @@ export default function ProfileInfo() {
 					value={userData.last_name}
 					disabled={!isEditing}
 					onChange={handleChange}
+					id="last_name"
+					name="last_name"
 				/>
 			</div>
 			<div className="form-group">
@@ -244,6 +248,8 @@ export default function ProfileInfo() {
 					value={userData.phone}
 					disabled={!isEditing}
 					onChange={handleChange}
+					id="phone"
+					name="phone"
 				/>
 			</div>
 			<div className="form-group">
@@ -254,6 +260,8 @@ export default function ProfileInfo() {
 					value={userData.contact_email}
 					disabled={!isEditing}
 					onChange={handleChange}
+					id="contact_email"
+					name="contact_email"
 				/>
 			</div>
 			<div className="form-group">
@@ -264,6 +272,8 @@ export default function ProfileInfo() {
 					value={userData.home_church}
 					disabled={!isEditing}
 					onChange={handleChange}
+					id="home_church"
+					name="home_church"
 				/>
 			</div>
 			<div className="form-group">
@@ -274,6 +284,8 @@ export default function ProfileInfo() {
 					value={userData.resume}
 					disabled={!isEditing}
 					onChange={handleChange}
+					id="resume"
+					name="resume"
 				/>
 			</div>
 			<div className="form-group">
@@ -284,6 +296,8 @@ export default function ProfileInfo() {
 					value={userData.testimony}
 					disabled={!isEditing}
 					onChange={handleChange}
+					id="testimony"
+					name="testimony"
 				/>
 			</div>
 			<div className="form-group">
@@ -332,6 +346,8 @@ export default function ProfileInfo() {
 					value={userData.location}
 					disabled={!isEditing}
 					onChange={handleChange}
+					id="location"
+					name="location"
 				/>
 			</div>
 		</div>

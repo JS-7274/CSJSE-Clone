@@ -6,9 +6,8 @@ import { useParams } from "react-router-dom";
 export default function References() {
 	// State for managing editing mode
 	const [isEditing, setIsEditing] = useState(false);
-	const [id, setId] = useState("");
+	//const [id, setId] = useState("");
 	const { teacher_staff_id } = useParams();
-	console.log("ID:", id);
 
 	const [referencesData, setReferencesData] = useState({
 		teacher_staff_id,
@@ -51,7 +50,6 @@ export default function References() {
 				console.error("Error fetching user data:", error);
 			}
 		};
-
 		fetchId();
 	}, [teacher_staff_id]);
 
@@ -60,15 +58,26 @@ export default function References() {
 		setIsEditing(!isEditing);
 	};
 
+	const fetchReferencesData = async () => {
+		try {
+			const response = await fetch(
+				`http://localhost:5000/api/teacher/users/${teacher_staff_id}/reference`
+			);
+			const data = await response.json();
+
+			if (data.success) {
+				setReferencesData(data.reference || []);
+			} else {
+				console.error("Failed to fetch references data");
+			}
+		} catch (error) {
+			console.error("Error during API call:", error);
+		}
+	};
+
 	// Function to handle saving changes
 	const handleSave = async (e) => {
-		e.preventDefault();
 		try {
-			// Update jobData with the location state and applicationUrl state
-			setReferencesData({
-				...referencesData,
-			});
-
 			const response = await fetch(
 				"http://localhost:5000/api/updateReferences/",
 				{
@@ -87,7 +96,8 @@ export default function References() {
 
 			// If response is successful, ...
 			if (data.success) {
-				setIsEditing(!isEditing);
+				setIsEditing(false);
+				fetchReferencesData();
 			} else {
 				console.error("Error during job posting creation:", data.error);
 			}

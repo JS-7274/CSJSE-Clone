@@ -488,6 +488,30 @@ app.post("/api/updateJobPosting", (req, res) => {
 	});
 });
 
+//api that gets references info from the database
+app.get("/api/teacher/users/:teacher_staff_id/reference", (req, res) => {
+	const { teacher_staff_id } = req.params;
+
+	// Choose the appropriate SQL query based on the user type
+	const sql = "SELECT * FROM reference WHERE teacher_staff_id = ?";
+
+	db.query(sql, [teacher_staff_id], (err, results) => {
+		if (err) {
+			return res.status(500).json({ error: "Internal Server Error" });
+		}
+
+		if (results.length > 0) {
+			// User information found
+			return res.json({ success: true, reference: results });
+		} else {
+			// User not found
+			return res
+				.status(404)
+				.json({ success: false, message: "No references found" });
+		}
+	});
+});
+
 //api that adds or updates the references info in the database
 app.post("/api/updateReferences", (req, res) => {
 	console.log("Received references update request", req.body);

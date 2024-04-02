@@ -28,21 +28,21 @@ export default function SchoolProfileInfo({ userData }) {
 	// State for tracking email input value
 	const [email, setEmail] = useState("");
 	// State for tracking password input value
-	const [password, setPassword] = useState("");
 	// State for tracking first name input value
 	const [name, setName] = useState("");
 	// State for tracking whether user is hiring
 	const [hiring, setHiring] = useState("");
 	// State for tracking phone number input value
 	const [phoneNumber, setPhoneNumber] = useState("");
-
 	const [enrollment, setEnrollment] = useState("");
 	const [employed, setEmployed] = useState("");
 	const [statementOfFaith, setStatmentofFaith] = useState("");
 	const [website, setWebsite] = useState("");
 	const [location, setLocation] = useState("");
+	const [zip, setZip] = useState("");
 	const [campuses, setCampuses] = useState("");
 	const [accreditation, setAccreditation] = useState("");
+	const [gradeRange, setGradeRange] = useState("");
 
 	// Function to toggle editing mode
 	const toggleEditing = () => {
@@ -62,7 +62,6 @@ export default function SchoolProfileInfo({ userData }) {
 	useEffect(() => {
 		// Update state when userData changes
 		setEmail(userData?.contact_email || "");
-		setPassword(userData?.password || "");
 		setName(userData?.school_name || "");
 		setPhoneNumber(userData?.phone || "");
 		// ... (update other state variables)
@@ -102,7 +101,7 @@ export default function SchoolProfileInfo({ userData }) {
 			</div>
 
 			<div className="form-group">
-				<label>School Location</label>
+				<label>School Location State</label>
 				<input
 					className="input-field"
 					type="text"
@@ -113,10 +112,23 @@ export default function SchoolProfileInfo({ userData }) {
 			</div>
 
 			<div className="form-group">
+				<label>School Location Zip Code</label>
+				<p>First 3 Numbers Only</p>
+				<input
+					className="input-field"
+					type="text"
+					value={zip}
+					disabled={!isEditing}
+					onChange={(event) => handleInputChange(event, setZip)}
+				/>
+			</div>
+
+			<div className="form-group">
 				<label>Number of Campuses</label>
 				<label className="radio-label">
 					<input
 						type="radio"
+						name="campuses"
 						id="campuses"
 						value="1"
 						disabled={!isEditing}
@@ -127,6 +139,7 @@ export default function SchoolProfileInfo({ userData }) {
 				<label className="radio-label">
 					<input
 						type="radio"
+						name="campuses"
 						id="campuses"
 						value="2"
 						disabled={!isEditing}
@@ -137,6 +150,7 @@ export default function SchoolProfileInfo({ userData }) {
 				<label className="radio-label">
 					<input
 						type="radio"
+						name="campuses"
 						id="campuses"
 						value="3"
 						disabled={!isEditing}
@@ -147,6 +161,7 @@ export default function SchoolProfileInfo({ userData }) {
 				<label className="radio-label">
 					<input
 						type="radio"
+						name="campuses"
 						id="campuses"
 						value="4-orG-reater"
 						disabled={!isEditing}
@@ -173,6 +188,7 @@ export default function SchoolProfileInfo({ userData }) {
 				<label className="radio-label">
 					<input
 						type="radio"
+						name="hiring"
 						id="are-you-hiring"
 						value="Yes"
 						disabled={!isEditing}
@@ -183,6 +199,7 @@ export default function SchoolProfileInfo({ userData }) {
 				<label className="radio-label">
 					<input
 						type="radio"
+						name="hiring"
 						id="are-you-hiring"
 						value="No"
 						disabled={!isEditing}
@@ -232,6 +249,7 @@ export default function SchoolProfileInfo({ userData }) {
 				<label className="radio-label">
 					<input
 						type="radio"
+						name="employed"
 						id="employed"
 						value="Less than 50"
 						disabled={!isEditing}
@@ -242,6 +260,7 @@ export default function SchoolProfileInfo({ userData }) {
 				<label className="radio-label">
 					<input
 						type="radio"
+						name="employed"
 						id="employed"
 						value="51 to 100"
 						disabled={!isEditing}
@@ -252,6 +271,7 @@ export default function SchoolProfileInfo({ userData }) {
 				<label className="radio-label">
 					<input
 						type="radio"
+						name="employed"
 						id="employed"
 						value="101 to 150"
 						disabled={!isEditing}
@@ -262,6 +282,7 @@ export default function SchoolProfileInfo({ userData }) {
 				<label className="radio-label">
 					<input
 						type="radio"
+						name="employed"
 						id="employed"
 						value="151 or Greater"
 						disabled={!isEditing}
@@ -277,6 +298,7 @@ export default function SchoolProfileInfo({ userData }) {
 				<label className="radio-label">
 					<input
 						type="radio"
+						name="enrollment"
 						id="enrollment"
 						value="200-500"
 						disabled={!isEditing}
@@ -287,8 +309,9 @@ export default function SchoolProfileInfo({ userData }) {
 				<label className="radio-label">
 					<input
 						type="radio"
+						name="enrollment"
 						id="enrollment"
-						value="500-1,000"
+						value="200-500"
 						disabled={!isEditing}
 						onChange={(event) => handleInputChange(event, setEnrollment)}
 					/>
@@ -297,10 +320,48 @@ export default function SchoolProfileInfo({ userData }) {
 				<label className="radio-label">
 					<input
 						type="radio"
+						name="enrollment"
 						id="enrollment"
-						value="1,000-1,500"
+						value="200-500"
 						disabled={!isEditing}
 						onChange={(event) => handleInputChange(event, setEnrollment)}
+					/>
+					1,000 to 1,500
+				</label>
+			</div>
+
+			<div className="form-group">
+				<label>Grade Ranges Offered</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						name="grade-range"
+						id="grade-range"
+						value="200-500"
+						disabled={!isEditing}
+						onChange={(event) => handleInputChange(event, setGradeRange)}
+					/>
+					200 to 500
+				</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						name="grade-range"
+						id="grade-range"
+						value="200-500"
+						disabled={!isEditing}
+						onChange={(event) => handleInputChange(event, setGradeRange)}
+					/>
+					500 to 1,000
+				</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						name="grade-range"
+						id="grade-range"
+						value="200-500"
+						disabled={!isEditing}
+						onChange={(event) => handleInputChange(event, setGradeRange)}
 					/>
 					1,000 to 1,500
 				</label>
@@ -315,19 +376,6 @@ export default function SchoolProfileInfo({ userData }) {
 					value={email}
 					disabled={!isEditing}
 					onChange={(event) => handleInputChange(event, setEmail)}
-				/>
-			</div>
-
-			{/* Form group for password */}
-			<div className="form-group">
-				<label>Password</label>
-				{/* Input field for password, enabled based on editing state */}
-				<input
-					className="input-field"
-					type="password"
-					value={password}
-					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setPassword)}
 				/>
 			</div>
 		</div>

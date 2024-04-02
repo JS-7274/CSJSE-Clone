@@ -1,6 +1,6 @@
 /* The purpose of this file is to display information for the teacher user on their own profile.
    This file works with the ProfileInfo file to display the information correctly. */
-   
+
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { auth } from "../firebase";
@@ -42,7 +42,9 @@ const TeacherStaffProfile = () => {
 
 	const checkTeacherAccount = async (userId) => {
 		try {
-			const response = await fetch(`http://localhost:5000/api/checkTeacherAccount/${userId}`);
+			const response = await fetch(
+				`http://localhost:5000/api/checkTeacherAccount/${userId}`
+			);
 			const data = await response.json();
 
 			if (!data.exists) {
@@ -103,7 +105,7 @@ const TeacherStaffProfile = () => {
 
 	if (loading) {
 		return <p>Loading...</p>;
-}
+	}
 	return (
 		<div>
 			<TeacherStaffHeader></TeacherStaffHeader> {/* Header component */}
@@ -132,14 +134,14 @@ const TeacherStaffProfile = () => {
 							Optional Uploads{" "}
 						</button>
 					</div>
-					<div>
+					<div className="ld-button-group">
 						{/* Logout button */}
 						<button className="logout-button" onClick={handleLogout}>
 							Logout
 						</button>
 
-						{/* Deactivate account button */}
-						<button className="deactivate-button">Deactivate Account</button>
+						{/* Deactivate account button 
+						<button className="deactivate-button">Deactivate Account</button> */}
 					</div>
 				</div>
 
@@ -150,8 +152,9 @@ const TeacherStaffProfile = () => {
 					</div>
 					<div className="profile-content">
 						{/* Render different components based on active tab */}
-						{activeTab === "Profile Information" && 
-							(<ProfileInfo userData={userData}></ProfileInfo>)}
+						{activeTab === "Profile Information" && (
+							<ProfileInfo userData={userData}></ProfileInfo>
+						)}
 						{activeTab === "References" && <References></References>}
 						{activeTab === "Optional Uploads" && (
 							<OptionalUploads></OptionalUploads>

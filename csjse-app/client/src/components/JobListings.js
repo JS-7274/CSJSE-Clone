@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
@@ -9,11 +8,9 @@ export default function JobListings() {
 	const [jobList, setJobList] = useState([]);
 	const [editJobId, setEditJobId] = useState(null);
 	const [degreeOptions] = useState(["Bachelor", "Master", "PhD", "Associate"]); // Define degree options
-    const [selectedDegree, setSelectedDegree] = useState(""); // State to manage selected degree
+	const [selectedDegree, setSelectedDegree] = useState(""); // State to manage selected degree
 	const [location, setLocation] = useState(""); // State to manage the location input
 	const [applicationUrl, setApplicationUrl] = useState("");
-
-
 
 	const { school_id } = useParams();
 
@@ -71,8 +68,12 @@ export default function JobListings() {
 		e.preventDefault();
 		try {
 			// Update jobData with the location state and applicationUrl state
-			setJobData({ ...jobData, job_location: location, application_url: applicationUrl });
-	
+			setJobData({
+				...jobData,
+				job_location: location,
+				application_url: applicationUrl,
+			});
+
 			const response = await fetch(
 				"http://localhost:5000/api/createJobPosting/",
 				{
@@ -83,12 +84,12 @@ export default function JobListings() {
 					body: JSON.stringify(jobData),
 				}
 			);
-	
+
 			// Parse the response as JSON
 			const data = await response.json();
-	
+
 			console.log(data.success);
-	
+
 			// If response is successful, ...
 			if (data.success) {
 				setShowCreateJobPosting(false);
@@ -136,7 +137,7 @@ export default function JobListings() {
 	const handleEdit = async (jobId) => {
 		try {
 			console.log("Editing job with ID:", jobId); // Add this console statement
-	
+
 			const response = await fetch(
 				`http://localhost:5000/api/getJobPostingInfo?jobId=${jobId}`
 			);
@@ -185,7 +186,7 @@ export default function JobListings() {
 		}
 	};
 
-    // Update handleDegreeChange to set the required_degree field
+	// Update handleDegreeChange to set the required_degree field
 	const handleDegreeChange = (degree) => {
 		setSelectedDegree(degree);
 		// Set the required_degree field in jobData
@@ -193,27 +194,26 @@ export default function JobListings() {
 	};
 
 	// Update handleLocationChange to capture location input
-    const handleLocationChange = (e) => {
+	const handleLocationChange = (e) => {
 		setLocation(e.target.value);
-	};	
+	};
 
 	// Update handleApplicationChange to capture the link
 	const handleApplicationUrlChange = (e) => {
 		setApplicationUrl(e.target.value);
-	  };
-	  
+	};
 
 	//saves the edited job data from edit form to database
 	//updates viewable job list
 	const handleUpdate = async (e) => {
 		e.preventDefault();
-	
+
 		try {
 			console.log("Sending application URL to backend:", applicationUrl);
-	
+
 			// Explicitly set the application_url property of jobData
 			const updatedJobData = { ...jobData, application_url: applicationUrl };
-	
+
 			const response = await fetch(
 				"http://localhost:5000/api/updateJobPosting",
 				{
@@ -224,9 +224,9 @@ export default function JobListings() {
 					body: JSON.stringify({ jobId: editJobId, jobData: updatedJobData }),
 				}
 			);
-	
+
 			const data = await response.json();
-	
+
 			if (data.success) {
 				setEditJobId(null);
 				fetchJobList();
@@ -281,14 +281,26 @@ export default function JobListings() {
 						/>
 					</div>
 					<div className="form-group">
-						<label className="label">Job Location (State, City)</label>
+						<label className="label">Job Location State</label>
+						<p>First 3 Numbers Only</p>
 						<input
 							className="input-field"
 							value={jobData.job_location}
 							onChange={handleChange}
 							type="text"
 							id="job_location"
-							name="job_location"  // Make sure the name attribute matches
+							name="job_location" // Make sure the name attribute matches
+						/>
+					</div>
+					<div className="form-group">
+						<label className="label">Job Location Zip</label>
+						<input
+							className="input-field"
+							value={jobData.job_zip}
+							onChange={handleChange}
+							type="text"
+							id="job_zip"
+							name="job_zip" // Make sure the name attribute matches
 						/>
 					</div>
 					<div className="form-group">
@@ -316,6 +328,17 @@ export default function JobListings() {
 						/>
 					</div>
 					<div className="form-group">
+						<label className="label">Application Link</label>
+						<input
+							className="input-field"
+							value={applicationUrl}
+							onChange={handleApplicationUrlChange}
+							type="text"
+							id="application_url"
+							name="application_url"
+						/>
+					</div>
+					<div className="form-group">
 						<label className="label">Salary Range</label>
 						<input
 							className="input-field"
@@ -328,32 +351,37 @@ export default function JobListings() {
 					</div>
 					<div className="form-group">
 						<label className="label">Preferred Degree</label>
-						<input
-							className="input-field"
-							value={jobData.preferred_degree}
-							onChange={handleChange}
-							type="text"
-							id="preferred_degree"
-							name="preferred_degree"
-						/>
+						{/* Map over degree options to render radio buttons */}
+						{degreeOptions.map((option) => (
+							<label className="radio-label" key={option}>
+								<input
+									type="radio"
+									name="preferred_degree"
+									id="preferred_degree"
+									value={option}
+									checked={selectedDegree === option}
+									onChange={() => handleDegreeChange(option)}
+								/>
+								{option}
+							</label>
+						))}
 					</div>
 					<div className="form-group">
 						<label className="label">Required Degree</label>
-						<div className="degree-options">
-							{/* Map over degree options to render radio buttons */}
-							{degreeOptions.map((option) => (
-								<label key={option}>
-									<input
-										type="radio"
-										name="preferred_degree"
-										value={option}
-										checked={selectedDegree === option}
-										onChange={() => handleDegreeChange(option)}
-									/>
-									{option}
-								</label>
-							))}
-						</div>
+						{/* Map over degree options to render radio buttons */}
+						{degreeOptions.map((option) => (
+							<label className="radio-label" key={option}>
+								<input
+									type="radio"
+									name="preferred_degree"
+									id="preferred_degree"
+									value={option}
+									checked={selectedDegree === option}
+									onChange={() => handleDegreeChange(option)}
+								/>
+								{option}
+							</label>
+						))}
 					</div>
 					<div className="form-group">
 						<label className="label">Preferred Experience</label>
@@ -376,17 +404,7 @@ export default function JobListings() {
 							//required
 						/>
 					</div>
-					<div className="form-group">
-						<label className="label">Application Link</label>
-							<input
-							className="input-field"
-							value={applicationUrl}
-							onChange={handleApplicationUrlChange}
-							type="text"
-							id="application_url"
-							name="application_url"
-							/>
-					</div>
+
 					<div className="option-buttons">
 						<input
 							type="button"
@@ -430,15 +448,28 @@ export default function JobListings() {
 											required
 										/>
 									</div>
+
 									<div className="form-group">
-										<label className="label">Job Location (State, City)</label>
+										<label className="label">Job Location State</label>
+										<p>First 3 Numbers Only</p>
 										<input
 											className="input-field"
-											value={jobData.job_location}  
-											onChange={handleChange}  
+											value={jobData.job_location}
+											onChange={handleChange}
 											type="text"
-											id="job_location"  
-											name="job_location"  
+											id="job_location"
+											name="job_location" // Make sure the name attribute matches
+										/>
+									</div>
+									<div className="form-group">
+										<label className="label">Job Location Zip</label>
+										<input
+											className="input-field"
+											value={jobData.job_zip}
+											onChange={handleChange}
+											type="text"
+											id="job_zip"
+											name="job_zip" // Make sure the name attribute matches
 										/>
 									</div>
 									<div className="form-group">
@@ -466,6 +497,17 @@ export default function JobListings() {
 										/>
 									</div>
 									<div className="form-group">
+										<label className="label">Application Link</label>
+										<input
+											className="input-field"
+											value={applicationUrl}
+											onChange={handleApplicationUrlChange}
+											type="text"
+											id="application_url"
+											name="application_url"
+										/>
+									</div>
+									<div className="form-group">
 										<label className="label">Salary Range</label>
 										<input
 											className="input-field"
@@ -478,32 +520,35 @@ export default function JobListings() {
 									</div>
 									<div className="form-group">
 										<label className="label">Preferred Degree</label>
-										<input
-											className="input-field"
-											value={jobData.preferred_degree}
-											onChange={handleChange}
-											type="text"
-											id="preferred_degree"
-											name="preferred_degree"
-										/>
+										{degreeOptions.map((option) => (
+											<label className="radio-label" key={option}>
+												<input
+													type="radio"
+													name="preferred_degree"
+													id="preferred_degree"
+													value={option}
+													checked={selectedDegree === option}
+													onChange={() => handleDegreeChange(option)}
+												/>
+												{option}
+											</label>
+										))}
 									</div>
 									<div className="form-group">
 										<label className="label">Required Degree</label>
-										<div className="degree-options">
-											{/* Map over degree options to render radio buttons */}
-											{degreeOptions.map((option) => (
-												<label key={option}>
-													<input
-														type="radio"
-														name="required_degree"
-														value={option}
-														checked={selectedDegree === option}
-														onChange={() => handleDegreeChange(option)}
-													/>
-													{option}
-												</label>
-											))}
-										</div>
+										{/* Map over degree options to render radio buttons */}
+										{degreeOptions.map((option) => (
+											<label className="radio-label" key={option}>
+												<input
+													type="radio"
+													name="required_degree"
+													value={option}
+													checked={selectedDegree === option}
+													onChange={() => handleDegreeChange(option)}
+												/>
+												{option}
+											</label>
+										))}
 									</div>
 									<div className="form-group">
 										<label className="label">Preferred Experience</label>
@@ -526,17 +571,7 @@ export default function JobListings() {
 											required
 										/>
 									</div>
-									<div className="form-group">
-										<label className="label">Application Link</label>
-											<input
-											className="input-field"
-											value={applicationUrl}
-											onChange={handleApplicationUrlChange}
-											type="text"
-											id="application_url"
-											name="application_url"
-											/>
-									</div>
+
 									<div className="option-buttons">
 										<input
 											type="button"

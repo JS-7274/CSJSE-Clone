@@ -11,7 +11,6 @@ import TeacherCreateAcc from "./pages/TeacherCreateAcc";
 import SchoolCreateAcc from "./pages/SchoolCreateAcc";
 import Schools from "./pages/Schools";
 import Jobs from "./pages/Jobs";
-import Schooljobs from "./pages/SchoolJobs";
 import Teachers from "./pages/Teachers";
 import AdminLogin from "./pages/AdminLogin";
 import AdminBuffer from "./pages/AdminBuffer";
@@ -20,7 +19,7 @@ import AdminTeachers from "./pages/AdminTeachers";
 import AdminSchools from "./pages/AdminSchools";
 import AdminJobs from "./pages/AdminJobs";
 import { Routes, Route } from "react-router-dom";
-import { auth } from './firebase';
+import { auth } from "./firebase";
 
 function App() {
 	return (
@@ -37,7 +36,6 @@ function App() {
 			<Route path="/TeacherCreateAcc" element={<TeacherCreateAcc />} />
 			<Route path="/Schools" element={<Schools />} />
 			<Route path="/Jobs" element={<Jobs />} />
-			<Route path="/Schooljobs" element={<Schooljobs />} />
 			<Route path="/Teachers" element={<Teachers />} />
 			<Route path="/AdminLogin" element={<AdminLogin />} />
 			<Route path="/AdminBuffer/:id" element={<AdminBuffer />} />

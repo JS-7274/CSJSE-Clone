@@ -157,8 +157,8 @@ export default function References() {
 				<label className="radio-label">
 					<input
 						type="radio"
-						id="r1_type_of_relationship"
-						name="r1_type_of_relationship"
+						id="r1_relation_type"
+						name="r1_relation_type"
 						value="professional"
 						disabled={!isEditing}
 						onChange={handleChange}
@@ -168,9 +168,9 @@ export default function References() {
 				<label className="radio-label">
 					<input
 						type="radio"
-						id="r1_type_of_relationship"
-						name="r1_type_of_relationship"
-						value="professional"
+						id="r1_relation_type"
+						name="r1_relation_type"
+						value="pastoral"
 						disabled={!isEditing}
 						onChange={handleChange}
 					/>
@@ -179,9 +179,9 @@ export default function References() {
 				<label className="radio-label">
 					<input
 						type="radio"
-						id="r1_type_of_relationship"
-						name="r1_type_of_relationship"
-						value="professional"
+						id="r1_relation_type"
+						name="r1_relation_type"
+						value="academic"
 						disabled={!isEditing}
 						onChange={handleChange}
 					/>
@@ -190,9 +190,9 @@ export default function References() {
 				<label className="radio-label">
 					<input
 						type="radio"
-						id="r1_type_of_relationship"
-						name="r1_type_of_relationship"
-						value="professional"
+						id="r1_relation_type"
+						name="r1_relation_type"
+						value="personal"
 						disabled={!isEditing}
 						onChange={handleChange}
 					/>
@@ -255,8 +255,8 @@ export default function References() {
 				<label className="radio-label">
 					<input
 						type="radio"
-						id="type-of-relationship"
-						name="type-of-relationship"
+						id="r2_relation_type"
+						name="r2_relation_type"
 						value="professional"
 						disabled={!isEditing}
 						onChange={handleChange}
@@ -266,9 +266,9 @@ export default function References() {
 				<label className="radio-label">
 					<input
 						type="radio"
-						id="type-of-relationship"
-						name="type-of-relationship"
-						value="professional"
+						id="r2_relation_type"
+						name="r2_relation_type"
+						value="pastoral"
 						disabled={!isEditing}
 						onChange={handleChange}
 					/>
@@ -277,8 +277,8 @@ export default function References() {
 				<label className="radio-label">
 					<input
 						type="radio"
-						id="type-of-relationship"
-						name="type-of-relationship"
+						id="r2_relation_type"
+						name="r2_relation_type"
 						value="academic"
 						disabled={!isEditing}
 						onChange={handleChange}
@@ -353,8 +353,8 @@ export default function References() {
 				<label className="radio-label">
 					<input
 						type="radio"
-						id="type-of-relationship"
-						name="type-of-relationship"
+						id="r3_relation_type"
+						name="r3_relation_type"
 						value="professional"
 						disabled={!isEditing}
 						onChange={handleChange}
@@ -364,9 +364,9 @@ export default function References() {
 				<label className="radio-label">
 					<input
 						type="radio"
-						id="type-of-relationship"
-						name="type-of-relationship"
-						value="professional"
+						id="r3_relation_type"
+						name="r3_relation_type"
+						value="pastoral"
 						disabled={!isEditing}
 						onChange={handleChange}
 					/>
@@ -375,8 +375,8 @@ export default function References() {
 				<label className="radio-label">
 					<input
 						type="radio"
-						id="type-of-relationship"
-						name="type-of-relationship"
+						id="r3_relation_type"
+						name="r3_relation_type"
 						value="academic"
 						disabled={!isEditing}
 						onChange={handleChange}
@@ -386,8 +386,8 @@ export default function References() {
 				<label className="radio-label">
 					<input
 						type="radio"
-						id="type-of-relationship"
-						name="type-of-relationship"
+						id="r3_relation_type"
+						name="r3_relation_type"
 						value="personal"
 						disabled={!isEditing}
 						onChange={handleChange}

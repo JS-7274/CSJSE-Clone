@@ -221,6 +221,10 @@ label {
 	border-radius: 4px;
 }
 
+.form-group input[type="file"] {
+	border: none;
+}
+
 .radio-label {
 	font-weight: normal;
 }

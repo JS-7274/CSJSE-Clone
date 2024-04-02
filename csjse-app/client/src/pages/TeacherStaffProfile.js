@@ -19,7 +19,7 @@ const TeacherStaffProfile = () => {
 	const [loading, setLoading] = useState(true);
 	const [activeTab, setActiveTab] = useState("Profile Information");
 	const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
-	const { id } = useParams();
+	const { teacher_staff_id } = useParams();
 
 	const handleTabClick = (tab) => {
 		setActiveTab(tab);
@@ -69,7 +69,7 @@ const TeacherStaffProfile = () => {
 		const unsubscribe = auth.onAuthStateChanged((user) => {
 			if (user) {
 				setUser(user);
-				const userId = id || user.uid;
+				const userId = teacher_staff_id || user.uid;
 				checkTeacherAccount(userId);
 			} else {
 				window.location.href = "/TeacherLogin";
@@ -82,7 +82,7 @@ const TeacherStaffProfile = () => {
 	}, []);
 
 	const fetchUserData = () => {
-		fetch(`http://localhost:5000/api/teacher/users/${id}`)
+		fetch(`http://localhost:5000/api/teacher/users/${teacher_staff_id}`)
 			.then((response) => response.json())
 			.then((data) => {
 				if (data.success) {

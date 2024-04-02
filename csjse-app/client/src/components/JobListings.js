@@ -161,7 +161,6 @@ export default function JobListings() {
 		fetchJobData();
 	}, [school_id, fetchJobList]);
 
-	//opens edit job posting form for speific job in viewable list
 	// opens edit job posting form for specific job in viewable list
 	const handleEdit = async (jobId) => {
 		try {

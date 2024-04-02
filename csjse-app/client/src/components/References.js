@@ -1,28 +1,59 @@
 /* This file handles the display of references in profiles. */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 export default function References() {
 	// State for managing editing mode
 	const [isEditing, setIsEditing] = useState(false);
-	// State for tracking reference 1 details
-	const [R1Name, setR1Name] = useState("");
-	const [R1Relationship, setR1Relationship] = useState("");
-	const [setR1RelationType] = useState("");
-	const [R1PhoneNumber, setR1PhoneNumber] = useState("");
-	const [R1Email, setR1Email] = useState("");
-	// State for tracking reference 2 details
-	const [R2Name, setR2Name] = useState("");
-	const [R2Relationship, setR2Relationship] = useState("");
-	const [setR2RelationType] = useState("");
-	const [R2PhoneNumber, setR2PhoneNumber] = useState("");
-	const [R2Email, setR2Email] = useState("");
-	// State for tracking reference 3 details
-	const [R3Name, setR3Name] = useState("");
-	const [R3Relationship, setR3Relationship] = useState("");
-	const [setR3RelationType] = useState("");
-	const [R3PhoneNumber, setR3PhoneNumber] = useState("");
-	const [R3Email, setR3Email] = useState("");
+	const [id, setId] = useState("");
+	const { teacher_staff_id } = useParams();
+	console.log("ID:", id);
+
+	const [referencesData, setReferencesData] = useState({
+		teacher_staff_id,
+		r1_name: "",
+		r1_relationship: "",
+		r1_relation_type: "",
+		r1_phone_number: "",
+		r1_email: "",
+		r2_name: "",
+		r2_relationship: "",
+		r2_relation_type: "",
+		r2_phone_number: "",
+		r2_email: "",
+		r3_name: "",
+		r3_relationship: "",
+		r3_relation_type: "",
+		r3_phone_number: "",
+		r3_email: "",
+	});
+
+	useEffect(() => {
+		const fetchId = async () => {
+			try {
+				const response = await fetch(
+					`http://localhost:5000/api/teachers/users/${teacher_staff_id}`
+				);
+				const data = await response.json();
+
+				if (data.success) {
+					setReferencesData(
+						setReferencesData({
+							...referencesData,
+							[teacher_staff_id]: data.teacher_staff_id,
+						})
+					); // Corrected function name
+				} else {
+					console.error("Error fetching user data:", data.message);
+				}
+			} catch (error) {
+				console.error("Error fetching user data:", error);
+			}
+		};
+
+		fetchId();
+	}, [teacher_staff_id]);
 
 	// Function to toggle editing mode
 	const toggleEditing = () => {
@@ -30,13 +61,48 @@ export default function References() {
 	};
 
 	// Function to handle saving changes
-	const handleSave = () => {
-		setIsEditing(false); // Disable editing mode
+	const handleSave = async (e) => {
+		e.preventDefault();
+		try {
+			// Update jobData with the location state and applicationUrl state
+			setReferencesData({
+				...referencesData,
+			});
+
+			const response = await fetch(
+				"http://localhost:5000/api/updateReferences/",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(referencesData),
+				}
+			);
+
+			// Parse the response as JSON
+			const data = await response.json();
+
+			console.log(data.success);
+
+			// If response is successful, ...
+			if (data.success) {
+				setIsEditing(!isEditing);
+			} else {
+				console.error("Error during job posting creation:", data.error);
+			}
+		} catch (error) {
+			console.error("Error during job posting creation:", error);
+		}
 	};
 
 	// Function to handle input changes
-	const handleInputChange = (event, setter) => {
-		setter(event.target.value);
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setReferencesData({
+			...referencesData,
+			[name]: value,
+		});
 	};
 
 	return (
@@ -67,9 +133,11 @@ export default function References() {
 				<input
 					className="input-field"
 					type="text"
-					value={R1Name}
+					id="r1_name"
+					name="r1_name"
+					value={referencesData.r1_name}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setR1Name)}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="form-group">
@@ -77,9 +145,11 @@ export default function References() {
 				<input
 					className="input-field"
 					type="text"
-					value={R1Relationship}
+					id="r1_relationship"
+					name="r1_relationship"
+					value={referencesData.r1_relationship}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setR1Relationship)}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="form-group">
@@ -87,40 +157,44 @@ export default function References() {
 				<label className="radio-label">
 					<input
 						type="radio"
-						id="type-of-relationship"
+						id="r1_type_of_relationship"
+						name="r1_type_of_relationship"
 						value="professional"
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setR1RelationType)}
+						onChange={handleChange}
 					/>
 					Professional
 				</label>
 				<label className="radio-label">
 					<input
 						type="radio"
-						id="type-of-relationship"
+						id="r1_type_of_relationship"
+						name="r1_type_of_relationship"
 						value="professional"
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setR1RelationType)}
+						onChange={handleChange}
 					/>
 					Pastoral
 				</label>
 				<label className="radio-label">
 					<input
 						type="radio"
-						id="type-of-relationship"
-						value="academic"
+						id="r1_type_of_relationship"
+						name="r1_type_of_relationship"
+						value="professional"
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setR1RelationType)}
+						onChange={handleChange}
 					/>
 					Academic
 				</label>
 				<label className="radio-label">
 					<input
 						type="radio"
-						id="type-of-relationship"
-						value="personal"
+						id="r1_type_of_relationship"
+						name="r1_type_of_relationship"
+						value="professional"
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setR1RelationType)}
+						onChange={handleChange}
 					/>
 					Personal
 				</label>
@@ -130,9 +204,11 @@ export default function References() {
 				<input
 					className="input-field"
 					type="text"
-					value={R1PhoneNumber}
+					id="r1_phone_number"
+					name="r1_phone_number"
+					value={referencesData.r1_phone_number}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setR1PhoneNumber)}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="form-group">
@@ -140,9 +216,11 @@ export default function References() {
 				<input
 					className="input-field"
 					type="text"
-					value={R1Email}
+					id="r1_email"
+					name="r1_email"
+					value={referencesData.r1_email}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setR1Email)}
+					onChange={handleChange}
 				/>
 			</div>
 
@@ -153,9 +231,11 @@ export default function References() {
 				<input
 					className="input-field"
 					type="text"
-					value={R2Name}
+					id="r2_name"
+					name="r2_name"
+					value={referencesData.r2_name}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setR2Name)}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="form-group">
@@ -163,9 +243,11 @@ export default function References() {
 				<input
 					className="input-field"
 					type="text"
-					value={R2Relationship}
+					id="r2_relationship"
+					name="r2_relationship"
+					value={referencesData.r2_relationship}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setR2Relationship)}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="form-group">
@@ -174,9 +256,10 @@ export default function References() {
 					<input
 						type="radio"
 						id="type-of-relationship"
+						name="type-of-relationship"
 						value="professional"
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setR2RelationType)}
+						onChange={handleChange}
 					/>
 					Professional
 				</label>
@@ -184,9 +267,10 @@ export default function References() {
 					<input
 						type="radio"
 						id="type-of-relationship"
+						name="type-of-relationship"
 						value="professional"
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setR1RelationType)}
+						onChange={handleChange}
 					/>
 					Pastoral
 				</label>
@@ -194,9 +278,10 @@ export default function References() {
 					<input
 						type="radio"
 						id="type-of-relationship"
+						name="type-of-relationship"
 						value="academic"
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setR2RelationType)}
+						onChange={handleChange}
 					/>
 					Academic
 				</label>
@@ -204,9 +289,10 @@ export default function References() {
 					<input
 						type="radio"
 						id="type-of-relationship"
+						name="type-of-relationship"
 						value="personal"
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setR2RelationType)}
+						onChange={handleChange}
 					/>
 					Personal
 				</label>
@@ -216,9 +302,11 @@ export default function References() {
 				<input
 					className="input-field"
 					type="text"
-					value={R2PhoneNumber}
+					id="r2_phone-number"
+					name="r2_phone-number"
+					value={referencesData.r2_phone_number}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setR2PhoneNumber)}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="form-group">
@@ -226,9 +314,11 @@ export default function References() {
 				<input
 					className="input-field"
 					type="text"
-					value={R2Email}
+					id="r2_email"
+					name="r2_email"
+					value={referencesData.r2_email}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setR2Email)}
+					onChange={handleChange}
 				/>
 			</div>
 
@@ -239,9 +329,11 @@ export default function References() {
 				<input
 					className="input-field"
 					type="text"
-					value={R3Name}
+					id="r3_name"
+					name="r3_name"
+					value={referencesData.r3_name}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setR3Name)}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="form-group">
@@ -249,9 +341,11 @@ export default function References() {
 				<input
 					className="input-field"
 					type="text"
-					value={R3Relationship}
+					id="r3_relationship"
+					name="r3_relationship"
+					value={referencesData.r3_relationship}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setR3Relationship)}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="form-group">
@@ -260,9 +354,10 @@ export default function References() {
 					<input
 						type="radio"
 						id="type-of-relationship"
+						name="type-of-relationship"
 						value="professional"
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setR3RelationType)}
+						onChange={handleChange}
 					/>
 					Professional
 				</label>
@@ -270,9 +365,10 @@ export default function References() {
 					<input
 						type="radio"
 						id="type-of-relationship"
+						name="type-of-relationship"
 						value="professional"
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setR1RelationType)}
+						onChange={handleChange}
 					/>
 					Pastoral
 				</label>
@@ -280,9 +376,10 @@ export default function References() {
 					<input
 						type="radio"
 						id="type-of-relationship"
+						name="type-of-relationship"
 						value="academic"
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setR3RelationType)}
+						onChange={handleChange}
 					/>
 					Academic
 				</label>
@@ -290,9 +387,10 @@ export default function References() {
 					<input
 						type="radio"
 						id="type-of-relationship"
+						name="type-of-relationship"
 						value="personal"
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setR3RelationType)}
+						onChange={handleChange}
 					/>
 					Personal
 				</label>
@@ -302,9 +400,11 @@ export default function References() {
 				<input
 					className="input-field"
 					type="text"
-					value={R3PhoneNumber}
+					id="r3_phone-number"
+					name="r3_phone-number"
+					value={referencesData.r3_phone_number}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setR3PhoneNumber)}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="form-group">
@@ -312,9 +412,11 @@ export default function References() {
 				<input
 					className="input-field"
 					type="text"
-					value={R3Email}
+					id="r3_email"
+					name="r3_email"
+					value={referencesData.r3_email}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setR3Email)}
+					onChange={handleChange}
 				/>
 			</div>
 		</div>

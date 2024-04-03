@@ -28,7 +28,13 @@ function SchoolList({
 
 	useEffect(() => {
 		// Update filtered schools when search result, selected grade range, or selected location changes
-		if (searchTerm || selectedGradeRange || selectedLocation || searchZip) {
+		if (
+			searchTerm ||
+			selectedGradeRange ||
+			selectedLocation ||
+			searchZip ||
+			looking
+		) {
 			const filtered = allSchools.filter(
 				(school) =>
 					school.school_name.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -42,9 +48,12 @@ function SchoolList({
 					(!looking || school.looking)
 			);
 			setFilteredSchools(filtered); // Update state to filtered
+			console.log("Filtered Schools:", filtered); // Log filtered schools
 		} else {
 			setFilteredSchools(allSchools); // Update state to not filtered (if there are no filters)
+			console.log("All Schools:", allSchools); // Log all schools
 		}
+		console.log("Looking for work:", looking);
 	}, [
 		searchResult,
 		searchTerm,
@@ -64,6 +73,7 @@ function SchoolList({
 						<button
 							key={school.school_id}
 							onClick={() => onSelectSchool(school)}
+							className="school-box"
 						>
 							{school.school_name}
 						</button>

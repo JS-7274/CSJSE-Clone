@@ -1,6 +1,6 @@
 /* The purpose of this file is to display information for the teacher user on their own profile.
    This file works with the ProfileInfo file to display the information correctly. */
-   
+
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { auth } from "../firebase";
@@ -15,7 +15,7 @@ import OptionalUploads from "../components/OptionalUploads";
 // Functional component for Teacher/Staff profile
 const TeacherStaffProfile = () => {
 	const [user, setUser] = useState(null);
-	const [userData, setUserData] = useState(null);
+	const [userData, setUserData] = useState("");
 	const [loading, setLoading] = useState(true);
 	const [activeTab, setActiveTab] = useState("Profile Information");
 	const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
@@ -42,7 +42,9 @@ const TeacherStaffProfile = () => {
 
 	const checkTeacherAccount = async (userId) => {
 		try {
-			const response = await fetch(`http://localhost:5000/api/checkTeacherAccount/${userId}`);
+			const response = await fetch(
+				`http://localhost:5000/api/checkTeacherAccount/${userId}`
+			);
 			const data = await response.json();
 
 			if (!data.exists) {
@@ -103,7 +105,7 @@ const TeacherStaffProfile = () => {
 
 	if (loading) {
 		return <p>Loading...</p>;
-}
+	}
 	return (
 		<div>
 			<TeacherStaffHeader></TeacherStaffHeader> {/* Header component */}
@@ -146,12 +148,13 @@ const TeacherStaffProfile = () => {
 				<div className="content">
 					<div className="welcome-message">
 						{/* Welcome message */}
-						<h2>Hello {userData?.first_name}. Welcome to your profile!</h2>
+						<h2>Hello {userData.first_name}. Welcome to your profile!</h2>
 					</div>
 					<div className="profile-content">
 						{/* Render different components based on active tab */}
-						{activeTab === "Profile Information" && 
-							(<ProfileInfo userData={userData}></ProfileInfo>)}
+						{activeTab === "Profile Information" && (
+							<ProfileInfo userData={userData}></ProfileInfo>
+						)}
 						{activeTab === "References" && <References></References>}
 						{activeTab === "Optional Uploads" && (
 							<OptionalUploads></OptionalUploads>

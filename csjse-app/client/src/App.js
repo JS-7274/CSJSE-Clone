@@ -20,7 +20,7 @@ import AdminTeachers from "./pages/AdminTeachers";
 import AdminSchools from "./pages/AdminSchools";
 import AdminJobs from "./pages/AdminJobs";
 import { Routes, Route } from "react-router-dom";
-import { auth } from './firebase';
+import { auth } from "./firebase";
 
 function App() {
 	return (
@@ -29,7 +29,7 @@ function App() {
 			<Route path="/TeacherLogin" element={<TeacherLogin />} />
 			<Route path="/SchoolLogin" element={<SchoolLogin />} />
 			<Route
-				path="/TeacherStaffProfile/:id"
+				path="/TeacherStaffProfile/:teacher_staff_id"
 				element={<TeacherStaffProfile />}
 			/>
 			<Route path="/SchoolProfile/:school_id" element={<SchoolProfile />} />

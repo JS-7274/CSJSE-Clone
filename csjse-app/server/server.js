@@ -715,9 +715,6 @@ app.use((req, res, next) => {
 app.post("/api/updateProfileInfo", (req, res) => {
 	console.log("Received profile information update request", req.body);
 
-	// Gets teacherId and teacherData from req.body
-	const { teacherId, teacherData } = req.body;
-
 	const {
 		teacher_staff_id,
 		first_name,
@@ -735,7 +732,7 @@ app.post("/api/updateProfileInfo", (req, res) => {
 		zip,
 	} = req.body;
 
-	// Checking if the job exists
+	// Checking if the teacher or staff member exists
 	const checkTeacherIdSql = `SELECT * FROM teacher_staff_profile WHERE teacher_staff_id =?`;
 
 	db.query(checkTeacherIdSql, [teacher_staff_id], (err, teacherResults) => {
@@ -772,19 +769,20 @@ app.post("/api/updateProfileInfo", (req, res) => {
 		db.query(
 			updateTeacherSql,
 			[
-				teacherData.first_name,
-				teacherData.last_name,
-				teacherData.looking,
-				teacherData.phone,
-				teacherData.contactEmail,
-				teacherData.homeChurch,
-				teacherData.jobResume,
-				teacherData.testimony,
-				teacherData.coverLetter,
-				teacherData.headshot,
-				teacherData.degree,
-				teacherData.location,
-				teacherData.zip,
+				first_name,
+				last_name,
+				looking,
+				phone,
+				contact_email,
+				home_church,
+				resume,
+				testimony,
+				cover_letter,
+				headshot,
+				degree,
+				location,
+				zip,
+				teacher_staff_id,
 			],
 			(err, results) => {
 				if (err) {

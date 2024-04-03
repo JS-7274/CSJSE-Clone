@@ -61,7 +61,10 @@ export default function ProfileInfo() {
 				const data = await response.json();
 
 				if (data.success) {
-					setUserData(data.user);
+					setUserData({
+						...userData,
+						[teacher_staff_id]: data.teacher_staff_id,
+					});
 				} else {
 					console.error("Error fetching user data:", data.message);
 				}
@@ -92,9 +95,7 @@ export default function ProfileInfo() {
 
 	// Function to handle saving changes
 	const handleSave = async (e) => {
-		setIsEditing(false); // Disable editing mode
-
-		e.preventDefault();
+		console.log("Save button clicked");
 		try {
 			const response = await fetch(
 				`http://localhost:5000/api/updateProfileInfo`,

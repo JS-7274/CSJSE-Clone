@@ -73,7 +73,6 @@ function SchoolList({
 						<button
 							key={school.school_id}
 							onClick={() => onSelectSchool(school)}
-							className="school-box"
 						>
 							{school.school_name}
 						</button>

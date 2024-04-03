@@ -20,7 +20,7 @@ function TeachersList({ onSelectTeacher, searchResult, searchTerm, selectedDegre
 
   useEffect(() => {
     // Update filtered teachers when search result, selected degree, or selected location changes
-    if (searchTerm || selectedDegree || selectedLocation || searchZip) {
+    if (searchTerm || selectedDegree || selectedLocation || searchZip || looking) {
       const filtered = allTeachers.filter(teacher =>
         (teacher.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         teacher.last_name.toLowerCase().includes(searchTerm.toLowerCase())) &&
@@ -30,10 +30,13 @@ function TeachersList({ onSelectTeacher, searchResult, searchTerm, selectedDegre
         (!looking || teacher.looking) 
       );
       setFilteredTeachers(filtered); // Sets the filter
+      console.log("Filtered Teachers:", filtered); // Log filtered teachers
     } else {
       setFilteredTeachers(allTeachers); // If no filter, stays as all teachers
+      console.log("All Teachers:", allTeachers); // Log all teachers
     }
-  }, [searchResult, searchTerm, selectedDegree, selectedLocation, searchZip, looking, allTeachers]);
+    console.log("Looking for work:", looking);
+}, [searchResult, searchTerm, selectedDegree, selectedLocation, searchZip, looking, allTeachers]);
   
   
   

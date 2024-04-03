@@ -68,22 +68,23 @@ function TeachersList({
 	]);
 
 	return (
-		<div className="list-side">
+		<div className="teacher-list-column teacher-boxes">
 			<h2>Teachers List</h2>
-			<div className="list-sidebar">
+			<ul>
 				{filteredTeachers && filteredTeachers.length > 0 ? (
 					filteredTeachers.map((teacher) => (
-						<button
+						<li
 							key={teacher.teacher_id}
 							onClick={() => onSelectTeacher(teacher)}
+							className="teacher-box"
 						>
 							{teacher.first_name} {teacher.last_name}
-						</button>
+						</li>
 					))
 				) : (
 					<p>No teachers found</p>
 				)}
-			</div>
+			</ul>
 		</div>
 	);
 }

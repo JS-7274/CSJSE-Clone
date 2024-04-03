@@ -65,22 +65,23 @@ function SchoolList({
 	]);
 
 	return (
-		<div className="list-side">
+		<div className="school-list-column school-boxes">
 			<h2>Schools List</h2>
-			<div className="list-sidebar">
+			<ul>
 				{filteredSchools && filteredSchools.length > 0 ? (
 					filteredSchools.map((school) => (
-						<button
+						<li
 							key={school.school_id}
 							onClick={() => onSelectSchool(school)}
+							className="school-box"
 						>
 							{school.school_name}
-						</button>
+						</li>
 					))
 				) : (
 					<p>No schools found</p>
 				)}
-			</div>
+			</ul>
 		</div>
 	);
 }

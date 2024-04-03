@@ -121,13 +121,13 @@ app.post("/api/sCreateAccount", (req, res) => {
 });
 
 // API to fetch user information by ID
-app.get("/api/teacher/users/:id", (req, res) => {
-	const { id } = req.params;
+app.get("/api/teacher/users/:teacher_staff_id", (req, res) => {
+	const { teacher_staff_id } = req.params;
 
 	// Choose the appropriate SQL query based on the user type
 	const sql = "SELECT * FROM teacher_staff_profile WHERE teacher_staff_id = ?";
 
-	db.query(sql, [id], (err, results) => {
+	db.query(sql, [teacher_staff_id], (err, results) => {
 		if (err) {
 			return res.status(500).json({ error: "Internal Server Error" });
 		}
@@ -680,19 +680,36 @@ app.post("/api/updateProfileInfo", (req, res) => {
     // Gets teacherId and teacherData from req.body
     const { teacherId, teacherData } = req.body;
 
+    const {
+        teacher_staff_id,
+        first_name,
+        last_name,
+        looking,
+        phone,
+        contact_email,
+        home_church,
+        resume,
+        testimony,
+        cover_letter,
+        headshot,
+        degree,
+        location,
+        zip,
+    } = req.body;
+
     // Checking if the job exists
     const checkTeacherIdSql = `SELECT * FROM teacher_staff_profile WHERE teacher_staff_id =?`;
 
-    db.query(checkTeacherIdSql, [teacherId], (err, teacherResults) => {
+    db.query(checkTeacherIdSql, [teacher_staff_id], (err, teacherResults) => {
         if (err) {
             console.error("Error checking teacher_id:", err.message);
             return res.status(500).json({ error: 'Internal Server Error' });
         }
 
         // If the teacherId doesn't exist return an error
-        if (teacherResults.length == 0) {
+        if (teacherResults.length > 0) {
             return res.status(400).json({ error: "Invalid teacherId" });
-        }
+        
 
         // Update the teacher profile in the database
         const updateTeacherSql = `
@@ -717,20 +734,20 @@ app.post("/api/updateProfileInfo", (req, res) => {
             db.query(
                 updateTeacherSql,
                 [
-                    teacherData.firstName,
-                    teacherData.lastName,
-                    teacherData.looking,
-                    teacherData.phone,
-                    teacherData.contactEmail,
-                    teacherData.homeChurch,
-                    teacherData.jobResume,
-                    teacherData.testimony,
-                    teacherData.coverLetter,
-                    teacherData.headshot,
-                    teacherData.degree,
-                    teacherData.location,
-                    teacherData.zip,
-                    teacherId
+                    teacher_staff_id,
+                    first_name,
+                    last_name,
+                    looking,
+                    phone,  
+                    contact_email,
+                    home_church,
+                    resume,
+                    testimony,
+                    cover_letter,
+                    headshot,
+                    degree,
+                    location,
+                    zip,
                 ],
                 (err, results) => {
                     if (err) {
@@ -740,7 +757,53 @@ app.post("/api/updateProfileInfo", (req, res) => {
                     return res.json({ success: true });
                 }
             );
-        });
+        } else {
+            const insertTeacherSql = `
+                INSERT INTO teacher_staff_profile (
+                    teacher_staff_id,
+                    first_name,
+                    last_name,
+                    looking,
+                    phone,  
+                    contact_email,
+                    home_church,
+                    resume,
+                    testimony,
+                    cover_letter,
+                    headshot,
+                    degree,
+                    location,
+                    zip,
+                ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+            `;
+            db.query(
+                insertTeacherSQL,
+                [
+                    teacher_staff_id,
+                    first_name,
+                    last_name,
+                    looking,
+                    phone,  
+                    contact_email,
+                    home_church,
+                    resume,
+                    testimony,
+                    cover_letter,
+                    headshot,
+                    degree,
+                    location,
+                    zip,
+                ],
+                (err, results) => {
+                    if (err) {
+                        console.error("Error inserting teacher profile information:", err.message);
+                        return res.status(500).json({ error: 'Internal Server Error' });
+                    }
+
+                    return res.json({ success: true});
+                })
+        }
+    });
 });
 
 app.listen(port, () => {console.log("Server started on port " + port)})

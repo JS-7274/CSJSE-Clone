@@ -61,10 +61,10 @@ export default function ProfileInfo() {
 				const data = await response.json();
 
 				if (data.success) {
-					setUserData({
-						...userData,
-						[teacher_staff_id]: data.teacher_staff_id,
-					});
+					setUserData((prevUserData) => ({
+						...prevUserData,
+						...data.user,
+					}));
 				} else {
 					console.error("Error fetching user data:", data.message);
 				}
@@ -180,11 +180,11 @@ export default function ProfileInfo() {
 				<input
 					className="input-field"
 					type="text"
+					id="first_name"
+					name="first_name"
 					value={userData.first_name}
 					disabled={!isEditing}
 					onChange={handleChange}
-					id="first_name"
-					name="first_name"
 				/>
 			</div>
 			<div className="form-group">
@@ -192,11 +192,11 @@ export default function ProfileInfo() {
 				<input
 					className="input-field"
 					type="text"
+					id="last_name"
+					name="last_name"
 					value={userData.last_name}
 					disabled={!isEditing}
 					onChange={handleChange}
-					id="last_name"
-					name="last_name"
 				/>
 			</div>
 			<div className="form-group">
@@ -204,8 +204,8 @@ export default function ProfileInfo() {
 				<label className="radio-label">
 					<input
 						type="radio"
-						id="looking-for-job"
-						name="looking-for-job"
+						id="looking"
+						name="looking"
 						value="Yes"
 						disabled={!isEditing}
 						onChange={handleChange}
@@ -215,8 +215,8 @@ export default function ProfileInfo() {
 				<label className="radio-label">
 					<input
 						type="radio"
-						id="looking-for-job"
-						name="looking-for-job"
+						id="looking"
+						name="looking"
 						value="No"
 						disabled={!isEditing}
 						onChange={handleChange}
@@ -229,11 +229,11 @@ export default function ProfileInfo() {
 				<input
 					className="input-field"
 					type="text"
+					id="phone"
+					name="phone"
 					value={userData.phone}
 					disabled={!isEditing}
 					onChange={handleChange}
-					id="phone"
-					name="phone"
 				/>
 			</div>
 			<div className="form-group">
@@ -241,11 +241,11 @@ export default function ProfileInfo() {
 				<input
 					className="input-field"
 					type="email"
+					id="contact_email"
+					name="contact_email"
 					value={userData.contact_email}
 					disabled={!isEditing}
 					onChange={handleChange}
-					id="contact_email"
-					name="contact_email"
 				/>
 			</div>
 			<div className="form-group">
@@ -253,11 +253,11 @@ export default function ProfileInfo() {
 				<input
 					className="input-field"
 					type="text"
+					id="home_church"
+					name="home_church"
 					value={userData.home_church}
 					disabled={!isEditing}
 					onChange={handleChange}
-					id="home_church"
-					name="home_church"
 				/>
 			</div>
 			<div className="form-group">
@@ -265,11 +265,11 @@ export default function ProfileInfo() {
 				<input
 					className=""
 					type="file"
+					id="resume"
+					name="resume"
 					value={userData.resume}
 					disabled={!isEditing}
 					onChange={handleChange}
-					id="resume"
-					name="resume"
 				/>
 			</div>
 			<div className="form-group">
@@ -277,11 +277,11 @@ export default function ProfileInfo() {
 				<textarea
 					className="input-field"
 					type="text"
+					id="testimony"
+					name="testimony"
 					value={userData.testimony}
 					disabled={!isEditing}
 					onChange={handleChange}
-					id="testimony"
-					name="testimony"
 				/>
 			</div>
 			<div className="form-group">
@@ -290,7 +290,8 @@ export default function ProfileInfo() {
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="degree-level"
+						id="degree"
+						name="degree"
 						value="Associate"
 						disabled={!isEditing}
 						//checked={degree === "Associate's"}
@@ -301,7 +302,8 @@ export default function ProfileInfo() {
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="degree-level"
+						id="degree"
+						name="degree"
 						value="Bachelor"
 						disabled={!isEditing}
 						//checked={degree === "Bachelor's"}
@@ -312,7 +314,8 @@ export default function ProfileInfo() {
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="degree-level"
+						id="degree"
+						name="degree"
 						value="Master"
 						disabled={!isEditing}
 						//checked={degree === "Master's"}
@@ -327,11 +330,11 @@ export default function ProfileInfo() {
 				<input
 					className="input-field"
 					type="text"
+					id="location"
+					name="location"
 					value={userData.location}
 					disabled={!isEditing}
 					onChange={handleChange}
-					id="location"
-					name="location"
 				/>
 			</div>
 		</div>

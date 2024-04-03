@@ -28,7 +28,13 @@ function TeachersList({
 
 	useEffect(() => {
 		// Update filtered teachers when search result, selected degree, or selected location changes
-		if (searchTerm || selectedDegree || selectedLocation || searchZip) {
+		if (
+			searchTerm ||
+			selectedDegree ||
+			selectedLocation ||
+			searchZip ||
+			looking
+		) {
 			const filtered = allTeachers.filter(
 				(teacher) =>
 					(teacher.first_name
@@ -45,9 +51,12 @@ function TeachersList({
 					(!looking || teacher.looking)
 			);
 			setFilteredTeachers(filtered); // Sets the filter
+			console.log("Filtered Teachers:", filtered); // Log filtered teachers
 		} else {
 			setFilteredTeachers(allTeachers); // If no filter, stays as all teachers
+			console.log("All Teachers:", allTeachers); // Log all teachers
 		}
+		console.log("Looking for work:", looking);
 	}, [
 		searchResult,
 		searchTerm,
@@ -59,22 +68,23 @@ function TeachersList({
 	]);
 
 	return (
-		<div className="list-side">
+		<div className="teacher-list-column teacher-boxes">
 			<h2>Teachers List</h2>
-			<div className="list-sidebar">
+			<ul>
 				{filteredTeachers && filteredTeachers.length > 0 ? (
 					filteredTeachers.map((teacher) => (
-						<button
+						<li
 							key={teacher.teacher_id}
 							onClick={() => onSelectTeacher(teacher)}
+							className="teacher-box"
 						>
 							{teacher.first_name} {teacher.last_name}
-						</button>
+						</li>
 					))
 				) : (
 					<p>No teachers found</p>
 				)}
-			</div>
+			</ul>
 		</div>
 	);
 }

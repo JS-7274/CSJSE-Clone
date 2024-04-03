@@ -20,7 +20,7 @@ function SchoolList({ onSelectSchool, searchResult, searchTerm, selectedGradeRan
 
   useEffect(() => {
     // Update filtered schools when search result, selected grade range, or selected location changes
-    if (searchTerm || selectedGradeRange || selectedLocation || searchZip) {
+    if (searchTerm || selectedGradeRange || selectedLocation || searchZip || looking) {
       const filtered = allSchools.filter(school =>
         (school.school_name.toLowerCase().includes(searchTerm.toLowerCase())) &&
         (selectedGradeRange ? school.grade_range === selectedGradeRange : true) &&
@@ -29,9 +29,12 @@ function SchoolList({ onSelectSchool, searchResult, searchTerm, selectedGradeRan
         (!looking || school.looking) 
       );
       setFilteredSchools(filtered); // Update state to filtered
+      console.log("Filtered Schools:", filtered); // Log filtered schools
     } else {
       setFilteredSchools(allSchools); // Update state to not filtered (if there are no filters)
+      console.log("All Schools:", allSchools); // Log all schools
     }
+    console.log("Looking for work:", looking);
   }, [searchResult, searchTerm, selectedGradeRange, selectedLocation, searchZip, looking, allSchools]);
   
   return (

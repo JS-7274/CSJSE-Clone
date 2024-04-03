@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 export default function ProfileInfo() {
 	const [user, setUser] = useState(null);
 	const { teacher_staff_id } = useParams();
-	const { id } = useParams();
+
 	const [userData, setUserData] = useState({
 		teacher_staff_id,
 		first_name: "",
@@ -56,7 +56,7 @@ export default function ProfileInfo() {
 		const fetchUser = async () => {
 			try {
 				const response = await fetch(
-					`http://localhost:5000/api/teacher/users/${id}`
+					`http://localhost:5000/api/teacher/users/${teacher_staff_id}`
 				);
 				const data = await response.json();
 
@@ -71,7 +71,24 @@ export default function ProfileInfo() {
 		};
 
 		fetchUser();
-	}, [id]);
+	}, [teacher_staff_id]);
+
+	const fetchUserData = async () => {
+		try {
+			const response = await fetch(
+				`http://localhost:5000/api/teacher/users/${teacher_staff_id}`
+			);
+			const data = await response.json();
+
+			if (data.success) {
+				setUserData(data.user || []);
+			} else {
+				console.error("Failed to fetch user's data");
+			}
+		} catch (error) {
+			console.error("Error during API call:", error);
+		}
+	};
 
 	// Function to handle saving changes
 	const handleSave = async (e) => {
@@ -80,7 +97,7 @@ export default function ProfileInfo() {
 		e.preventDefault();
 		try {
 			const response = await fetch(
-				"http://localhost:5000/api/updateProfileInfo",
+				`http://localhost:5000/api/updateProfileInfo`,
 				{
 					method: "POST",
 					headers: {
@@ -97,47 +114,13 @@ export default function ProfileInfo() {
 
 			// If response is successful, ...
 			if (data.success) {
-				setUserData(data);
+				setIsEditing(false);
+				fetchUserData();
 			} else {
 				console.error("Error saving changes:", data.error);
 			}
 		} catch {
 			console.error("Error saving changes:", e);
-		}
-	};
-
-	const handleEdit = async (teacher_staff_id) => {
-		try {
-			console.log("Editing job with ID:", teacher_staff_id);
-
-			const response = await fetch(
-				`http://localhost:5000/api/updateProfileInfo/${teacher_staff_id}`
-			);
-			const data = await response.json();
-			if (data.success) {
-				const profile = data.profile;
-				setUserData({
-					teacher_staff_id: profile.teacher_staff_id,
-					first_name: profile.first_name,
-					last_name: profile.last_name,
-					looking: profile.looking,
-					phone: profile.phone,
-					contact_email: profile.contact_email,
-					home_church: profile.home_church,
-					resume: profile.resume,
-					testimony: profile.testimony,
-					cover_letter: profile.cover_letter,
-					headshot: profile.headshot,
-					degree: profile.degree,
-					location: profile.location,
-					zip: profile.zip,
-				});
-				setUserData(teacher_staff_id);
-			} else {
-				console.error("Error fetching profile data:", data.error);
-			}
-		} catch (error) {
-			console.error("Error fetching profile data:", error);
 		}
 	};
 

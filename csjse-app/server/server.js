@@ -121,13 +121,13 @@ app.post("/api/sCreateAccount", (req, res) => {
 });
 
 // API to fetch user information by ID
-app.get("/api/teacher/users/:id", (req, res) => {
-	const { id } = req.params;
+app.get("/api/teacher/users/:teacher_staff_id", (req, res) => {
+	const { teacher_staff_id } = req.params;
 
 	// Choose the appropriate SQL query based on the user type
 	const sql = "SELECT * FROM teacher_staff_profile WHERE teacher_staff_id = ?";
 
-	db.query(sql, [id], (err, results) => {
+	db.query(sql, [teacher_staff_id], (err, results) => {
 		if (err) {
 			return res.status(500).json({ error: "Internal Server Error" });
 		}
@@ -716,12 +716,29 @@ app.post("/api/updateProfileInfo", (req, res) => {
 	console.log("Received profile information update request", req.body);
 
 	// Gets teacherId and teacherData from req.body
-	const { userData } = req.body;
+	const { teacherId, teacherData } = req.body;
+
+	const {
+		teacher_staff_id,
+		first_name,
+		last_name,
+		looking,
+		phone,
+		contact_email,
+		home_church,
+		resume,
+		testimony,
+		cover_letter,
+		headshot,
+		degree,
+		location,
+		zip,
+	} = req.body;
 
 	// Checking if the job exists
 	const checkTeacherIdSql = `SELECT * FROM teacher_staff_profile WHERE teacher_staff_id =?`;
 
-	db.query(checkTeacherIdSql, [teacherId], (err, teacherResults) => {
+	db.query(checkTeacherIdSql, [teacher_staff_id], (err, teacherResults) => {
 		if (err) {
 			console.error("Error checking teacher_id:", err.message);
 			return res.status(500).json({ error: "Internal Server Error" });

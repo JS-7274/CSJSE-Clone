@@ -712,42 +712,44 @@ app.use((req, res, next) => {
 });
 
 // API to Update Profile Information on Edit
-app.post("/api/updateProfileInfo", (req, res) => {
-	console.log("Received profile information update request", req.body);
+app.post(
+	"/api/teacher/users/:teacher_staff_id/updateProfileInfo",
+	(req, res) => {
+		console.log("Received profile information update request", req.body);
 
-	const {
-		teacher_staff_id,
-		first_name,
-		last_name,
-		looking,
-		phone,
-		contact_email,
-		home_church,
-		resume,
-		testimony,
-		cover_letter,
-		headshot,
-		degree,
-		location,
-		zip,
-	} = req.body;
+		const {
+			teacher_staff_id,
+			first_name,
+			last_name,
+			looking,
+			phone,
+			contact_email,
+			home_church,
+			resume,
+			testimony,
+			cover_letter,
+			headshot,
+			degree,
+			location,
+			zip,
+		} = req.body;
 
-	// Checking if the teacher or staff member exists
-	const checkTeacherIdSql = `SELECT * FROM teacher_staff_profile WHERE teacher_staff_id =?`;
+		// Checking if the job exists
+		const checkTeacherIdSql = `SELECT * FROM Teacher_Staff_Profile WHERE teacher_staff_id =?`;
 
-	db.query(checkTeacherIdSql, [teacher_staff_id], (err, teacherResults) => {
-		if (err) {
-			console.error("Error checking teacher_id:", err.message);
-			return res.status(500).json({ error: "Internal Server Error" });
-		}
+		db.query(checkTeacherIdSql, [teacher_staff_id], (err, teacherResults) => {
+			if (err) {
+				console.error("Error checking teacher_id:", err.message);
+				return res.status(500).json({ error: "Internal Server Error" });
+			}
 
-		// If the teacherId doesn't exist return an error
-		if (teacherResults.length == 0) {
-			return res.status(400).json({ error: "Invalid teacherId" });
-		}
+			// If the teacherId doesn't exist return an error
+			if (teacherResults.length == 0) {
+				return res.status(400).json({ error: "Invalid teacherId" });
+			}
 
-		// Update the teacher profile in the database
-		const updateTeacherSql = `
+			// Update the teacher profile in the database
+			const updateTeacherSql = `
             UPDATE teacher_staff_profile
             SET
                 first_name = ?,
@@ -766,34 +768,35 @@ app.post("/api/updateProfileInfo", (req, res) => {
             WHERE teacher_staff_id = ?
         `;
 
-		db.query(
-			updateTeacherSql,
-			[
-				first_name,
-				last_name,
-				looking,
-				phone,
-				contact_email,
-				home_church,
-				resume,
-				testimony,
-				cover_letter,
-				headshot,
-				degree,
-				location,
-				zip,
-				teacher_staff_id,
-			],
-			(err, results) => {
-				if (err) {
-					console.error("Error updating teacher profile:", err.message);
-					return res.status(500).json({ error: "Internal Server Error" });
+			db.query(
+				updateTeacherSql,
+				[
+					first_name,
+					last_name,
+					looking,
+					phone,
+					contact_email,
+					home_church,
+					resume,
+					testimony,
+					cover_letter,
+					headshot,
+					degree,
+					location,
+					zip,
+					teacher_staff_id,
+				],
+				(err, teacherResults) => {
+					if (err) {
+						console.error("Error updating teacher profile:", err.message);
+						return res.status(500).json({ error: "Internal Server Error" });
+					}
+					return res.json({ success: true });
 				}
-				return res.json({ success: true });
-			}
-		);
-	});
-});
+			);
+		});
+	}
+);
 
 app.listen(port, () => {
 	console.log("Server started on port " + port);

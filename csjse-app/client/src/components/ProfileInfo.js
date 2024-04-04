@@ -98,7 +98,8 @@ export default function ProfileInfo() {
 		console.log("Save button clicked");
 		try {
 			const response = await fetch(
-				`http://localhost:5000/api/updateProfileInfo`,
+				`http://localhost:5000/api/teacher/users/${teacher_staff_id}/updateProfileInfo`,
+
 				{
 					method: "POST",
 					headers: {

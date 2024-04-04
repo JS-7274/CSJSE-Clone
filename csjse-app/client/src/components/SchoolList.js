@@ -78,7 +78,7 @@ function SchoolList({
 						</button>
 					))
 				) : (
-					<p>No schools found</p>
+					<p>No Schools 1found</p>
 				)}
 			</div>
 		</div>

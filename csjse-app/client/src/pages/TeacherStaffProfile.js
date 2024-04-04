@@ -134,14 +134,14 @@ const TeacherStaffProfile = () => {
 							Optional Uploads{" "}
 						</button>
 					</div>
-					<div>
+					<div className="ld-button-group">
 						{/* Logout button */}
 						<button className="logout-button" onClick={handleLogout}>
 							Logout
 						</button>
 
-						{/* Deactivate account button */}
-						<button className="deactivate-button">Deactivate Account</button>
+						{/* Deactivate account button 
+						<button className="deactivate-button">Deactivate Account</button> */}
 					</div>
 				</div>
 

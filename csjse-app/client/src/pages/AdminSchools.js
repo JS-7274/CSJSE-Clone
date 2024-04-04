@@ -269,6 +269,7 @@ function AdminSchools() {
                 <p>Grade Range: {selectedSchool.grade_range}</p>
                 <p>Contact Email: {selectedSchool.contact_email}</p>
                 <p>Phone: {selectedSchool.phone}</p>
+                <p>User ID: {selectedSchool.school_id}</p>
                 {/* Button to toggle more information */}
                 <button onClick={() => handleDeleteSchool(selectedSchool.school_id)}>Delete School</button>
                 <button onClick={toggleMoreInfo}>

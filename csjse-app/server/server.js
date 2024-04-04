@@ -303,6 +303,7 @@ app.post("/api/createJobPosting", (req, res) => {
 		job_title,
 		job_description,
 		job_location,
+		job_zip,
 		interview_location,
 		contact_email,
 		salary_range,
@@ -333,8 +334,8 @@ app.post("/api/createJobPosting", (req, res) => {
 		// updates the sjob_posting database first so it can get the automatically generated ID
 		const insertJobPostingSql = `
 		INSERT INTO Job_Posting (
-			school_id, job_title, job_description, job_location, interview_location, contact_email, salary_range, preferred_degree, required_degree, preferred_experience, required_experience, posted_date, application_url 
-		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)
+			school_id, job_title, job_description, job_location, job_zip, interview_location, contact_email, salary_range, preferred_degree, required_degree, preferred_experience, required_experience, posted_date, application_url 
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)
 		`;
 
 		db.query(
@@ -344,6 +345,7 @@ app.post("/api/createJobPosting", (req, res) => {
 				job_title,
 				job_description,
 				job_location,
+				job_zip,
 				interview_location,
 				contact_email,
 				salary_range,
@@ -445,6 +447,7 @@ app.post("/api/updateJobPosting", (req, res) => {
                 job_title = ?, 
                 job_description = ?, 
                 job_location = ?, 
+				job_zip = ?,
                 interview_location = ?, 
                 contact_email = ?, 
                 salary_range = ?, 
@@ -462,6 +465,7 @@ app.post("/api/updateJobPosting", (req, res) => {
 				jobData.job_title,
 				jobData.job_description,
 				jobData.job_location,
+				jobData.job_zip,
 				jobData.interview_location,
 				jobData.contact_email,
 				jobData.salary_range,
@@ -710,93 +714,6 @@ app.use((err, req, res, next) => {
 app.use((req, res, next) => {
 	res.status(404).json({ error: "Not Found" });
 });
-
-// API to Update Profile Information on Edit
-app.post(
-	"/api/teacher/users/:teacher_staff_id/updateProfileInfo",
-	(req, res) => {
-		console.log("Received profile information update request", req.body);
-
-		const {
-			teacher_staff_id,
-			first_name,
-			last_name,
-			looking,
-			phone,
-			contact_email,
-			home_church,
-			resume,
-			testimony,
-			cover_letter,
-			headshot,
-			degree,
-			location,
-			zip,
-		} = req.body;
-
-		// Checking if the job exists
-		const checkTeacherIdSql = `SELECT * FROM Teacher_Staff_Profile WHERE teacher_staff_id =?`;
-
-		db.query(checkTeacherIdSql, [teacher_staff_id], (err, teacherResults) => {
-			if (err) {
-				console.error("Error checking teacher_id:", err.message);
-				return res.status(500).json({ error: "Internal Server Error" });
-			}
-
-			// If the teacherId doesn't exist return an error
-			if (teacherResults.length == 0) {
-				return res.status(400).json({ error: "Invalid teacherId" });
-			}
-
-			// Update the teacher profile in the database
-			const updateTeacherSql = `
-            UPDATE teacher_staff_profile
-            SET
-                first_name = ?,
-                last_name = ?,
-                looking = ?,
-                phone = ?,
-                contact_email = ?,
-                home_church = ?,
-                resume = ?,
-                testimony = ?,
-                cover_letter = ?,
-                headshot = ?
-                degree = ?,
-                location = ?,
-                zip = ?
-            WHERE teacher_staff_id = ?
-        `;
-
-			db.query(
-				updateTeacherSql,
-				[
-					first_name,
-					last_name,
-					looking,
-					phone,
-					contact_email,
-					home_church,
-					resume,
-					testimony,
-					cover_letter,
-					headshot,
-					degree,
-					location,
-					zip,
-					teacher_staff_id,
-				],
-				(err, teacherResults) => {
-					if (err) {
-						console.error("Error updating teacher profile:", err.message);
-						return res.status(500).json({ error: "Internal Server Error" });
-					}
-					return res.json({ success: true });
-				}
-			);
-		});
-	}
-);
 
 app.listen(port, () => {
 	console.log("Server started on port " + port);

@@ -208,6 +208,7 @@ function AdminTeachers() {
                 <p>Resume: {selectedTeacher.job_resume}</p>
                 <p>certifications: {selectedTeacher.degree}</p>
                 <p>Experience: {selectedTeacher.experience}</p>
+                <p>User ID: {selectedTeacher.teacher_staff_id}</p>
                 <button onClick={selectedTeacher ? handleDeleteTeacher : () => {}}>Delete Teacher</button>
               </div>
             )}

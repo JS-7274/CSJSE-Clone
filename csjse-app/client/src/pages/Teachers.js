@@ -40,6 +40,7 @@ function Teachers() {
 	const fetchTeachers = () => {
 		// Create a variable to store the filters selected
 		const { degree, location, zip, looking } = filterOptions;
+		console.log("Fetching teachers with filter options:", filterOptions);
 
 		// Organizes the filter information into the url for an API request
 		let url = `http://localhost:5000/api/teachers?searchQuery=${searchTerm}`;
@@ -137,6 +138,7 @@ function Teachers() {
 	// Function to handle looking filter change
 	const handleLookingChange = (event) => {
 		const looking = event.target.checked;
+		console.log("Looking filter changed to:", looking);	
 		setLooking(looking);
 		fetchTeachers();
 		setSelectedTeacher(null);

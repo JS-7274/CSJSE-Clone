@@ -76,7 +76,6 @@ function TeachersList({
 						<button
 							key={teacher.teacher_id}
 							onClick={() => onSelectTeacher(teacher)}
-							className="teacher-box"
 						>
 							{teacher.first_name} {teacher.last_name}
 						</button>

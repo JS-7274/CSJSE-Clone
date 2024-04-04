@@ -12,6 +12,7 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 function Teachers() {
 	// Add state to store what teacher is currently selected
 	const [selectedTeacher, setSelectedTeacher] = useState(null);
+	const [noSelectedTeacher, setNoSelectedTeacher] = useState(true);
 	// Add state to store the result of a search
 	const [searchResult, setSearchResult] = useState([]);
 	// Add state to store the term that is searched
@@ -29,8 +30,6 @@ function Teachers() {
 	const [searchZip, setSearchZip] = useState("");
 	// Add state to store the looking filter
 	const [looking, setLooking] = useState(false);
-
-	const [viewFilters, setViewFilters] = useState(false);
 
 	useEffect(() => {
 		// Fetch all teachers when the file is called
@@ -74,11 +73,6 @@ function Teachers() {
 			);
 	};
 
-	// function to view filters
-	const handleFilterClick = () => {
-		setViewFilters(true);
-	};
-
 	// Function to reset filters
 	const resetFilters = () => {
 		// Sets these states to "" or the equivalent of Null or empty
@@ -94,17 +88,22 @@ function Teachers() {
 	const handleSearch = (searchTerm) => {
 		setSearchTerm(searchTerm); // Updates the state to what the user is searching for
 		fetchTeachers(); // Trigger re-fetch when search term changes
+		setSelectedTeacher(null);
+		setNoSelectedTeacher(true);
 	};
 
 	// Function to handle showing all teachers, clears filter and search
 	const handleShowAll = () => {
 		resetFilters(); // Reset filters
 		fetchTeachers(); // Trigger re-fetch when "Show All" is clicked
+		setSelectedTeacher(null);
+		setNoSelectedTeacher(true);
 	};
 
 	// Function to handle selecting a teacher
 	const handleSelectTeacher = (teacher) => {
 		setSelectedTeacher(teacher); // Updates the state to the teacher being selected
+		setNoSelectedTeacher(false);
 	};
 
 	// Function to handle degree change
@@ -113,6 +112,8 @@ function Teachers() {
 		setSelectedDegree(degree);
 		setFilterOptions({ ...filterOptions, degree });
 		fetchTeachers(); // Trigger fetching teachers when degree filter changes
+		setSelectedTeacher(null);
+		setNoSelectedTeacher(true);
 	};
 
 	// Function to handle location change
@@ -121,6 +122,8 @@ function Teachers() {
 		setSelectedLocation(location);
 		setFilterOptions({ ...filterOptions, location });
 		fetchTeachers(); // Trigger fetching teachers when location filter changes
+		setSelectedTeacher(null);
+		setNoSelectedTeacher(true);
 	};
 
 	// Function to handle searching for zip
@@ -128,6 +131,8 @@ function Teachers() {
 		setSearchZip(searchZip);
 		setFilterOptions({ ...filterOptions, zip: searchZip });
 		fetchTeachers();
+		setSelectedTeacher(null);
+		setNoSelectedTeacher(true);
 	};
 
 	// Function to handle looking filter change
@@ -136,6 +141,8 @@ function Teachers() {
 		console.log("Looking filter changed to:", looking);	
 		setLooking(looking);
 		fetchTeachers();
+		setSelectedTeacher(null);
+		setNoSelectedTeacher(true);
 	};
 
 	return (
@@ -144,112 +151,94 @@ function Teachers() {
 
 			<div className="search-and-filter-bar">
 				<div className="filter">
-					<FontAwesomeIcon icon={fas.faBars} onClick={handleFilterClick} />
-
-					{viewFilters && (
+					<div className="filter-options">
+						{/* Filter by Degree */}
+						<label>Filter Options:</label>
 						<div>
-							{/* <div className="filter">
-							<FontAwesomeIcon icon={fas.faChevronRight} /> <p>Filter</p>
-						</div> */}
-							<div className="filter-options">
-								{/* Creates a button to clear filters when clicked using handleShowAll */}
-								<div>
-									<button onClick={handleShowAll}>Clear Filters</button>
-								</div>
-
-								{/* Filter by Degree */}
-								<div>
-									<select value={selectedDegree} onChange={handleDegreeChange}>
-										<option value="">Filter by Degree</option>
-										<option value="Bachelor">Bachelor's</option>
-										<option value="Master">Master's</option>
-										<option value="Associate">Associate's</option>
-									</select>
-								</div>
-
-								{/* Filter by Location */}
-								<div>
-									<select
-										value={selectedLocation}
-										onChange={handleLocationChange}
-									>
-										<option value="">Filter by Location</option>
-										<option value="alabama">Alabama</option>
-										<option value="alaska">Alaska</option>
-										<option value="arizona">Arizona</option>
-										<option value="arkansas">Arkansas</option>
-										<option value="california">California</option>
-										<option value="colorado">Colorado</option>
-										<option value="connecticut">Connecticut</option>
-										<option value="delaware">Delaware</option>
-										<option value="florida">Florida</option>
-										<option value="georgia">Georgia</option>
-										<option value="hawaii">Hawaii</option>
-										<option value="idaho">Idaho</option>
-										<option value="illinois">Illinois</option>
-										<option value="indiana">Indiana</option>
-										<option value="iowa">Iowa</option>
-										<option value="kansas">Kansas</option>
-										<option value="kentucky">Kentucky</option>
-										<option value="louisiana">Louisiana</option>
-										<option value="maine">Maine</option>
-										<option value="maryland">Maryland</option>
-										<option value="massachusetts">Massachusetts</option>
-										<option value="michigan">Michigan</option>
-										<option value="minnesota">Minnesota</option>
-										<option value="mississippi">Mississippi</option>
-										<option value="missouri">Missouri</option>
-										<option value="montana">Montana</option>
-										<option value="nebraska">Nebraska</option>
-										<option value="nevada">Nevada</option>
-										<option value="new_hapmshire">New Hampshire</option>
-										<option value="new_jersey">New Jersey</option>
-										<option value="new_mexico">New Mexico</option>
-										<option value="new_york">New York</option>
-										<option value="north_carolina">North Carolina</option>
-										<option value="north_dakota">North Dakota</option>
-										<option value="ohio">Ohio</option>
-										<option value="oklahoma">Oklahoma</option>
-										<option value="oregon">Oregon</option>
-										<option value="pennsylvania">Pennsylvania</option>
-										<option value="rhode_island">Rhode Island</option>
-										<option value="south_carolina">South Carolina</option>
-										<option value="south_dakota">South Dakota</option>
-										<option value="tennessee">Tennessee</option>
-										<option value="texas">Texas</option>
-										<option value="utah">utah</option>
-										<option value="vermont">Vermont</option>
-										<option value="virginia">Virginia</option>
-										<option value="washington">Washington</option>
-										<option value="west_virginia">West Virginia</option>
-										<option value="wisconsin">Wisconsin</option>
-										<option value="wyoming">Wyoming</option>
-									</select>
-								</div>
-
-								<div className="search">
-									<label>
-										Looking for Work:
-										<input
-											type="checkbox"
-											checked={looking}
-											onChange={handleLookingChange}
-										/>
-									</label>
-								</div>
-
-								<div className="search">
-									{/* Search for Zip */}
-									<input
-										type="text"
-										value={searchZip}
-										onChange={(e) => handleZipSearch(e.target.value)}
-										placeholder="Zip (First 3 digits)"
-									/>
-								</div>
-							</div>
+							<select value={selectedDegree} onChange={handleDegreeChange}>
+								<option value="">Degree Level</option>
+								<option value="Bachelor">Bachelor's</option>
+								<option value="Master">Master's</option>
+								<option value="Associate">Associate's</option>
+							</select>
 						</div>
-					)}
+						{/* Filter by Location */}
+						<div>
+							<select value={selectedLocation} onChange={handleLocationChange}>
+								<option value="">State</option>
+								<option value="alabama">Alabama</option>
+								<option value="alaska">Alaska</option>
+								<option value="arizona">Arizona</option>
+								<option value="arkansas">Arkansas</option>
+								<option value="california">California</option>
+								<option value="colorado">Colorado</option>
+								<option value="connecticut">Connecticut</option>
+								<option value="delaware">Delaware</option>
+								<option value="florida">Florida</option>
+								<option value="georgia">Georgia</option>
+								<option value="hawaii">Hawaii</option>
+								<option value="idaho">Idaho</option>
+								<option value="illinois">Illinois</option>
+								<option value="indiana">Indiana</option>
+								<option value="iowa">Iowa</option>
+								<option value="kansas">Kansas</option>
+								<option value="kentucky">Kentucky</option>
+								<option value="louisiana">Louisiana</option>
+								<option value="maine">Maine</option>
+								<option value="maryland">Maryland</option>
+								<option value="massachusetts">Massachusetts</option>
+								<option value="michigan">Michigan</option>
+								<option value="minnesota">Minnesota</option>
+								<option value="mississippi">Mississippi</option>
+								<option value="missouri">Missouri</option>
+								<option value="montana">Montana</option>
+								<option value="nebraska">Nebraska</option>
+								<option value="nevada">Nevada</option>
+								<option value="new_hapmshire">New Hampshire</option>
+								<option value="new_jersey">New Jersey</option>
+								<option value="new_mexico">New Mexico</option>
+								<option value="new_york">New York</option>
+								<option value="north_carolina">North Carolina</option>
+								<option value="north_dakota">North Dakota</option>
+								<option value="ohio">Ohio</option>
+								<option value="oklahoma">Oklahoma</option>
+								<option value="oregon">Oregon</option>
+								<option value="pennsylvania">Pennsylvania</option>
+								<option value="rhode_island">Rhode Island</option>
+								<option value="south_carolina">South Carolina</option>
+								<option value="south_dakota">South Dakota</option>
+								<option value="tennessee">Tennessee</option>
+								<option value="texas">Texas</option>
+								<option value="utah">utah</option>
+								<option value="vermont">Vermont</option>
+								<option value="virginia">Virginia</option>
+								<option value="washington">Washington</option>
+								<option value="west_virginia">West Virginia</option>
+								<option value="wisconsin">Wisconsin</option>
+								<option value="wyoming">Wyoming</option>
+							</select>
+						</div>
+						<div className="zip">
+							{/* Search for Zip */}
+							<label> Zip Code: </label>
+							<input
+								type="text"
+								value={searchZip}
+								onChange={(e) => handleZipSearch(e.target.value)}
+								placeholder="First 3 Digits"
+							/>
+						</div>
+						<div className="looking">
+							<label>Looking for Work:</label>
+							<input
+								type="checkbox"
+								checked={looking}
+								onChange={handleLookingChange}
+							/>
+						</div>
+						{/* Creates a button to clear filters when clicked using handleShowAll */}
+						<button onClick={handleShowAll}>Clear Search & Filters</button>
+					</div>
 				</div>
 				<div className="search">
 					{/* Search  box */}
@@ -264,39 +253,38 @@ function Teachers() {
 			</div>
 
 			<div className="info-display">
-				<div className="columns-container">
-					<div className="teacher-list-column">
-						{/* Displays the list of teachers by calling the TeacherList file */}
-						<TeachersList
-							onSelectTeacher={handleSelectTeacher}
-							searchResult={searchResult}
-							searchTerm={searchTerm}
-							selectedDegree={selectedDegree}
-							selectedLocation={selectedLocation}
-							searchZip={searchZip}
-							looking={looking}
-						/>
-					</div>
-					<div className="teacher-info-column">
-						{/* Teacher information */}
-						{selectedTeacher && (
-							<div>
-								<h2>{selectedTeacher.school_name}</h2>
-								<p>
-									Name: {selectedTeacher.first_name} {selectedTeacher.last_name}
-								</p>
-								<p>Testimony: {selectedTeacher.testimony}</p>
-								<p>Certifications: {selectedTeacher.degree}</p>
-								<p>Phone: {selectedTeacher.phone}</p>
-								<p>Contact Email: {selectedTeacher.contact_email}</p>
-								<p>Location: {selectedTeacher.location}</p>
-								<p>Zip: {selectedTeacher.zip}</p>
-								<p>Resume: {selectedTeacher.job_resume}</p>
-								<p>certifications: {selectedTeacher.degree}</p>
-								<p>Experience: {selectedTeacher.experience}</p>
-							</div>
-						)}
-					</div>
+				<div className="list-sidebar">
+					{/* Displays the list of teachers by calling the TeacherList file */}
+					<TeachersList
+						onSelectTeacher={handleSelectTeacher}
+						searchResult={searchResult}
+						searchTerm={searchTerm}
+						selectedDegree={selectedDegree}
+						selectedLocation={selectedLocation}
+						searchZip={searchZip}
+						looking={looking}
+					/>
+				</div>
+				<div className="info-column">
+					{/* Teacher information */}
+					{noSelectedTeacher && <p>Select a Teacher to Learn More</p>}
+					{selectedTeacher && (
+						<div>
+							<h2>{selectedTeacher.school_name}</h2>
+							<p>
+								Name: {selectedTeacher.first_name} {selectedTeacher.last_name}
+							</p>
+							<p>Testimony: {selectedTeacher.testimony}</p>
+							<p>Certifications: {selectedTeacher.degree}</p>
+							<p>Phone: {selectedTeacher.phone}</p>
+							<p>Contact Email: {selectedTeacher.contact_email}</p>
+							<p>Location: {selectedTeacher.location}</p>
+							<p>Zip: {selectedTeacher.zip}</p>
+							<p>Resume: {selectedTeacher.job_resume}</p>
+							<p>certifications: {selectedTeacher.degree}</p>
+							<p>Experience: {selectedTeacher.experience}</p>
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

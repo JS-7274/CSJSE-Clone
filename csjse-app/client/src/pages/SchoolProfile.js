@@ -137,7 +137,7 @@ function SchoolProfile() {
 							Optional Uploads{" "}
 						</button>
 					</div>
-					<div>
+					<div className="ld-button-group">
 						{/* Logout button */}
 						<button className="logout-button" onClick={handleLogout}>
 							Logout

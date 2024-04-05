@@ -29,20 +29,18 @@ export default function References() {
 	});
 
 	useEffect(() => {
-		const fetchId = async () => {
+		const fetchTeachStaffId = async () => {
 			try {
 				const response = await fetch(
-					`http://localhost:5000/api/teachers/users/${teacher_staff_id}`
+					`http://localhost:5000/api/teacher/users/${teacher_staff_id}`
 				);
 				const data = await response.json();
 
 				if (data.success) {
-					setReferencesData(
-						setReferencesData({
-							...referencesData,
-							[teacher_staff_id]: data.teacher_staff_id,
-						})
-					); // Corrected function name
+					setReferencesData((prevState) => ({
+						...prevState,
+						teacher_staff_id: data.teacher_staff_id,
+					}));
 				} else {
 					console.error("Error fetching user data:", data.message);
 				}
@@ -50,7 +48,7 @@ export default function References() {
 				console.error("Error fetching user data:", error);
 			}
 		};
-		fetchId();
+		fetchTeachStaffId();
 	}, [teacher_staff_id]);
 
 	// Function to toggle editing mode
@@ -58,10 +56,10 @@ export default function References() {
 		setIsEditing(!isEditing);
 	};
 
-	const fetchReferencesData = async () => {
+	const fetchReferencesData = async (teacher_staff_id) => {
 		try {
 			const response = await fetch(
-				`http://localhost:5000/api/teacher/users/${teacher_staff_id}/reference`
+				`http://localhost:5000/api/teacher/users/${teacher_staff_id}/getReferences`
 			);
 			const data = await response.json();
 
@@ -74,6 +72,13 @@ export default function References() {
 			console.error("Error during API call:", error);
 		}
 	};
+
+	console.log(referencesData);
+
+	useEffect(() => {
+		// Fetch data here
+		fetchReferencesData(teacher_staff_id);
+	}, []);
 
 	// Function to handle saving changes
 	const handleSave = async (e) => {
@@ -97,7 +102,7 @@ export default function References() {
 			// If response is successful, ...
 			if (data.success) {
 				setIsEditing(false);
-				fetchReferencesData();
+				fetchReferencesData(teacher_staff_id);
 			} else {
 				console.error("Error during job posting creation:", data.error);
 			}
@@ -298,8 +303,8 @@ export default function References() {
 				<label className="radio-label">
 					<input
 						type="radio"
-						id="type-of-relationship"
-						name="type-of-relationship"
+						id="r2_relation_type"
+						name="r2_relation_type"
 						value="personal"
 						disabled={!isEditing}
 						onChange={handleChange}
@@ -312,8 +317,8 @@ export default function References() {
 				<input
 					className="input-field"
 					type="text"
-					id="r2_phone-number"
-					name="r2_phone-number"
+					id="r2_phone_number"
+					name="r2_phone_number"
 					value={referencesData.r2_phone_number}
 					disabled={!isEditing}
 					onChange={handleChange}
@@ -410,8 +415,8 @@ export default function References() {
 				<input
 					className="input-field"
 					type="text"
-					id="r3_phone-number"
-					name="r3_phone-number"
+					id="r3_phone_number"
+					name="r3_phone_number"
 					value={referencesData.r3_phone_number}
 					disabled={!isEditing}
 					onChange={handleChange}

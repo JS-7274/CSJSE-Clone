@@ -489,27 +489,33 @@ app.post("/api/updateJobPosting", (req, res) => {
 });
 
 //api that gets references info from the database
-app.get("/api/teacher/users/:teacher_staff_id/reference", (req, res) => {
-	const { teacher_staff_id } = req.params;
+app.get("/api/teacher/users/:teacher_staff_id/getReferences", (req, res) => {
+	const { teacher_staff_id } = req.params; // Assuming the teacher_staff_id is sent as a query parameter
 
-	// Choose the appropriate SQL query based on the user type
-	const sql = "SELECT * FROM reference WHERE teacher_staff_id = ?";
+	console.log("GET /api/getReferences - teacher_staff_id:", teacher_staff_id);
 
-	db.query(sql, [teacher_staff_id], (err, results) => {
-		if (err) {
-			return res.status(500).json({ error: "Internal Server Error" });
+	db.query(
+		"SELECT * FROM Reference WHERE teacher_staff_id = ?",
+		[teacher_staff_id],
+		(err, results) => {
+			if (err) {
+				console.error("Error querying database:", err);
+				return res.status(500).json({ error: "Internal Server Error" });
+			}
+
+			console.log("Database query results:", results);
+
+			if (results.length > 0) {
+				// User information found
+				return res.json({ success: true, reference: results });
+			} else {
+				// User not found
+				return res
+					.status(404)
+					.json({ success: false, message: "No references found" });
+			}
 		}
-
-		if (results.length > 0) {
-			// User information found
-			return res.json({ success: true, reference: results });
-		} else {
-			// User not found
-			return res
-				.status(404)
-				.json({ success: false, message: "No references found" });
-		}
-	});
+	);
 });
 
 //api that adds or updates the references info in the database

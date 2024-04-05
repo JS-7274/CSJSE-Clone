@@ -674,11 +674,8 @@ app.use((req, res, next) => {
 });
 
 // API to Update Profile Information on Edit
-app.post("/api/updateProfileInfo", (req, res) => {
+app.post("/api/updateProfileInfo/", (req, res) => {
     console.log("Received profile information update request", req.body);
-
-    // Gets teacherId and teacherData from req.body
-    const { teacherId, teacherData } = req.body;
 
     const {
         teacher_staff_id,
@@ -702,63 +699,60 @@ app.post("/api/updateProfileInfo", (req, res) => {
 
     db.query(checkTeacherIdSql, [teacher_staff_id], (err, teacherResults) => {
         if (err) {
-            console.error("Error checking teacher_id:", err.message);
+            console.error("Error checking teacher_staff_id:", err.message);
             return res.status(500).json({ error: 'Internal Server Error' });
         }
 
         // If the teacherId doesn't exist return an error
         if (teacherResults.length > 0) {
-            return res.status(400).json({ error: "Invalid teacherId" });
-        
+            // Update the teacher profile in the database
+            const updateTeacherSql = `
+                UPDATE teacher_staff_profile
+                SET
+                    first_name = ?,
+                    last_name = ?,
+                    looking = ?,
+                    phone = ?,
+                    contact_email = ?,
+                    home_church = ?,
+                    resume = ?,
+                    testimony = ?,
+                    cover_letter = ?,
+                    headshot = ?,
+                    degree = ?,
+                    location = ?,
+                    zip = ?
+                WHERE teacher_staff_id = ?
+            `;
 
-        // Update the teacher profile in the database
-        const updateTeacherSql = `
-            UPDATE teacher_staff_profile
-            SET
-                first_name = ?,
-                last_name = ?,
-                looking = ?,
-                phone = ?,
-                contact_email = ?,
-                home_church = ?,
-                resume = ?,
-                testimony = ?,
-                cover_letter = ?,
-                headshot = ?
-                degree = ?,
-                location = ?,
-                zip = ?
-            WHERE teacher_id = ?
-        `;
-
-            db.query(
-                updateTeacherSql,
-                [
-                    teacher_staff_id,
-                    first_name,
-                    last_name,
-                    looking,
-                    phone,  
-                    contact_email,
-                    home_church,
-                    resume,
-                    testimony,
-                    cover_letter,
-                    headshot,
-                    degree,
-                    location,
-                    zip,
-                ],
-                (err, results) => {
-                    if (err) {
-                        console.error("Error updating teacher profile:", err.message);
-                        return res.status(500).json({ error: 'Internal Server Error' });
+                db.query(
+                    updateTeacherSql,
+                    [
+                        teacher_staff_id,
+                        first_name,
+                        last_name,
+                        looking,
+                        phone,  
+                        contact_email,
+                        home_church,
+                        resume,
+                        testimony,
+                        cover_letter,
+                        headshot,
+                        degree,
+                        location,
+                        zip,
+                    ],
+                    (err, results) => {
+                        if (err) {
+                            console.error("Error updating teacher profile:", err.message);
+                            return res.status(500).json({ error: 'Internal Server Error' });
+                        }
+                        return res.json({ success: true });
                     }
-                    return res.json({ success: true });
-                }
-            );
+                );
         } else {
-            const insertTeacherSql = `
+            const insertTeacherSQL = `
                 INSERT INTO teacher_staff_profile (
                     teacher_staff_id,
                     first_name,
@@ -773,7 +767,7 @@ app.post("/api/updateProfileInfo", (req, res) => {
                     headshot,
                     degree,
                     location,
-                    zip,
+                    zip
                 ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
             `;
             db.query(

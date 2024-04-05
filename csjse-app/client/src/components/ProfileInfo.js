@@ -92,12 +92,9 @@ export default function ProfileInfo() {
 
 	// Function to handle saving changes
 	const handleSave = async (e) => {
-		setIsEditing(false); // Disable editing mode
-
-		e.preventDefault();
 		try {
 			const response = await fetch(
-				`http://localhost:5000/api/updateProfileInfo`,
+				`http://localhost:5000/api/updateProfileInfo/`,
 				{
 					method: "POST",
 					headers: {
@@ -106,7 +103,7 @@ export default function ProfileInfo() {
 					body: JSON.stringify(userData),
 				}
 			);
-
+			console.log(userData);
 			// Parse the response as JSON
 			const data = await response.json();
 

@@ -114,7 +114,6 @@ const TeacherStaffProfile = () => {
 				<div className="side">
 					<div className="sidebar">
 						{/* Tab buttons for different sections */}
-
 						<button
 							className={activeTab === "Profile Information" ? "active" : ""}
 							onClick={() => handleTabClick("Profile Information")}
@@ -127,12 +126,14 @@ const TeacherStaffProfile = () => {
 						>
 							References{" "}
 						</button>
-						<button
+						{/*This is the button for optional uploads. 
+						The optional uploads for teachers and staff are a cover letter or a headshot. */}
+						{/* <button
 							className={activeTab === "Optional Uploads" ? "active" : ""}
 							onClick={() => handleTabClick("Optional Uploads")}
 						>
 							Optional Uploads{" "}
-						</button>
+						</button> */}
 					</div>
 					<div className="ld-button-group">
 						{/* Logout button */}

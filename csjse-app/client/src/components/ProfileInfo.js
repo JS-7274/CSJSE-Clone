@@ -80,17 +80,17 @@ export default function ProfileInfo() {
 		fetchUser();
 	}, [teacher_staff_id]);
 
-	const fetchUserData = async () => {
+	const fetchUserData = async (teacher_staff_id) => {
 		try {
 			const response = await fetch(
-				`http://localhost:5000/api/teacher/users/${teacher_staff_id}`
+				`http://localhost:5000/api/getProfileInfo?teacher_staff_id=${teacher_staff_id}`
 			);
 			const data = await response.json();
 
 			if (data.success) {
-				setUserData(data.user || []);
+				setUserData(data.info || []);
 			} else {
-				console.error("Failed to fetch user's data");
+				console.error("Failed to fetch references data");
 			}
 		} catch (error) {
 			console.error("Error during API call:", error);
@@ -121,12 +121,12 @@ export default function ProfileInfo() {
 			// If response is successful, ...
 			if (data.success) {
 				setIsEditing(false);
-				fetchUserData();
+				fetchUserData(teacher_staff_id);
 			} else {
 				console.error("Error saving changes:", data.error);
 			}
 		} catch {
-			console.error("Error saving changes:", e);
+			console.error("Error saving changes outside:", e);
 		}
 	};
 

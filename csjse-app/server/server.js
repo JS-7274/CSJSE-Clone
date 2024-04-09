@@ -715,6 +715,159 @@ app.use((req, res, next) => {
 	res.status(404).json({ error: "Not Found" });
 });
 
+app.get("/api/getProfileInfo", (req, res) => {
+	const teacher_staff_id = req.query.teacher_staff_id;
+
+	// getting the reference info using the teacher_staff_id
+	const sql = "SELECT * FROM teacher_staff_id WHERE teacher_staff_id = ?";
+	db.query(sql, [teacher_staff_id], (err, results) => {
+		if (err) {
+			console.error("Error fetching references data:", err.message);
+			return res.status(500).json({ error: "Internal Server Error" });
+		}
+
+		if (results.length === 0) {
+			return res.status(404).json({ error: "Proffile info not found" });
+		}
+
+		const info = results[0];
+
+		// Send the reference information as a JSON response
+		res.json({ success: true, info });
+	});
+});
+
+// API to Update Profile Information on Edit
+app.post("/api/updateProfileInfo/", (req, res) => {
+	console.log("Received profile information update request", req.body);
+
+	const {
+		teacher_staff_id,
+		first_name,
+		last_name,
+		looking,
+		phone,
+		contact_email,
+		home_church,
+		resume,
+		testimony,
+		cover_letter,
+		headshot,
+		degree,
+		location,
+		zip,
+	} = req.body;
+
+	// Checking if the job exists
+	const checkTeacherIdSql = `SELECT * FROM teacher_staff_profile WHERE teacher_staff_id =?`;
+
+	db.query(checkTeacherIdSql, [teacher_staff_id], (err, teacherResults) => {
+		if (err) {
+			console.error("Error checking teacher_staff_id:", err.message);
+			return res.status(500).json({ error: "Internal Server Error" });
+		}
+
+		// If the teacherId doesn't exist return an error
+		if (teacherResults.length > 0) {
+			// Update the teacher profile in the database
+			const updateTeacherSql = `
+                UPDATE teacher_staff_profile
+                SET
+                    first_name = ?,
+                    last_name = ?,
+                    looking = ?,
+                    phone = ?,
+                    contact_email = ?,
+                    home_church = ?,
+                    resume = ?,
+                    testimony = ?,
+                    cover_letter = ?,
+                    headshot = ?,
+                    degree = ?,
+                    location = ?,
+                    zip = ?
+                WHERE teacher_staff_id = ?
+            `;
+
+			db.query(
+				updateTeacherSql,
+				[
+					teacher_staff_id,
+					first_name,
+					last_name,
+					looking,
+					phone,
+					contact_email,
+					home_church,
+					resume,
+					testimony,
+					cover_letter,
+					headshot,
+					degree,
+					location,
+					zip,
+				],
+				(err, results) => {
+					if (err) {
+						console.error("Error updating teacher profile:", err.message);
+						return res.status(500).json({ error: "Internal Server Error" });
+					}
+					return res.json({ success: true });
+				}
+			);
+		} else {
+			const insertTeacherSQL = `
+                INSERT INTO teacher_staff_profile (
+                    teacher_staff_id,
+                    first_name,
+                    last_name,
+                    looking,
+                    phone,  
+                    contact_email,
+                    home_church,
+                    resume,
+                    testimony,
+                    cover_letter,
+                    headshot,
+                    degree,
+                    location,
+                    zip
+                ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+            `;
+			db.query(
+				insertTeacherSQL,
+				[
+					teacher_staff_id,
+					first_name,
+					last_name,
+					looking,
+					phone,
+					contact_email,
+					home_church,
+					resume,
+					testimony,
+					cover_letter,
+					headshot,
+					degree,
+					location,
+					zip,
+				],
+				(err, results) => {
+					if (err) {
+						console.error(
+							"Error inserting teacher profile information:",
+							err.message
+						);
+						return res.status(500).json({ error: "Internal Server Error" });
+					}
+
+					return res.json({ success: true });
+				}
+			);
+		}
+	});
+});
+
 app.listen(port, () => {
 	console.log("Server started on port " + port);
 });

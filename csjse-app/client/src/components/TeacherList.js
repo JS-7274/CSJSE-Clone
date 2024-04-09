@@ -81,7 +81,7 @@ function TeachersList({
 						</button>
 					))
 				) : (
-					<p>No teachers found</p>
+					<p>No Teachers Found</p>
 				)}
 			</div>
 		</div>

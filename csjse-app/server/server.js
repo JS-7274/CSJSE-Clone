@@ -121,13 +121,13 @@ app.post("/api/sCreateAccount", (req, res) => {
 });
 
 // API to fetch user information by ID
-app.get("/api/teacher/users/:id", (req, res) => {
-	const { id } = req.params;
+app.get("/api/teacher/users/:teacher_staff_id", (req, res) => {
+	const { teacher_staff_id } = req.params;
 
 	// Choose the appropriate SQL query based on the user type
 	const sql = "SELECT * FROM teacher_staff_profile WHERE teacher_staff_id = ?";
 
-	db.query(sql, [id], (err, results) => {
+	db.query(sql, [teacher_staff_id], (err, results) => {
 		if (err) {
 			return res.status(500).json({ error: "Internal Server Error" });
 		}
@@ -486,6 +486,321 @@ app.post("/api/updateJobPosting", (req, res) => {
 			}
 		);
 	});
+});
+
+//api that gets references info from the database
+app.get("/api/getReferences", (req, res) => {
+	const teacher_staff_id = req.query.teacher_staff_id;
+
+	// getting the reference info using the teacher_staff_id
+	const sql = "SELECT * FROM reference WHERE teacher_staff_id = ?";
+	db.query(sql, [teacher_staff_id], (err, results) => {
+		if (err) {
+			console.error("Error fetching references data:", err.message);
+			return res.status(500).json({ error: "Internal Server Error" });
+		}
+
+		if (results.length === 0) {
+			return res.status(404).json({ error: "References not found" });
+		}
+
+		const reference = results[0];
+
+		// Send the reference information as a JSON response
+		res.json({ success: true, reference });
+	});
+});
+
+//api that adds or updates the references info in the database
+app.post("/api/updateReferences", (req, res) => {
+	console.log("Received references update request", req.body);
+
+	// Extract information received into variables for database insertion/update
+	const {
+		teacher_staff_id,
+		r1_name,
+		r1_relationship,
+		r1_relation_type,
+		r1_phone_number,
+		r1_email,
+		r2_name,
+		r2_relationship,
+		r2_relation_type,
+		r2_phone_number,
+		r2_email,
+		r3_name,
+		r3_relationship,
+		r3_relation_type,
+		r3_phone_number,
+		r3_email,
+	} = req.body;
+
+	// Check if references exist for the provided teacher_staff_id
+	const checkReferencesExistSql = `SELECT * FROM Reference WHERE teacher_staff_id = ?`;
+
+	db.query(
+		checkReferencesExistSql,
+		[teacher_staff_id],
+		(err, referenceResults) => {
+			if (err) {
+				console.error("Error checking references:", err.message);
+				return res.status(500).json({ error: "Internal Server Error" });
+			}
+
+			// If references exist, update them; otherwise, insert new references
+			if (referenceResults.length > 0) {
+				// Update the References table
+				const updateReferencesSql = `
+                UPDATE Reference
+                SET
+                    r1_name = ?,
+                    r1_relationship = ?,
+                    r1_relation_type = ?,
+                    r1_phone_number = ?,
+                    r1_email = ?,
+                    r2_name = ?,
+                    r2_relationship = ?,
+                    r2_relation_type = ?,
+                    r2_phone_number = ?,
+                    r2_email = ?,
+                    r3_name = ?,
+                    r3_relationship = ?,
+                    r3_relation_type = ?,
+                    r3_phone_number = ?,
+                    r3_email = ?
+                WHERE teacher_staff_id = ?
+            `;
+
+				db.query(
+					updateReferencesSql,
+					[
+						r1_name,
+						r1_relationship,
+						r1_relation_type,
+						r1_phone_number,
+						r1_email,
+						r2_name,
+						r2_relationship,
+						r2_relation_type,
+						r2_phone_number,
+						r2_email,
+						r3_name,
+						r3_relationship,
+						r3_relation_type,
+						r3_phone_number,
+						r3_email,
+						teacher_staff_id,
+					],
+					(err, results) => {
+						if (err) {
+							console.error("Error updating references:", err.message);
+							return res.status(500).json({ error: "Internal Server Error" });
+						}
+
+						return res.json({ success: true });
+					}
+				);
+			} else {
+				// Insert new references into the References table
+				const insertReferencesSql = `
+                INSERT INTO Reference (
+                    teacher_staff_id,
+                    r1_name,
+                    r1_relationship,
+                    r1_relation_type,
+                    r1_phone_number,
+                    r1_email,
+                    r2_name,
+                    r2_relationship,
+                    r2_relation_type,
+                    r2_phone_number,
+                    r2_email,
+                    r3_name,
+                    r3_relationship,
+                    r3_relation_type,
+                    r3_phone_number,
+                    r3_email
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            `;
+
+				db.query(
+					insertReferencesSql,
+					[
+						teacher_staff_id,
+						r1_name,
+						r1_relationship,
+						r1_relation_type,
+						r1_phone_number,
+						r1_email,
+						r2_name,
+						r2_relationship,
+						r2_relation_type,
+						r2_phone_number,
+						r2_email,
+						r3_name,
+						r3_relationship,
+						r3_relation_type,
+						r3_phone_number,
+						r3_email,
+					],
+					(err, results) => {
+						if (err) {
+							console.error("Error inserting references:", err.message);
+							return res.status(500).json({ error: "Internal Server Error" });
+						}
+
+						return res.json({ success: true });
+					}
+				);
+			}
+		}
+	);
+});
+
+//api that adds or updates the teacher/staff optional uploads in the database
+app.post("/api/updateOptionalUploads", (req, res) => {
+	console.log("Received references update request", req.body);
+
+	// Extract information received into variables for database insertion/update
+	const {
+		teacher_staff_id,
+		r1_name,
+		r1_relationship,
+		r1_relation_type,
+		r1_phone_number,
+		r1_email,
+		r2_name,
+		r2_relationship,
+		r2_relation_type,
+		r2_phone_number,
+		r2_email,
+		r3_name,
+		r3_relationship,
+		r3_relation_type,
+		r3_phone_number,
+		r3_email,
+	} = req.body;
+
+	// Check if references exist for the provided teacher_staff_id
+	const checkReferencesExistSql = `SELECT * FROM Reference WHERE teacher_staff_id = ?`;
+
+	db.query(
+		checkReferencesExistSql,
+		[teacher_staff_id],
+		(err, referenceResults) => {
+			if (err) {
+				console.error("Error checking references:", err.message);
+				return res.status(500).json({ error: "Internal Server Error" });
+			}
+
+			// If references exist, update them; otherwise, insert new references
+			if (referenceResults.length > 0) {
+				// Update the References table
+				const updateReferencesSql = `
+                UPDATE Reference
+                SET
+                    r1_name = ?,
+                    r1_relationship = ?,
+                    r1_relation_type = ?,
+                    r1_phone_number = ?,
+                    r1_email = ?,
+                    r2_name = ?,
+                    r2_relationship = ?,
+                    r2_relation_type = ?,
+                    r2_phone_number = ?,
+                    r2_email = ?,
+                    r3_name = ?,
+                    r3_relationship = ?,
+                    r3_relation_type = ?,
+                    r3_phone_number = ?,
+                    r3_email = ?
+                WHERE teacher_staff_id = ?
+            `;
+
+				db.query(
+					updateReferencesSql,
+					[
+						r1_name,
+						r1_relationship,
+						r1_relation_type,
+						r1_phone_number,
+						r1_email,
+						r2_name,
+						r2_relationship,
+						r2_relation_type,
+						r2_phone_number,
+						r2_email,
+						r3_name,
+						r3_relationship,
+						r3_relation_type,
+						r3_phone_number,
+						r3_email,
+						teacher_staff_id,
+					],
+					(err, results) => {
+						if (err) {
+							console.error("Error updating references:", err.message);
+							return res.status(500).json({ error: "Internal Server Error" });
+						}
+
+						return res.json({ success: true });
+					}
+				);
+			} else {
+				// Insert new references into the References table
+				const insertReferencesSql = `
+                INSERT INTO Reference (
+                    teacher_staff_id,
+                    r1_name,
+                    r1_relationship,
+                    r1_relation_type,
+                    r1_phone_number,
+                    r1_email,
+                    r2_name,
+                    r2_relationship,
+                    r2_relation_type,
+                    r2_phone_number,
+                    r2_email,
+                    r3_name,
+                    r3_relationship,
+                    r3_relation_type,
+                    r3_phone_number,
+                    r3_email
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            `;
+
+				db.query(
+					insertReferencesSql,
+					[
+						teacher_staff_id,
+						r1_name,
+						r1_relationship,
+						r1_relation_type,
+						r1_phone_number,
+						r1_email,
+						r2_name,
+						r2_relationship,
+						r2_relation_type,
+						r2_phone_number,
+						r2_email,
+						r3_name,
+						r3_relationship,
+						r3_relation_type,
+						r3_phone_number,
+						r3_email,
+					],
+					(err, results) => {
+						if (err) {
+							console.error("Error inserting references:", err.message);
+							return res.status(500).json({ error: "Internal Server Error" });
+						}
+
+						return res.json({ success: true });
+					}
+				);
+			}
+		}
+	);
 });
 
 // API to check if user exists in the Admin table

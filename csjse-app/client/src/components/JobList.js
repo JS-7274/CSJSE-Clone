@@ -57,7 +57,7 @@ function JobList({ onSelectJob, searchResult, searchTerm, filterOptions }) {
 						</button>
 					))
 				) : (
-					<p>No jobs found</p>
+					<p>No Jobs Found</p>
 				)}
 			</div>
 		</div>

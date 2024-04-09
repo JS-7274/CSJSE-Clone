@@ -130,12 +130,15 @@ function SchoolProfile() {
 						>
 							Job Postings
 						</button>
-						<button
+						{/*This is the button for optional uploads. 
+						The optional uploads for schools are a school photo or logo. */}
+
+						{/* <button
 							className={activeTab === "Optional Uploads" ? "active" : ""}
 							onClick={() => handleTabClick("Optional Uploads")}
 						>
-							Optional Uploads{" "}
-						</button>
+							Optional Uploads
+						</button> */}
 					</div>
 					<div className="ld-button-group">
 						{/* Logout button */}

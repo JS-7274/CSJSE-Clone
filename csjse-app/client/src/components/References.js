@@ -28,6 +28,8 @@ export default function References() {
 		r3_email: "",
 	});
 
+	//const references_id = 4;
+
 	useEffect(() => {
 		const fetchTeachStaffId = async () => {
 			try {
@@ -71,6 +73,40 @@ export default function References() {
 		} catch (error) {
 			console.error("Error during API call:", error);
 		}
+
+		/* try {
+			console.log("Received references_id:", references_id);
+
+			const response = await fetch(
+				`http://localhost:5000/api/getReferences?references_id=${references_id}`
+			);
+			const data = await response.json();
+			if (data.success) {
+				const references = data.reference;
+				setReferencesData({
+					teacher_staff_id: references.teacher_staff_id,
+					r1_name: references.r1_name,
+					r1_relationship: "",
+					r1_relation_type: "",
+					r1_phone_number: "",
+					r1_email: "",
+					r2_name: "",
+					r2_relationship: "",
+					r2_relation_type: "",
+					r2_phone_number: "",
+					r2_email: "",
+					r3_name: "",
+					r3_relationship: "",
+					r3_relation_type: "",
+					r3_phone_number: "",
+					r3_email: "",
+				});
+
+				console.error("Error fetching references data:", data.error);
+			}
+		} catch (error) {
+			console.error("Error fetching references data:", error);
+		} */
 	};
 
 	console.log(referencesData);

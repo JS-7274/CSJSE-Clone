@@ -490,11 +490,11 @@ app.post("/api/updateJobPosting", (req, res) => {
 
 //api that gets references info from the database
 app.get("/api/getReferences", (req, res) => {
-	const references_id = req.query.references_id; // Access jobId from query parameters
+	const teacher_staff_id = req.query.teacher_staff_id;
 
-	// getting the job info using the job id
-	const sql = "SELECT * FROM reference WHERE references_id = ?";
-	db.query(sql, [references_id], (err, results) => {
+	// getting the reference info using the teacher_staff_id
+	const sql = "SELECT * FROM reference WHERE teacher_staff_id = ?";
+	db.query(sql, [teacher_staff_id], (err, results) => {
 		if (err) {
 			console.error("Error fetching references data:", err.message);
 			return res.status(500).json({ error: "Internal Server Error" });
@@ -504,10 +504,10 @@ app.get("/api/getReferences", (req, res) => {
 			return res.status(404).json({ error: "References not found" });
 		}
 
-		const references = results[0];
+		const reference = results[0];
 
-		// Send the job information as a JSON response
-		res.json({ success: true, job });
+		// Send the reference information as a JSON response
+		res.json({ success: true, reference });
 	});
 });
 

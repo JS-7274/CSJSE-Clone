@@ -28,7 +28,9 @@ export default function References() {
 		r3_email: "",
 	});
 
-	//const references_id = 4;
+	const [r1RelationType, setR1RelationType] = useState("");
+	const [r2RelationType, setR2RelationType] = useState("");
+	const [r3RelationType, setR3RelationType] = useState("");
 
 	useEffect(() => {
 		const fetchTeachStaffId = async () => {
@@ -61,52 +63,21 @@ export default function References() {
 	const fetchReferencesData = async (teacher_staff_id) => {
 		try {
 			const response = await fetch(
-				`http://localhost:5000/api/teacher/users/${teacher_staff_id}/getReferences`
+				`http://localhost:5000/api/getReferences?teacher_staff_id=${teacher_staff_id}`
 			);
 			const data = await response.json();
 
 			if (data.success) {
 				setReferencesData(data.reference || []);
+				setR1RelationType(data.reference.r1_relation_type || "");
+				setR2RelationType(data.reference.r2_relation_type || "");
+				setR3RelationType(data.reference.r3_relation_type || "");
 			} else {
 				console.error("Failed to fetch references data");
 			}
 		} catch (error) {
 			console.error("Error during API call:", error);
 		}
-
-		/* try {
-			console.log("Received references_id:", references_id);
-
-			const response = await fetch(
-				`http://localhost:5000/api/getReferences?references_id=${references_id}`
-			);
-			const data = await response.json();
-			if (data.success) {
-				const references = data.reference;
-				setReferencesData({
-					teacher_staff_id: references.teacher_staff_id,
-					r1_name: references.r1_name,
-					r1_relationship: "",
-					r1_relation_type: "",
-					r1_phone_number: "",
-					r1_email: "",
-					r2_name: "",
-					r2_relationship: "",
-					r2_relation_type: "",
-					r2_phone_number: "",
-					r2_email: "",
-					r3_name: "",
-					r3_relationship: "",
-					r3_relation_type: "",
-					r3_phone_number: "",
-					r3_email: "",
-				});
-
-				console.error("Error fetching references data:", data.error);
-			}
-		} catch (error) {
-			console.error("Error fetching references data:", error);
-		} */
 	};
 
 	console.log(referencesData);
@@ -126,7 +97,12 @@ export default function References() {
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify(referencesData),
+					body: JSON.stringify({
+						...referencesData,
+						r1_relation_type: r1RelationType,
+						r2_relation_type: r2RelationType,
+						r3_relation_type: r3RelationType,
+					}),
 				}
 			);
 
@@ -211,8 +187,9 @@ export default function References() {
 						id="r1_relation_type"
 						name="r1_relation_type"
 						value="professional"
+						checked={r1RelationType === "professional"}
 						disabled={!isEditing}
-						onChange={handleChange}
+						onChange={() => setR1RelationType("professional")}
 					/>
 					Professional
 				</label>
@@ -222,8 +199,9 @@ export default function References() {
 						id="r1_relation_type"
 						name="r1_relation_type"
 						value="pastoral"
+						checked={r1RelationType === "pastoral"}
 						disabled={!isEditing}
-						onChange={handleChange}
+						onChange={() => setR1RelationType("pastoral")}
 					/>
 					Pastoral
 				</label>
@@ -233,8 +211,9 @@ export default function References() {
 						id="r1_relation_type"
 						name="r1_relation_type"
 						value="academic"
+						checked={r1RelationType === "academic"}
 						disabled={!isEditing}
-						onChange={handleChange}
+						onChange={() => setR1RelationType("academic")}
 					/>
 					Academic
 				</label>
@@ -244,8 +223,9 @@ export default function References() {
 						id="r1_relation_type"
 						name="r1_relation_type"
 						value="personal"
+						checked={r1RelationType === "personal"}
 						disabled={!isEditing}
-						onChange={handleChange}
+						onChange={() => setR1RelationType("personal")}
 					/>
 					Personal
 				</label>
@@ -309,8 +289,9 @@ export default function References() {
 						id="r2_relation_type"
 						name="r2_relation_type"
 						value="professional"
+						checked={r2RelationType === "professional"}
 						disabled={!isEditing}
-						onChange={handleChange}
+						onChange={() => setR2RelationType("professional")}
 					/>
 					Professional
 				</label>
@@ -320,8 +301,9 @@ export default function References() {
 						id="r2_relation_type"
 						name="r2_relation_type"
 						value="pastoral"
+						checked={r2RelationType === "pastoral"}
 						disabled={!isEditing}
-						onChange={handleChange}
+						onChange={() => setR2RelationType("pastoral")}
 					/>
 					Pastoral
 				</label>
@@ -331,8 +313,9 @@ export default function References() {
 						id="r2_relation_type"
 						name="r2_relation_type"
 						value="academic"
+						checked={r2RelationType === "academic"}
 						disabled={!isEditing}
-						onChange={handleChange}
+						onChange={() => setR2RelationType("academic")}
 					/>
 					Academic
 				</label>
@@ -342,8 +325,9 @@ export default function References() {
 						id="r2_relation_type"
 						name="r2_relation_type"
 						value="personal"
+						checked={r2RelationType === "personal"}
 						disabled={!isEditing}
-						onChange={handleChange}
+						onChange={() => setR2RelationType("personal")}
 					/>
 					Personal
 				</label>
@@ -407,8 +391,9 @@ export default function References() {
 						id="r3_relation_type"
 						name="r3_relation_type"
 						value="professional"
+						checked={r3RelationType === "professional"}
 						disabled={!isEditing}
-						onChange={handleChange}
+						onChange={() => setR3RelationType("professional")}
 					/>
 					Professional
 				</label>
@@ -418,8 +403,9 @@ export default function References() {
 						id="r3_relation_type"
 						name="r3_relation_type"
 						value="pastoral"
+						checked={r3RelationType === "pastoral"}
 						disabled={!isEditing}
-						onChange={handleChange}
+						onChange={() => setR3RelationType("pastoral")}
 					/>
 					Pastoral
 				</label>
@@ -429,8 +415,9 @@ export default function References() {
 						id="r3_relation_type"
 						name="r3_relation_type"
 						value="academic"
+						checked={r3RelationType === "academic"}
 						disabled={!isEditing}
-						onChange={handleChange}
+						onChange={() => setR3RelationType("academic")}
 					/>
 					Academic
 				</label>
@@ -440,8 +427,9 @@ export default function References() {
 						id="r3_relation_type"
 						name="r3_relation_type"
 						value="personal"
+						checked={r3RelationType === "personal"}
 						disabled={!isEditing}
-						onChange={handleChange}
+						onChange={() => setR3RelationType("personal")}
 					/>
 					Personal
 				</label>

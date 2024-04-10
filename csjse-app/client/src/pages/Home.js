@@ -1,5 +1,6 @@
 /* Home.js */
-/* Layout and content of the home page as seen by all users */
+/* This file handles what the home page displays and handles navigation to creating an account
+   as well as logging in. */
 
 import React from "react";
 import "../styles/Home.css";
@@ -28,12 +29,13 @@ function Home() {
 						<div className="dropdown-content">
 							<Link to="/TeacherLogin">Teachers/Staff</Link>
 							<Link to="/SchoolLogin">Schools</Link>
+							<Link to="/AdminLogin">Admin</Link>
 						</div>
 					</div>
 				</div>
 			</header>
 			<div className="hero">
-				<div class="hero-content">
+				<div className="hero-content">
 					<h1>Where Educators Embrace Faith and Calling</h1>
 					<p>
 						Explore a specialized platform tailored for educators seeking

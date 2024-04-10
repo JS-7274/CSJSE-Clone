@@ -1,12 +1,31 @@
-import React, { useState } from "react";
+/* This file handles the profile information of teachers and staff and is used with the 
+   TeacherStaffProfile file. */
 
-export default function ProfileInfo() {
+import React, { useState, useEffect } from "react";
+import { auth } from "../firebase";
+
+export default function ProfileInfo({ userData }) {
+	const [user, setUser] = useState(null);
+
+	useEffect(() => {
+		const unsubscribe = auth.onAuthStateChanged((user) => {
+			if (user) {
+				setUser(user);
+			} else {
+				// Redirect or handle non-authenticated user
+				// For example, redirect to the login page
+				window.location.href = "/TeacherLogin";
+			}
+		});
+		return () => {
+			unsubscribe();
+		};
+	}, []);
+
 	// State for managing editing mode
 	const [isEditing, setIsEditing] = useState(false);
-	// State for tracking email input value
+	// State for tracking contact email input value
 	const [email, setEmail] = useState("");
-	// State for tracking password input value
-	const [password, setPassword] = useState("");
 	// State for tracking first name input value
 	const [firstName, setFirstName] = useState("");
 	// State for tracking last name input value
@@ -21,6 +40,12 @@ export default function ProfileInfo() {
 	const [resume, setResume] = useState("");
 	// State for tracking testimony input value
 	const [testimony, setTestimony] = useState("");
+	// State for tracking degreee level input value
+	const [degree, setDegree] = useState("");
+	// State for tracking location input value
+	const [location, setLocation] = useState("");
+	// State for tracking zip input value
+	const [zip, setZip] = useState("");
 
 	// Function to toggle editing mode
 	const toggleEditing = () => {
@@ -36,6 +61,27 @@ export default function ProfileInfo() {
 	const handleInputChange = (event, setter) => {
 		setter(event.target.value);
 	};
+
+	// Function to handle radio button changes for degree
+	const handleDegreeChange = (event) => {
+		setDegree(event.target.value);
+	};
+
+	useEffect(() => {
+		// Update state when userData changes
+		setFirstName(userData?.first_name || "");
+		setLastName(userData?.last_name || "");
+		setLooking(userData?.looking || "");
+		setPhoneNumber(userData?.phone || "");
+		setEmail(userData?.contact_email || "");
+		setLocation(userData?.location || "");
+		setZip(userData?.zip || "");
+		setHomeChurch(userData?.home_church || "");
+		setDegree(userData?.degree || "");
+		setResume(userData?.resume || "");
+		setTestimony(userData?.testimony || "");
+		// ... (update other state variables)
+	}, [userData]);
 
 	return (
 		<div>
@@ -84,6 +130,7 @@ export default function ProfileInfo() {
 				<label className="radio-label">
 					<input
 						type="radio"
+						name="looking-for-job"
 						id="looking-for-job"
 						value="Yes"
 						disabled={!isEditing}
@@ -94,6 +141,7 @@ export default function ProfileInfo() {
 				<label className="radio-label">
 					<input
 						type="radio"
+						name="looking-for-job"
 						id="looking-for-job"
 						value="No"
 						disabled={!isEditing}
@@ -113,7 +161,7 @@ export default function ProfileInfo() {
 				/>
 			</div>
 			<div className="form-group">
-				<label>Email</label>
+				<label>Contact Email</label>
 				<input
 					className="input-field"
 					type="email"
@@ -122,16 +170,30 @@ export default function ProfileInfo() {
 					onChange={(event) => handleInputChange(event, setEmail)}
 				/>
 			</div>
+
 			<div className="form-group">
-				<label>Password</label>
+				<label>Location State</label>
 				<input
 					className="input-field"
-					type="password"
-					value={password}
+					type="text"
+					value={location}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setPassword)}
+					onChange={(event) => handleInputChange(event, setLocation)}
 				/>
 			</div>
+
+			<div className="form-group">
+				<label>Location Zip Code</label>
+				<p>First 3 Numbers Only</p>
+				<input
+					className="input-field"
+					type="text"
+					value={zip}
+					disabled={!isEditing}
+					onChange={(event) => handleInputChange(event, setZip)}
+				/>
+			</div>
+
 			<div className="form-group">
 				<label>Home Church</label>
 				<input
@@ -141,6 +203,47 @@ export default function ProfileInfo() {
 					disabled={!isEditing}
 					onChange={(event) => handleInputChange(event, setHomeChurch)}
 				/>
+			</div>
+			<div className="form-group">
+				<label>Degree Level</label>
+				{/* Radio buttons for degree levels */}
+				<label className="radio-label">
+					<input
+						type="radio"
+						name="degree-level"
+						id="degree-level"
+						value="Associate"
+						disabled={!isEditing}
+						//checked={degree === "Associate's"}
+						onChange={handleDegreeChange}
+					/>
+					Associate's
+				</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						name="degree-level"
+						id="degree-level"
+						value="Bachelor"
+						disabled={!isEditing}
+						//checked={degree === "Bachelor's"}
+						onChange={handleDegreeChange}
+					/>
+					Bachelor's
+				</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						name="degree-level"
+						id="degree-level"
+						value="Master"
+						disabled={!isEditing}
+						//checked={degree === "Master's"}
+						onChange={handleDegreeChange}
+					/>
+					Master's
+				</label>
+				{/* Add more radio buttons for other degree levels as needed */}
 			</div>
 			<div className="form-group">
 				<label>Resume</label>
@@ -154,7 +257,7 @@ export default function ProfileInfo() {
 			</div>
 			<div className="form-group">
 				<label>Testimony</label>
-				<input
+				<textarea
 					className="input-field"
 					type="text"
 					value={testimony}

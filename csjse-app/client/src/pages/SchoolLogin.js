@@ -1,8 +1,13 @@
+/* When this file is called it will display the school login page. This page will handle
+   the login functionality. */
+
 import React, { useState } from "react";
 import "../styles/LoginandCreate.css";
 import "../styles/FailedLogin.css";
 import LoginFailed from "../components/FailedLogin";
 import { Link } from "react-router-dom";
+import { auth } from "../firebase";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 export default function SchoolLogin() {
 	//creates two variables (email and pass) along with 2 functions to change them, useState being empty means they start off empty
@@ -13,30 +18,28 @@ export default function SchoolLogin() {
 	//Creates a variable to manage whether a component appears or not (appears if someone fails login)
 	const [showFailedLogin, setFailedLogin] = useState(false);
 
-	//passes in (e) as a parameter, e.preventDefault() forces the page to not reload on subission, console.log(email) puts whatever is input for email into the console, probably replace for actual login code
-	const handleSubmit = async (e) => {
-		e.preventDefault();
+//passes in (e) as a parameter, e.preventDefault() forces the page to not reload on subission, console.log(email) puts whatever is input for email into the console, probably replace for actual login code
+const handleSubmit = async (e) => {
+	e.preventDefault();
 
-		//login logic here
-		const res = await fetch("http://localhost:5000/api/slogin", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ email, pass }),
-		})
-			.then((response) => response.json())
-			.catch((error) => console.error("Error during login:", error));
-		console.log(res.success);
-
-		//If login successful, go to profile page
-		if (res.success) {
-			window.location.href = "/schoolprofile";
-		} else {
-			//Show component if login failed
-			setFailedLogin(true);
-		}
-	};
+	//login logic here
+	try {
+		// Use Firebase to sign in with email and password
+		const userCredential = await signInWithEmailAndPassword(auth, email, pass);
+  
+		// Get the user object from the credential
+		const user = userCredential.user;
+  
+		// Now, you can use the 'user' object to perform additional tasks if needed
+  
+		// If login successful, go to the profile page
+		window.location.href = `/SchoolProfile/${user.uid}`;
+	  } catch (error) {
+		console.error("Error during login:", error.message);
+		// Show component if login failed
+		setFailedLogin(true);
+	  }
+};
 
 	// Used for changing the page to the School Account Creation for whenever the 'Create Account' button is clicked on the school login
 	const handleCreateAccount = () => {

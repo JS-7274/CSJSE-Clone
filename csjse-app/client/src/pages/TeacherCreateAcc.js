@@ -1,8 +1,16 @@
+/* This file will be called to bring up a form to create a new account for a teacher. */
+
 import React, { useState } from "react";
 import "../styles/LoginandCreate.css";
 import { Link } from "react-router-dom";
-
-//This function will be called to bring up a form to create a new account for a teacher
+import TeacherStaffProfile from "./TeacherStaffProfile";
+import { auth } from "../firebase";
+import {
+	createUserWithEmailAndPassword,
+	fetchSignInMethodsForEmail,
+} from "firebase/auth";
+import ErrorPopup from "../components/ErrorPopup";
+import "../styles/ErrorPopup.css";
 
 //create and export function 'TeacherCreateAcc' so that other pages can import and use the function
 export default function TeacherCreateAcc() {
@@ -13,6 +21,9 @@ export default function TeacherCreateAcc() {
 	const [pass, setPass] = useState("");
 	const [confirmPass, setConfirmPass] = useState("");
 
+	//Error handling
+	const [showErrorPopup, setErrorPopup] = useState(false);
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -21,35 +32,58 @@ export default function TeacherCreateAcc() {
 			// Display an error message or handle the mismatch
 			console.error("Password and Confirm Password do not match");
 			return;
-		} else {
-			//creates an object to pass the user data to backend
-			const userData = {
-				firstName,
-				lastName,
-				pass,
-				email,
-			};
+		}
 
-			const res = await fetch("http://localhost:5000/api/tCreateAccount", {
-				//sets method to post indicating a change in the database
+		try {
+			// Check if the email is already in use
+			const checkEmail = String(email);
+			const methods = await fetchSignInMethodsForEmail(auth, checkEmail);
+
+			if (methods.length > 0) {
+				// Email is already in use, show an error message
+				console.error("Email is already in use");
+				// You can show an error popup here
+				setErrorPopup(true);
+				return;
+			}
+
+			// If the email is not in use, proceed with account creation
+			const userCredential = await createUserWithEmailAndPassword(
+				auth,
+				email,
+				pass
+			);
+			const user = userCredential.user;
+
+			// API call to create a teacher profile
+			const response = await fetch("http://localhost:5000/api/tCreateAccount", {
 				method: "POST",
-				//ensures this returns a json file
 				headers: {
 					"Content-Type": "application/json",
 				},
-				//sends the userData information as a json file as strings
-				body: JSON.stringify(userData),
-			})
-				// Receives response
-				.then((response) => response.json())
-				.catch((error) =>
-					console.error("Error during account creation:", error)
-				);
-			console.log(res.success); // This is the information that you are checking for.
+				body: JSON.stringify({
+					userId: user.uid,
+					firstName,
+					lastName,
+					email,
+				}),
+			});
 
-			//If response is successful, move to profile page.
-			if (res.success) {
-				window.location.href = "/teacherstaffprofile";
+			const data = await response.json();
+
+			if (data.success) {
+				// Redirect to the profile page or any other page
+				window.location.href = `/TeacherStaffProfile/${data.userId}`;
+			} else {
+				console.error("Failed to create a teacher profile");
+			}
+		} catch (error) {
+			// Handle specific Firebase error codes
+			if (error.code === "auth/email-already-in-use") {
+				console.error("Email is already in use");
+				setErrorPopup(true);
+			} else {
+				console.error("Error during account creation:", error.message);
 			}
 		}
 	};
@@ -64,6 +98,15 @@ export default function TeacherCreateAcc() {
 		<div className="backgroundColor">
 			{/*another container to style the form*/}
 			<div className="login-container">
+				{showErrorPopup && <div className="overlay" />}
+
+				{/* Show an error popup if the email is already in use */}
+				{showErrorPopup && (
+					<ErrorPopup
+						message="Email is already in use"
+						onClose={() => setErrorPopup(false)}
+					/>
+				)}
 				{/*creates a form that will take in the function 'handleSubmit' when the form receives a submti request, while keeping the styling from the login*/}
 				<form className="login-form" onSubmit={handleSubmit}>
 					{/*Sets the header to 'Create Teacher Account' and uses styling for header 2*/}
@@ -150,7 +193,7 @@ export default function TeacherCreateAcc() {
 							type="password"
 							placeholder="*******"
 							id="confirmPassword"
-							name="confirmP	assword"
+							name="confirmPassword"
 							required
 						/>
 					</div>

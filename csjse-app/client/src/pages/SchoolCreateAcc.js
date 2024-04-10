@@ -1,8 +1,12 @@
+/* This function will be called to bring up a form to create a new account for a school. */
+
 import React, { useState } from "react";
 import "../styles/LoginandCreate.css";
 import { Link } from "react-router-dom";
-
-//this function will be called to bring up a form to create a new account for a school
+import { auth } from "../firebase";
+import { createUserWithEmailAndPassword, fetchSignInMethodsForEmail } from "firebase/auth";
+import ErrorPopup from "../components/ErrorPopup";
+import "../styles/ErrorPopup.css";
 
 //create and export function 'SchoolCreateAcc' so that other pages can import and use the function
 export default function SchoolCreateAcc() {
@@ -12,45 +16,67 @@ export default function SchoolCreateAcc() {
 	const [pass, setPass] = useState("");
 	const [confirmPass, setConfirmPass] = useState("");
 
+	//Error handling
+	const [showErrorPopup, setErrorPopup] = useState(false);
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-
+	  
 		// Check if the password and confirmation match
 		if (pass !== confirmPass) {
-			// Display an error message or handle the mismatch
-			console.error("Password and Confirm Password do not match");
-			return;
-		} else {
-			//creates an object to pass the user data to backend
-			const userData = {
-				schoolName,
-				pass,
-				email,
-			};
-
-			const res = await fetch("http://localhost:5000/api/sCreateAccount", {
-				//sets method to post indicating a change in the database
-				method: "POST",
-				//ensures this returns a json file
-				headers: {
-					"Content-Type": "application/json",
-				},
-				//sends the userData information as a json file as strings
-				body: JSON.stringify(userData),
-			})
-				// Receives response
-				.then((response) => response.json())
-				.catch((error) =>
-					console.error("Error during account creation:", error)
-				);
-			console.log(res.success); // This is the information that you are checking for.
-
-			//If response is successful, move to profile page.
-			if (res.success) {
-				window.location.href = "/schoolprofile";
-			}
+		  // Display an error message or handle the mismatch
+		  console.error("Password and Confirm Password do not match");
+		  return;
 		}
-	};
+	  
+		try {
+		  // Check if the email is already in use
+		  const checkEmail = String(email);
+		  const methods = await fetchSignInMethodsForEmail(auth, checkEmail);
+	  
+		  if (methods.length > 0) {
+			// Email is already in use, show an error message
+			console.error("Email is already in use");
+			// You can show an error popup here
+			setErrorPopup(true);
+			return;
+		  }
+	  
+		  // If the email is not in use, proceed with account creation
+		  const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+		  const user = userCredential.user;
+	  
+		  // API call to create a teacher profile
+		  const response = await fetch('http://localhost:5000/api/sCreateAccount', {
+			method: 'POST',
+			headers: {
+			  'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+			  userId: user.uid,
+			  schoolName,
+			  email,
+			}),
+		  });
+	  
+		  const data = await response.json();
+	  
+		  if (data.success) {
+			// Redirect to the profile page or any other page
+			window.location.href = `/SchoolProfile/${data.userId}`;
+		  } else {
+			console.error('Failed to create a school profile');
+		  }
+		} catch (error) {
+		  // Handle specific Firebase error codes
+		  if (error.code === "auth/email-already-in-use") {
+			console.error("Email is already in use");
+			setErrorPopup(true);
+		  } else {
+			console.error("Error during account creation:", error.message);
+		  }
+		}
+	  };
 
 	// Used for when the "Already have an Account?" button is clicked to redirect the user to the login page.
 	const handleAlreadyHaveAccount = () => {
@@ -62,6 +88,12 @@ export default function SchoolCreateAcc() {
 		<div className="backgroundColor">
 			{/*another container to style the form*/}
 			<div className="login-container">
+				{showErrorPopup && <div className="overlay" />}
+
+				{/* Show an error popup if the email is already in use */}
+				{showErrorPopup && (
+					<ErrorPopup message="Email is already in use" onClose={() => setErrorPopup(false)} />
+				)}
 				{/*creates a form that will take in the function 'handleSubmit' when the form receives a submti request*/}
 				<form className="login-form" onSubmit={handleSubmit}>
 					{/*Sets the header to 'Create School Account' and uses styling for header 2*/}

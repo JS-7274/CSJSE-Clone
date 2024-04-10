@@ -1,0 +1,191 @@
+.search-and-filter-bar {
+	display: flex;
+	flex-direction: row;
+	background-color: #f5f5f5;
+	border-radius: 10px;
+	margin-top: 20px;
+	padding: 15px 20px 15px 20px;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: nowrap;
+}
+
+.filter {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+}
+
+.filter p {
+	margin-left: 10px;
+}
+
+.filter-options {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.filter-options div {
+	margin-left: 20px;
+}
+
+.filter-options select,
+input {
+	width: fit-content;
+	padding: 8px;
+	font-size: 14px;
+	border: 1px solid #ddd;
+	border-radius: 10px;
+}
+
+.zip {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+	/* align-items: center; */
+}
+
+.zip label {
+	white-space: nowrap;
+	margin-right: 5px;
+}
+
+.looking {
+	display: flex;
+	flex-wrap: nowrap;
+	/* align-items: center; */
+}
+
+.looking label {
+	text-wrap: nowrap;
+}
+
+.looking input[type="checkbox"] {
+	margin-left: 5px;
+	/* align-self: center; */
+}
+
+.filter-options button {
+	display: block;
+	border: none;
+	border-radius: 10px;
+	padding: 8px 16px;
+	background-color: #01377d;
+	color: #fff;
+	cursor: pointer;
+	text-decoration: none;
+	font-size: 16px;
+	font-weight: normal;
+	text-align: center;
+	white-space: nowrap;
+	margin-left: 20px;
+}
+
+.filter-options button:hover {
+	background-color: #26b170;
+	color: #fff;
+}
+
+.search {
+	display: flex;
+	flex-wrap: nowrap;
+	/* align-items: baseline; */
+}
+
+.search input {
+	margin-right: 20px;
+}
+
+.list-side {
+	width: 300px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.list-side h2 {
+	margin-top: 0px;
+}
+
+.list-sidebar {
+	width: 300px;
+	border-radius: 10px;
+}
+
+.list-sidebar button {
+	position: relative;
+	display: block;
+	border: 1px solid #fff;
+	width: 100%;
+	padding: 8px 16px;
+	background-color: #f5f5f5;
+	color: #000;
+	cursor: pointer;
+	text-decoration: none;
+	font-size: 16px;
+	font-weight: normal;
+	text-align: center;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* Sets the top corners of the top button in the sidebar navigation to be rounded */
+.list-sidebar button:nth-child(1) {
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
+
+/* Sets the top corners of the bottom button in the sidebar navigation to be rounded */
+.list-sidebar button:nth-last-child(1) {
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	border-bottom: none;
+}
+
+.list-sidebar button:hover {
+	background-color: #26b170;
+	color: #fff;
+}
+
+/* Changes the button's color if that button's tab is active */
+.list-sidebar button:active {
+	background-color: #01377d;
+	color: #fff;
+}
+
+.info-display {
+	display: flex;
+	margin-top: 20px;
+	align-items: stretch;
+}
+
+.info-column {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	margin-left: 20px;
+	background-color: #f5f5f5;
+	padding-right: 20px;
+	border-radius: 10px;
+	padding-bottom: 5px;
+	padding-left: 20px;
+	align-items: center;
+	justify-content: center;
+}
+
+.info-column p {
+	text-align: center;
+}
+
+.teacher-info {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	border-radius: 10px;
+	margin-left: 20px;
+	padding-left: 20px;
+	background-color: #f5f5f5;
+}

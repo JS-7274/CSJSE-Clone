@@ -1,5 +1,6 @@
 /* Profiles.css */
 
+/* CSS used for both teacher/staff and school profile pages */
 .profile-container {
 	display: flex;
 	margin-top: 20px;
@@ -13,11 +14,8 @@
 	justify-content: space-between;
 }
 
-.side p {
+.side h2 {
 	margin-top: 0px;
-	font-size: larger;
-	font-weight: 600;
-	text-align: right;
 }
 
 .sidebar {
@@ -41,13 +39,13 @@
 	white-space: nowrap;
 }
 
-/* Sets the top corners of the top item to be rounded */
+/* Sets the top corners of the top button in the sidebar navigation to be rounded */
 .sidebar button:nth-child(1) {
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
 }
 
-/* Sets the bottom corners of the bottom item to be rounded */
+/* Sets the top corners of the bottom button in the sidebar navigation to be rounded */
 .sidebar button:nth-last-child(1) {
 	border-bottom-left-radius: 10px;
 	border-bottom-right-radius: 10px;
@@ -59,12 +57,20 @@
 	color: #fff;
 }
 
+/* Changes the button's color if that button's tab is active */
 .sidebar button.active {
 	background-color: #01377d;
 	color: #fff;
 }
 
-button.normal-button {
+.ld-button-group {
+	position: fixed;
+	bottom: 20px;
+	left: 20px;
+	width: 200px;
+}
+
+button.logout-button {
 	position: flex;
 	align-items: flex-end;
 	display: block;
@@ -72,7 +78,8 @@ button.normal-button {
 	border-radius: 10px;
 	width: 100%;
 	padding: 8px 16px;
-	background-color: #01377d;
+	background-color: #cd0001;
+	/*background-color: #01377d;*/
 	color: #fff;
 	cursor: pointer;
 	text-decoration: none;
@@ -80,16 +87,17 @@ button.normal-button {
 	font-weight: normal;
 	text-align: center;
 	white-space: nowrap;
-	margin-top: 5px;
-	margin-bottom: 5px;
+	margin-top: 20px;
+	/*margin-bottom: 5px;*/
 }
 
-button.normal-button:hover {
-	background-color: #26b170;
+button.logout-button:hover {
+	background-color: #8e0000;
+	/*background-color:  #26b170;*/
 	color: #fff;
 }
 
-button.deactivate {
+button.deactivate-button {
 	position: flex;
 	align-items: flex-end;
 	display: block;
@@ -107,7 +115,7 @@ button.deactivate {
 	white-space: nowrap;
 }
 
-button.deactivate:hover {
+button.deactivate-button:hover {
 	background-color: #8e0000;
 	color: #fff;
 }
@@ -117,10 +125,6 @@ button.deactivate:hover {
 	flex-direction: column;
 	width: 100%;
 	margin-left: 20px;
-}
-
-.content h2 {
-	text-align: center;
 }
 
 .profile-content,
@@ -136,12 +140,8 @@ button.deactivate:hover {
 	margin-bottom: 20px;
 }
 
-.job-item {
-	background-color: #fff;
-	padding-left: 20px;
-	padding-right: 20px;
-	margin-bottom: 20px;
-	border-radius: 10px;
+.content h2 {
+	text-align: center;
 }
 
 .section-header,
@@ -151,12 +151,20 @@ button.deactivate:hover {
 	justify-content: space-between;
 }
 
+.job-item {
+	background-color: #fff;
+	padding: 10px 20px;
+	margin-bottom: 20px;
+	border-radius: 10px;
+}
+
 .header-buttons,
 .job-buttons {
 	display: flex;
 }
 
-input[type="submit"] {
+input[type="submit"],
+input[type="button"] {
 	position: flex;
 	align-items: flex-end;
 	display: block;
@@ -174,6 +182,10 @@ input[type="submit"] {
 	text-align: center;
 	white-space: nowrap;
 	margin-left: 5px;
+}
+
+input[type="submit"]:hover {
+	background-color: #26b170;
 }
 
 input[type="submit"]:disabled {
@@ -194,6 +206,13 @@ label {
 	margin-bottom: 5px;
 }
 
+.form-group p {
+	text-align: left;
+	font-size: 14px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
 .input-field {
 	width: 100%;
 	padding: 8px;
@@ -202,6 +221,47 @@ label {
 	border-radius: 4px;
 }
 
+.form-group input[type="file"] {
+	border: none;
+}
+
 .radio-label {
 	font-weight: normal;
+}
+
+textarea {
+	width: 100%;
+	border-radius: 4px;
+	resize: vertical;
+	padding: 8px;
+	font-size: 14px;
+	min-height: 16px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Job Listings CSS */
+.create-listing {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	margin-bottom: 20px;
+}
+
+p {
+	text-align: center;
+}
+
+.option-buttons {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	flex-wrap: nowrap;
+}
+
+input[type="button"].cancel-button {
+	background-color: #cd0001;
+}
+
+input[type="button"].cancel-button:hover {
+	background-color: #8e0000;
 }

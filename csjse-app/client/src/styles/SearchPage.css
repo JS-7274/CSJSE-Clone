@@ -173,25 +173,10 @@ input {
 	/* justify-content: space-around */
 }
 
-.job-info-box {
+.info-box {
 	display: flex;
-	flex-direction: column;
+	justify-content: space-around;
 }
-
-/*.info-column h2,
-p {
-	text-align: center;
-} */
-
-/* .teacher-info {
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	border-radius: 10px;
-	margin-left: 20px;
-	padding-left: 20px;
-	background-color: #f5f5f5;
-} */
 
 .admin-message {
 	background-color: #f5f5f5;
@@ -238,5 +223,42 @@ p {
 }
 
 .delete-box {
+	display: flex;
 	justify-content: flex-end;
+}
+
+.info-group {
+	display: flex;
+	flex-direction: row;
+	align-items: baseline;
+	margin: 0px;
+}
+
+.info-group p {
+	padding-left: 5px;
+}
+
+.info-group a {
+	text-decoration: none;
+}
+
+.info-group button {
+	display: block;
+	border: none;
+	border-radius: 10px;
+	padding: 8px 16px;
+	background-color: #01377d;
+	color: #fff;
+	cursor: pointer;
+	text-decoration: none;
+	font-size: 16px;
+	font-weight: normal;
+	text-align: center;
+	white-space: nowrap;
+	margin-top: 15px;
+}
+
+.info-group button:hover {
+	background-color: #26b170;
+	color: #fff;
 }

@@ -4,9 +4,11 @@ import "../styles/SearchPage.css";
 import JobList from "../components/JobList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fas } from "@fortawesome/free-solid-svg-icons";
+import DeleteConfirmation from "../components/DeleteConfirmation";
 
 function AdminJobs() {
 	const [selectedJob, setSelectedJob] = useState(null);
+	const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 	const [searchResult, setSearchResult] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [filterOptions, setFilterOptions] = useState({
@@ -70,7 +72,11 @@ function AdminJobs() {
 		});
 	};
 
-	const handleDeleteJob = async (jobId) => {
+	const handleDeleteJob = () => {
+		setShowDeleteConfirmation(true);
+	};
+
+	const confirmDeleteJob = async (jobId) => {
 		try {
 			const response = await fetch(
 				`http://localhost:5000/api/deleteJob/${jobId}`,
@@ -93,8 +99,8 @@ function AdminJobs() {
 
 	return (
 		<div>
+			{showDeleteConfirmation && <div className="overlay" />}
 			<AdminHeader />
-
 			<div className="admin-message">
 				<h2>Hello, Administrator.</h2>
 				<p>
@@ -157,19 +163,51 @@ function AdminJobs() {
 				</div>
 				<div className="info-column">
 					{selectedJob && (
-						<div className="job-info-box">
-							<div>
-								<h2>{selectedJob.job_title}</h2>
-								<p>Job Description: {selectedJob.job_description}</p>
-								<p>Job Location: {selectedJob.job_location}</p>
-								<p>Interview Location: {selectedJob.interview_location}</p>
-								<p>Contact Email: {selectedJob.contact_email}</p>
-								<p>Required Degree: {selectedJob.required_degree}</p>
-								<p>Required Experience: {selectedJob.required_experience}</p>
-								<p>Preferred Degree: {selectedJob.preferred_degree}</p>
-								<p>Preferred Experience: {selectedJob.preferred_experience}</p>
-								<p>Job Link: {selectedJob.application_url}</p>
-								{/* Button to delete the selected job */}
+						<div>
+							<h2>{selectedJob.job_title}</h2>
+							<div className="info-box">
+								<div>
+									<div className="info-group">
+										<label>Job Description:</label>
+										<p>{selectedJob.job_description}</p>
+									</div>
+									<div className="info-group">
+										<label>Required Degree:</label>
+										<p>{selectedJob.required_degree}</p>
+									</div>
+									<div className="info-group">
+										<label>Required Experience:</label>
+										<p>{selectedJob.required_experience}</p>
+									</div>
+									<div className="info-group">
+										<label>Preferred Degree:</label>
+										<p>{selectedJob.preferred_degree}</p>
+									</div>
+									<div className="info-group">
+										<label>Preferred Experience:</label>
+										<p>{selectedJob.preferred_experience}</p>
+									</div>
+								</div>
+								<div>
+									<div className="info-group">
+										<label>Job Location: </label>
+										<p>{selectedJob.job_location}</p>
+									</div>
+									<div className="info-group">
+										<label>Interview Location:</label>
+										<p>{selectedJob.interview_location}</p>
+									</div>
+									<div className="info-group">
+										<label>Contact Email:</label>
+										<p>{selectedJob.contact_email}</p>
+									</div>
+
+									<div className="info-group">
+										<a href={selectedJob.application_url}>
+											<button>External Application</button>
+										</a>
+									</div>
+								</div>
 							</div>
 							<div className="delete-box">
 								<button
@@ -183,6 +221,12 @@ function AdminJobs() {
 					)}
 				</div>
 			</div>
+			{showDeleteConfirmation && (
+				<DeleteConfirmation
+					onCancel={() => setShowDeleteConfirmation(false)}
+					onConfirm={confirmDeleteJob}
+				/>
+			)}
 		</div>
 	);
 }

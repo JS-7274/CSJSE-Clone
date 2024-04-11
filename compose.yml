@@ -1,0 +1,65 @@
+services:
+  backend:
+    build:
+      args:
+        - NODE_ENV=development
+      context: csjse-app/server
+      target: development
+    command: npm run start-watch
+    environment:
+      - DATABASE_DB=csjse
+      - DATABASE_USER=team_user
+      - DATABASE_PASSWORD=/run/secrets/db-password
+      - DATABASE_HOST=localhost
+      - NODE_ENV=development
+      - JWT_SECRET=016b8a069ae8c4fce75442ec3a617502a0684c7dc99f02441b7a1765e0b632517dc915ad5952107bca8c8b0cba82b68bb47ecd3a340822f2317b6290ff802780
+    ports:
+      - 80:80
+      - 9229:9229
+      - 9230:9230
+    secrets:
+      - db-password
+    volumes:
+      - ./csjse-app/server/package.json:/code/package.json
+      - ./csjse-app/server/package-lock.json:/code/package-lock.json
+      - back-notused:/opt/app/node_modules
+    networks:
+      - public
+      - private
+    depends_on:
+      - db
+  db:
+    image: mariadb:10.6.4-focal
+    command: "--default-authentication-plugin=mysql_native_password"
+    restart: always
+    secrets:
+      - db-password
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - private
+    environment:
+      - MYSQL_DATABASE=example
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
+  frontend:
+    build:
+      context: csjse-app/client
+      target: development
+    ports:
+      - 3000:3000
+    volumes:
+      - ./csjse-app/client/src:/code/src
+      - /code/node_modules
+    networks:
+      - public
+    depends_on:
+      - backend
+networks:
+  public:
+  private:
+volumes:
+  back-notused:
+  db-data:
+secrets:
+  db-password:
+    file: db/password.txt

@@ -21,6 +21,7 @@
 .menu {
 	display: flex;
 	justify-content: space-around;
+	align-items: center;
 }
 
 /* Default item style */
@@ -51,4 +52,27 @@
 	color: #fff;
 	border: none;
 	border-radius: 10px;
+}
+
+.menu-logout {
+	position: flex;
+	align-items: flex-end;
+	display: block;
+	border: none;
+	border-radius: 10px;
+	width: 100%;
+	padding: 8px 16px;
+	background-color: #cd0001;
+	color: #fff;
+	cursor: pointer;
+	text-decoration: none;
+	font-size: 16px;
+	font-weight: normal;
+	text-align: center;
+	white-space: nowrap;
+}
+
+.menu-logout:hover {
+	background-color: #8e0000;
+	color: #fff;
 }

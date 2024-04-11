@@ -516,4 +516,5 @@ VALUES (
         'Kansas',
         '660'
     );
+    INSERT INTO Admin (admin_id) VALUES ('JAfa7OAX1HaJumeHCD4tJhLXOi22');
 SET FOREIGN_KEY_CHECKS = 1;

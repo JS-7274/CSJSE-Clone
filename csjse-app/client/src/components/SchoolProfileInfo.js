@@ -14,7 +14,7 @@ export default function SchoolProfileInfo() {
 	// State for tracking phone number input value
 	const [phoneNumber, setPhoneNumber] = useState("");
 
-	const [enrollment, setEnrollment] = useState("");
+	const [enrollment, setEnrollment] = useState(""); // eslint-disable-line no-unused-vars
 	const [statementOfFaith, setStatmentofFaith] = useState("");
 	const [website, setWebsite] = useState("");
 	const [contactEmail, setContactEmail] = useState("");

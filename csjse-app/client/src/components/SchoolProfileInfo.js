@@ -14,7 +14,7 @@ export default function SchoolProfileInfo({ userData }) {
 			} else {
 				// Redirect or handle non-authenticated user
 				// For example, redirect to the login page
-				window.location.href = "/TeacherLogin";
+				window.location.href = "/SchoolLogin";
 			}
 		});
 

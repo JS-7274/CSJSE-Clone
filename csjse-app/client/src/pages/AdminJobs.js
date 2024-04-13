@@ -8,6 +8,7 @@ import DeleteConfirmation from "../components/DeleteConfirmation";
 
 function AdminJobs() {
 	const [selectedJob, setSelectedJob] = useState(null);
+	const [noSelectedJob, setNoSelectedJob] = useState(true);
 	const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 	const [searchResult, setSearchResult] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
@@ -48,20 +49,27 @@ function AdminJobs() {
 
 	const handleSearch = (searchTerm) => {
 		setSearchTerm(searchTerm);
+		setSelectedJob(null);
+		setNoSelectedJob(true);
 	};
 
 	const handleSelectJob = (job) => {
 		setSelectedJob(job);
+		setNoSelectedJob(false);
 	};
 
 	const handleFilterChange = (event) => {
 		const { name, value } = event.target;
 		setFilterOptions({ ...filterOptions, [name]: value });
+		setSelectedJob(null);
+		setNoSelectedJob(true);
 	};
 
 	const handleLocationChange = (event) => {
 		const { value } = event.target;
 		setFilterOptions({ ...filterOptions, job_location: value });
+		setSelectedJob(null);
+		setNoSelectedJob(true);
 	};
 
 	const handleReset = () => {
@@ -70,6 +78,8 @@ function AdminJobs() {
 			job_location: "",
 			required_degree: "",
 		});
+		setSelectedJob(null);
+		setNoSelectedJob(true);
 	};
 
 	const handleDeleteJob = () => {
@@ -162,6 +172,7 @@ function AdminJobs() {
 					/>
 				</div>
 				<div className="info-column">
+					{noSelectedJob && <p>Select a Job to Learn More</p>}
 					{selectedJob && (
 						<div>
 							<h2>{selectedJob.job_title}</h2>

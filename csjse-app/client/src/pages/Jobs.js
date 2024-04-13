@@ -218,26 +218,52 @@ function Jobs() {
 					{selectedJob && (
 						<div>
 							<h2>{selectedJob.job_title}</h2>
-							<p>Job Description: {selectedJob.job_description}</p>
-							<p>Job Location: {selectedJob.job_location}</p>
-							<p>Interview Location: {selectedJob.interview_location}</p>
-							<p>Contact Email: {selectedJob.contact_email}</p>
-							<p>Required Degree: {selectedJob.required_degree}</p>
-							<p>Required Experience: {selectedJob.required_experience}</p>
-							<p>Preferred Degree: {selectedJob.preferred_degree}</p>
-							<p>Preferred Experience: {selectedJob.preferred_experience}</p>
-							<p>Job Link: {selectedJob.application_url}</p>
-							{selectedJob.application_url && (
+							<div className="info-box">
 								<div>
-									<a
-										href={selectedJob.application_url}
-										target="_blank"
-										rel="noopener noreferrer"
-									>
-										<button onClick={handleApply}>Apply Externally</button>
-									</a>
+									<div className="info-group">
+										<label>Job Description:</label>
+										<p>{selectedJob.job_description}</p>
+									</div>
+									<div className="info-group">
+										<label>Required Degree:</label>
+										<p>{selectedJob.required_degree}</p>
+									</div>
+									<div className="info-group">
+										<label>Required Experience:</label>
+										<p>{selectedJob.required_experience}</p>
+									</div>
+									<div className="info-group">
+										<label>Preferred Degree:</label>
+										<p>{selectedJob.preferred_degree}</p>
+									</div>
+									<div className="info-group">
+										<label>Preferred Experience:</label>
+										<p>{selectedJob.preferred_experience}</p>
+									</div>
 								</div>
-							)}
+								<div>
+									<div className="info-group">
+										<label>Job Location: </label>
+										<p>{selectedJob.job_location}</p>
+									</div>
+									<div className="info-group">
+										<label>Interview Location:</label>
+										<p>{selectedJob.interview_location}</p>
+									</div>
+									<div className="info-group">
+										<label>Contact Email:</label>
+										<p>
+											<a href="mailto:{selectedJob.contact_email}">
+												{selectedJob.contact_email}
+											</a>
+										</p>
+									</div>
+
+									<div className="info-group">
+										<button onClick={handleApply}>External Application</button>
+									</div>
+								</div>
+							</div>
 						</div>
 					)}
 				</div>

@@ -145,7 +145,7 @@ function AdminJobs() {
 						type="text"
 						value={searchTerm}
 						onChange={(e) => handleSearch(e.target.value)}
-						placeholder="Search by Job Title"
+						placeholder="Search"
 					/>
 					<FontAwesomeIcon icon={fas.faSearch} style={{ cursor: "pointer" }} />
 				</div>
@@ -199,11 +199,15 @@ function AdminJobs() {
 									</div>
 									<div className="info-group">
 										<label>Contact Email:</label>
-										<p>{selectedJob.contact_email}</p>
+										<p>
+											<a href="mailto:{selectedJob.contact_email}">
+												{selectedJob.contact_email}
+											</a>
+										</p>
 									</div>
 
 									<div className="info-group">
-										<a href={selectedJob.application_url}>
+										<a href="{selectedJob.application_url}">
 											<button>External Application</button>
 										</a>
 									</div>

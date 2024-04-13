@@ -100,7 +100,7 @@ export default function JobListings() {
 			setJobData({
 				...jobData,
 				job_location: location,
-				application_url: applicationUrl,
+				application_url: application_url,
 			});
 
 			const response = await fetch(
@@ -275,6 +275,25 @@ export default function JobListings() {
 		}
 	};
 
+	const handleDelete = async (jobId) => {
+		try {
+			const response = await fetch(`http://localhost:5000/api/deleteJob/${jobId}`, {
+				method: "DELETE",
+			});
+	
+			const data = await response.json();
+	
+			if (data.success) {
+				// If deletion is successful, fetch the updated job list
+				fetchJobList();
+			} else {
+				console.error("Error deleting job:", data.error);
+			}
+		} catch (error) {
+			console.error("Error deleting job:", error);
+		}
+	};
+
 	return (
 		<div className="profile-content">
 			<div className="section-header">
@@ -287,7 +306,7 @@ export default function JobListings() {
 			</div>
 
 			{showCreateJobPosting && (
-				//if create button is clicted the create form opens
+				//if create button is clicked the create form opens
 				<form className="create-listing">
 					<h2>Create a Job Posting</h2>
 					<p>
@@ -637,6 +656,11 @@ export default function JobListings() {
 											type="submit"
 											value="Edit"
 											onClick={() => handleEdit(job.job_id)}
+										></input>
+										<input
+											type="submit"
+											value="Delete"
+											onClick={() => handleDelete(job.job_id)}
 										></input>
 									</div>
 								</div>

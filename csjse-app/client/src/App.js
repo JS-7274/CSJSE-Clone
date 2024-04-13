@@ -14,7 +14,6 @@ import Jobs from "./pages/Jobs";
 import Teachers from "./pages/Teachers";
 import AdminLogin from "./pages/AdminLogin";
 import AdminBuffer from "./pages/AdminBuffer";
-import AdminHome from "./pages/AdminHome";
 import AdminTeachers from "./pages/AdminTeachers";
 import AdminSchools from "./pages/AdminSchools";
 import AdminJobs from "./pages/AdminJobs";
@@ -39,7 +38,6 @@ function App() {
 			<Route path="/Teachers" element={<Teachers />} />
 			<Route path="/AdminLogin" element={<AdminLogin />} />
 			<Route path="/AdminBuffer/:id" element={<AdminBuffer />} />
-			<Route path="/AdminHome" element={<AdminHome />} />
 			<Route path="/AdminTeachers" element={<AdminTeachers />} />
 			<Route path="/AdminSchools" element={<AdminSchools />} />
 			<Route path="/AdminJobs" element={<AdminJobs />} />

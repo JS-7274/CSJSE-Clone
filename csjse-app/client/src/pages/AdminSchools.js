@@ -298,37 +298,6 @@ function AdminSchools() {
 							<div className="info-box">
 								<div>
 									<div className="info-group">
-										<label>Phone Number:</label>
-										<p>{selectedSchool.phone}</p>
-									</div>
-									<div className="info-group">
-										<label>Contact Email:</label>
-										<p>
-											<a href="mailto:{selectedSchool.contact_email}">
-												{selectedSchool.contact_email}
-											</a>
-										</p>
-									</div>
-									<div className="info-group">
-										<label>Location:</label>
-										<p>{selectedSchool.location}</p>
-									</div>
-									<div className="info-group">
-										<label>Zip:</label>
-										<p>{selectedSchool.zip}</p>
-									</div>
-									<div className="info-group">
-										<label>User ID:</label>
-										<p>{selectedSchool.school_id}</p>
-									</div>
-									<div className="info-group">
-										<a href="{selectedSchool.website}">
-											<button>School Website</button>
-										</a>
-									</div>
-								</div>
-								<div>
-									<div className="info-group">
 										<label>Statement of Faith:</label>
 										<p>{selectedSchool.statement_of_faith}</p>
 									</div>
@@ -351,6 +320,37 @@ function AdminSchools() {
 									<div className="info-group">
 										<label>Accreditation: </label>
 										<p>{selectedSchool.accreditation}</p>
+									</div>
+									<div className="info-group">
+										<a href="{selectedSchool.website}">
+											<button>School Website</button>
+										</a>
+									</div>
+								</div>
+								<div>
+									<div className="info-group">
+										<label>Phone Number:</label>
+										<p>{selectedSchool.phone}</p>
+									</div>
+									<div className="info-group">
+										<label>Contact Email:</label>
+										<p>
+											<a href="mailto:{selectedSchool.contact_email}">
+												{selectedSchool.contact_email}
+											</a>
+										</p>
+									</div>
+									<div className="info-group">
+										<label>Location:</label>
+										<p>{selectedSchool.location}</p>
+									</div>
+									<div className="info-group">
+										<label>Zip:</label>
+										<p>{selectedSchool.zip}</p>
+									</div>
+									<div className="info-group">
+										<label>User ID:</label>
+										<p>{selectedSchool.school_id}</p>
 									</div>
 								</div>
 							</div>

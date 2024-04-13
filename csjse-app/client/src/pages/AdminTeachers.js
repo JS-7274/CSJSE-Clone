@@ -242,6 +242,25 @@ function AdminTeachers() {
 							<div className="info-box">
 								<div>
 									<div className="info-group">
+										<label>Degree:</label>
+										<p>{selectedTeacher.degree}</p>
+									</div>
+									<div className="info-group">
+										<label>Home Church:</label>
+										<p>{selectedTeacher.home_church}</p>
+									</div>
+									<div className="info-group">
+										<label>Testimony:</label>
+										<p>{selectedTeacher.testimony}</p>
+									</div>
+									<div className="info-group">
+										<a href="{selectedTeacher.job_resume}">
+											<button>External Resume</button>
+										</a>
+									</div>
+								</div>
+								<div>
+									<div className="info-group">
 										<label>Phone Number:</label>
 										<p>{selectedTeacher.phone}</p>
 									</div>
@@ -264,25 +283,6 @@ function AdminTeachers() {
 									<div className="info-group">
 										<label>User ID:</label>
 										<p>{selectedTeacher.teacher_staff_id}</p>
-									</div>
-								</div>
-								<div>
-									<div className="info-group">
-										<label>Degree:</label>
-										<p>{selectedTeacher.degree}</p>
-									</div>
-									<div className="info-group">
-										<label>Experience:</label>
-										<p>{selectedTeacher.experience}</p>
-									</div>
-									<div className="info-group">
-										<label>Testimony:</label>
-										<p>{selectedTeacher.testimony}</p>
-									</div>
-									<div className="info-group">
-										<a href="{selectedTeacher.job_resume}">
-											<button>External Resume</button>
-										</a>
 									</div>
 								</div>
 							</div>

@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { auth } from "../firebase";
 import "../styles/Headers.css";
+import LogoutConfirmation from "../components/LogoutConfirmation";
 
 function TeacherStaffHeader() {
 	const location = useLocation();
@@ -111,68 +112,81 @@ function SchoolHeader() {
 }
 
 function AdminHeader() {
-    const [user, setUser] = useState(null);
+	const [user, setUser] = useState(null);
+	const [showLogoutConfirmation, setShowLogoutConfirmation] = useState(false);
 
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((user) => {
-            if (user) {
-                setUser(user);
-            }
-        });
+	useEffect(() => {
+		const unsubscribe = auth.onAuthStateChanged((user) => {
+			if (user) {
+				setUser(user);
+			}
+		});
 
-        return () => {
-            unsubscribe();
-        };
-    }, []);
+		return () => {
+			unsubscribe();
+		};
+	}, []);
 
 	const isActive = (path) => {
 		return window.location.pathname === path;
 	};
 
-    const handleLogout = () => {
-		auth.signOut()
+	const handleLogout = () => {
+		setShowLogoutConfirmation(true);
+	};
+
+	const confirmLogout = () => {
+		auth
+			.signOut()
 			.then(() => {
-				window.location.href = "/"; 
+				window.location.href = "/";
 			})
 			.catch((error) => {
 				console.error("Error during logout:", error);
 			});
 	};
 
-    return (
-        <div className="header">
-            <div className="logo">
-                <NavLink to="/" className="title">
-                    Christian Schools Job Search
-                </NavLink>
-            </div>
+	return (
+		<div className="header">
+			{showLogoutConfirmation && <div className="overlay" />}
 
-            <div className="menu">
-                <NavLink
-                    to="/adminjobs"
-                    className={`menuitem ${isActive("/adminjobs") ? "active" : ""}`}
-                >
-                    Jobs
-                </NavLink>
-                <NavLink
-                    to="/adminteachers"
-                    className={`menuitem ${isActive("/adminteachers") ? "active" : ""}`}
-                >
-                    Teachers
-                </NavLink>
-                <NavLink
-                    to="/adminschools"
-                    className={`menuitem ${isActive("/adminschools") ? "active" : ""}`}
-                >
-                    Schools
-                </NavLink>
-            </div>
+			<div className="logo">
+				<NavLink to="/" className="title">
+					Christian Schools Job Search
+				</NavLink>
+			</div>
 
-            <button className="logout-button" onClick={handleLogout}>
-                Logout
-            </button>
-        </div>
-    );
+			<div className="menu">
+				<NavLink
+					to="/adminjobs"
+					className={`menuitem ${isActive("/adminjobs") ? "active" : ""}`}
+				>
+					Jobs
+				</NavLink>
+				<NavLink
+					to="/adminteachers"
+					className={`menuitem ${isActive("/adminteachers") ? "active" : ""}`}
+				>
+					Teachers
+				</NavLink>
+				<NavLink
+					to="/adminschools"
+					className={`menuitem ${isActive("/adminschools") ? "active" : ""}`}
+				>
+					Schools
+				</NavLink>
+				<button className="menu-logout" onClick={handleLogout}>
+					Logout
+				</button>
+			</div>
+			{showLogoutConfirmation && (
+				<LogoutConfirmation
+					onCancel={() => setShowLogoutConfirmation(false)}
+					onConfirm={confirmLogout}
+				/>
+			)}
+		</div>
+	);
 }
 
 export { TeacherStaffHeader, SchoolHeader, AdminHeader };

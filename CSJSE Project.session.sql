@@ -1,2 +1,2 @@
-SELECT *
-FROM reference;
+INSERT INTO Admin (admin_id)
+VALUES ('JAfa7OAX1HaJumeHCD4tJhLXOi22');

@@ -12,6 +12,7 @@ import DeleteConfirmation from "../components/DeleteConfirmation";
 function AdminTeachers() {
 	// State to store the selected teacher
 	const [selectedTeacher, setSelectedTeacher] = useState(null);
+	const [noSelectedTeacher, setNoSelectedTeacher] = useState(true);
 	const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 	// State to store the search result
 	const [searchResult, setSearchResult] = useState([]);
@@ -63,11 +64,14 @@ function AdminTeachers() {
 	const handleSearch = (searchTerm) => {
 		setSearchTerm(searchTerm);
 		fetchTeachers();
+		setSelectedTeacher(null);
+		setNoSelectedTeacher(true);
 	};
 
 	// Function to handle selecting a teacher
 	const handleSelectTeacher = (teacher) => {
 		setSelectedTeacher(teacher);
+		setNoSelectedTeacher(false);
 	};
 
 	// Function to handle degree filter change
@@ -76,6 +80,8 @@ function AdminTeachers() {
 		setSelectedDegree(degree);
 		setFilterOptions({ ...filterOptions, degree });
 		fetchTeachers();
+		setSelectedTeacher(null);
+		setNoSelectedTeacher(true);
 	};
 
 	// Function to handle location filter change
@@ -84,6 +90,8 @@ function AdminTeachers() {
 		setSelectedLocation(location);
 		setFilterOptions({ ...filterOptions, location });
 		fetchTeachers();
+		setSelectedTeacher(null);
+		setNoSelectedTeacher(true);
 	};
 
 	const handleDeleteTeacher = () => {
@@ -234,6 +242,8 @@ function AdminTeachers() {
 					/>
 				</div>
 				<div className="info-column">
+					{noSelectedTeacher && <p>Select a Teacher to Learn More</p>}
+
 					{selectedTeacher && (
 						<div>
 							<h2>

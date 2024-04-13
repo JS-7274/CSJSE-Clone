@@ -173,6 +173,11 @@ input {
 	/* justify-content: space-around */
 }
 
+.info-column p {
+	justify-content: center;
+	align-items: center;
+}
+
 .info-box {
 	display: flex;
 	justify-content: space-around;

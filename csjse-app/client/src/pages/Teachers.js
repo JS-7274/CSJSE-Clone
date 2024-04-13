@@ -138,7 +138,7 @@ function Teachers() {
 	// Function to handle looking filter change
 	const handleLookingChange = (event) => {
 		const looking = event.target.checked;
-		console.log("Looking filter changed to:", looking);	
+		console.log("Looking filter changed to:", looking);
 		setLooking(looking);
 		fetchTeachers();
 		setSelectedTeacher(null);
@@ -270,19 +270,52 @@ function Teachers() {
 					{noSelectedTeacher && <p>Select a Teacher to Learn More</p>}
 					{selectedTeacher && (
 						<div>
-							<h2>{selectedTeacher.school_name}</h2>
-							<p>
-								Name: {selectedTeacher.first_name} {selectedTeacher.last_name}
-							</p>
-							<p>Testimony: {selectedTeacher.testimony}</p>
-							<p>Certifications: {selectedTeacher.degree}</p>
-							<p>Phone: {selectedTeacher.phone}</p>
-							<p>Contact Email: {selectedTeacher.contact_email}</p>
-							<p>Location: {selectedTeacher.location}</p>
-							<p>Zip: {selectedTeacher.zip}</p>
-							<p>Resume: {selectedTeacher.job_resume}</p>
-							<p>certifications: {selectedTeacher.degree}</p>
-							<p>Experience: {selectedTeacher.experience}</p>
+							<h2>
+								{selectedTeacher.first_name} {selectedTeacher.last_name}
+							</h2>
+							<div className="info-box">
+								<div>
+									<div className="info-group">
+										<label>Degree:</label>
+										<p>{selectedTeacher.degree}</p>
+									</div>
+									<div className="info-group">
+										<label>Home Church:</label>
+										<p>{selectedTeacher.home_church}</p>
+									</div>
+									<div className="info-group">
+										<label>Testimony:</label>
+										<p>{selectedTeacher.testimony}</p>
+									</div>
+									<div className="info-group">
+										<a href="{selectedTeacher.job_resume}">
+											<button>External Resume</button>
+										</a>
+									</div>
+								</div>
+								<div>
+									<div className="info-group">
+										<label>Phone Number:</label>
+										<p>{selectedTeacher.phone}</p>
+									</div>
+									<div className="info-group">
+										<label>Contact Email:</label>
+										<p>
+											<a href="mailto:{selectedTeacher.contact_email}">
+												{selectedTeacher.contact_email}
+											</a>
+										</p>
+									</div>
+									<div className="info-group">
+										<label>Location:</label>
+										<p>{selectedTeacher.location}</p>
+									</div>
+									<div className="info-group">
+										<label>Zip:</label>
+										<p>{selectedTeacher.zip}</p>
+									</div>
+								</div>
+							</div>
 						</div>
 					)}
 				</div>

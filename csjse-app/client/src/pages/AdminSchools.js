@@ -10,6 +10,7 @@ import DeleteConfirmation from "../components/DeleteConfirmation";
 
 function AdminSchools() {
 	const [selectedSchool, setSelectedSchool] = useState(null); // Add state to store what school is selected
+	const [noSelectedSchool, setNoSelectedSchool] = useState(true);
 	const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 	const [searchResult, setSearchResult] = useState([]); // Add state to store the result of search
 	const [searchTerm, setSearchTerm] = useState(""); // Add state to store the search term
@@ -79,6 +80,8 @@ function AdminSchools() {
 	const handleSearch = (searchTerm) => {
 		setSearchTerm(searchTerm); // Updates search term state with whatever is searched
 		fetchSchools(); // Trigger re-fetch when search term changes
+		setSelectedSchool(null);
+		setNoSelectedSchool(true);
 	};
 
 	// Function to handle zip search
@@ -91,11 +94,14 @@ function AdminSchools() {
 	const handleShowAll = () => {
 		resetFilters(); // Reset filters
 		fetchSchools(); // Trigger re-fetch when "Show All" is clicked
+		setSelectedSchool(null);
+		setNoSelectedSchool(true);
 	};
 
 	// Function to handle selecting a school
 	const handleSelectSchool = (school) => {
 		setSelectedSchool(school); // Update state to whatever school is selected
+		setNoSelectedSchool(false);
 	};
 
 	// Function to handle grade range change
@@ -105,6 +111,8 @@ function AdminSchools() {
 		setSelectedGradeRange(gradeRange);
 		setFilterOptions({ ...filterOptions, gradeRange });
 		fetchSchools(); // Trigger fetching schools when grade range filter changes
+		setSelectedSchool(null);
+		setNoSelectedSchool(true);
 	};
 
 	// Function to handle location change
@@ -114,6 +122,8 @@ function AdminSchools() {
 		setSelectedLocation(location);
 		setFilterOptions({ ...filterOptions, location });
 		fetchSchools(); // Trigger fetching schools when location filter changes
+		setSelectedSchool(null);
+		setNoSelectedSchool(true);
 	};
 
 	// Function to handle looking filter change
@@ -121,6 +131,8 @@ function AdminSchools() {
 		const looking = event.target.checked;
 		setLooking(looking);
 		fetchSchools();
+		setSelectedSchool(null);
+		setNoSelectedSchool(true);
 	};
 
 	const toggleMoreInfo = () => {
@@ -292,6 +304,7 @@ function AdminSchools() {
 				</div>
 				<div className="info-column">
 					{/* Displays information of the school */}
+					{noSelectedSchool && <p>Select a School to Learn More</p>}
 					{selectedSchool && (
 						<div>
 							<h2>{selectedSchool.school_name}</h2>

@@ -272,20 +272,68 @@ function Schools() {
 					{selectedSchool && (
 						<div>
 							<h2>{selectedSchool.school_name}</h2>
-							<p>About: {selectedSchool.about}</p>
-							<p>Location: {selectedSchool.location}</p>
-							<p>Zip: {selectedSchool.zip}</p>
-							<p>Number of Campuses: {selectedSchool.campus_number}</p>
-							<p>Accreditation: {selectedSchool.accreditation}</p>
-							<p>Grade Range: {selectedSchool.grade_range}</p>
-							<p>Contact Email: {selectedSchool.contact_email}</p>
-							<p>Phone: {selectedSchool.phone}</p>
+							<div className="info-box">
+								<div>
+									<div className="info-group">
+										<label>Statement of Faith:</label>
+										<p>{selectedSchool.statement_of_faith}</p>
+									</div>
+									<div className="info-group">
+										<label>Number of Campuses:</label>
+										<p>{selectedSchool.campus_number}</p>
+									</div>
+									<div className="info-group">
+										<label>Grade Range:</label>
+										<p>{selectedSchool.grade_range}</p>
+									</div>
+									<div className="info-group">
+										<label>Teachers Employed:</label>
+										<p>{selectedSchool.teachers_employed}</p>
+									</div>
+									<div className="info-group">
+										<label>Student Enrollment:</label>
+										<p>{selectedSchool.student_enrollment}</p>
+									</div>
+									<div className="info-group">
+										<label>Accreditation: </label>
+										<p>{selectedSchool.accreditation}</p>
+									</div>
+									<div className="info-group">
+										<a href="{selectedSchool.website}">
+											<button>School Website</button>
+										</a>
+									</div>
+								</div>
+								<div>
+									<div className="info-group">
+										<label>Phone Number:</label>
+										<p>{selectedSchool.phone}</p>
+									</div>
+									<div className="info-group">
+										<label>Contact Email:</label>
+										<p>
+											<a href="mailto:{selectedSchool.contact_email}">
+												{selectedSchool.contact_email}
+											</a>
+										</p>
+									</div>
+									<div className="info-group">
+										<label>Location:</label>
+										<p>{selectedSchool.location}</p>
+									</div>
+									<div className="info-group">
+										<label>Zip:</label>
+										<p>{selectedSchool.zip}</p>
+									</div>
+								</div>
+							</div>
+
 							{/* Button to toggle more information */}
-							<button onClick={toggleMoreInfo}>
+							{/* <button onClick={toggleMoreInfo}>
 								{showMoreInfo ? "Hide More Info" : "Show More Info"}
-							</button>
+							</button> */}
 							{/* Additional information */}
-							{showMoreInfo && (
+							{/* {showMoreInfo && (
 								<>
 									<p>Population: {selectedSchool.school_population}</p>
 									<p>Statement of Faith: {selectedSchool.statement_of_faith}</p>
@@ -296,7 +344,7 @@ function Schools() {
 										{selectedSchool.administrative_structure}
 									</p>
 								</>
-							)}
+							)} */}
 						</div>
 					)}
 				</div>

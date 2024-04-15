@@ -116,10 +116,10 @@ export default function References() {
 				setIsEditing(false);
 				fetchReferencesData(teacher_staff_id);
 			} else {
-				console.error("Error during job posting creation:", data.error);
+				console.error("Error during references update:", data.error);
 			}
 		} catch (error) {
-			console.error("Error during job posting creation:", error);
+			console.error("Error during references update:", error);
 		}
 	};
 

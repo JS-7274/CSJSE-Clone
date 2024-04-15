@@ -1,2 +1,2 @@
-INSERT INTO Admin (admin_id)
-VALUES ('JAfa7OAX1HaJumeHCD4tJhLXOi22');
+SELECt *
+FROM school_profile;

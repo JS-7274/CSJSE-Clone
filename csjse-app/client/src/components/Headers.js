@@ -1,5 +1,8 @@
 /* Headers.js */
-/* Creates header components to be used for teacher/staff or school agent view of the website */
+/* Creates header components to be used for teacher/staff or school agent view of the website 
+
+   People who have worked on this file: Autumn, Josh
+   Last worked on: 4/11/2024*/
 
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";

@@ -1,4 +1,7 @@
-/* The purpose of this file is to setup the firebase connection and configure the settings. */
+/* The purpose of this file is to setup the firebase connection and configure the settings. 
+
+   People who have worked on this file: Josh
+   Last worked on: 4/15/2024*/
 
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth';

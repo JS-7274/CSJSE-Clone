@@ -1,5 +1,8 @@
 /* The purpose of this file is to work in tandem with Teachers.js to display schools that are searched 
-   and filtered. This file creates a compoenent for the list of teachers that will appear on the left. */
+   and filtered. This file creates a compoenent for the list of teachers that will appear on the left. 
+   
+   People who have worked on this file: Josh
+   Last worked on: 4/4/2024*/
 
 import React, { useEffect, useState } from "react";
 

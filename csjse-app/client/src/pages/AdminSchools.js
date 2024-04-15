@@ -1,4 +1,7 @@
-/* Serves as a page that will allow admin users to search for schools. */
+/* Serves as a page that will allow admin users to search for schools. 
+
+   People who have worked on this file: Autumn, Josh
+   Last worked on: 4/13/2024*/
 
 import React, { useState, useEffect } from "react";
 import { AdminHeader } from "../components/Headers";

@@ -1,3 +1,9 @@
+/* This page handles the job posts being posted by school accounts as well as the
+   editing of these posts.
+   
+   People who have worked on this file: Autumn, Josh
+   Last worked on: 4/11/2024*/
+
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 

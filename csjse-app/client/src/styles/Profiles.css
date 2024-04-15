@@ -1,6 +1,9 @@
 /* Profiles.css */
 
-/* CSS used for both teacher/staff and school profile pages */
+/* CSS used for both teacher/staff and school profile pages 
+
+   People who have worked on this file: Autumn
+   Last worked on: 4/8/2024*/
 .profile-container {
 	display: flex;
 	margin-top: 20px;

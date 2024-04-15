@@ -1,5 +1,8 @@
 /* AdminTeachers.js */
-/* Displays information for the admin user on the list of teachers and their details. */
+/* Displays information for the admin user on the list of teachers and their details. 
+
+   People who have worked on this file: Autumn, Josh
+   Last worked on: 4/13/2024*/
 
 import React, { useState, useEffect } from "react";
 import { AdminHeader } from "../components/Headers";

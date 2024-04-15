@@ -1,5 +1,8 @@
 /* This file handles the profile information of teachers and staff and is used with the 
-   TeacherStaffProfile file. */
+   TeacherStaffProfile file. 
+   
+   People who have worked on this file: Autumn, Matthew, Josh
+   Last worked on: 3/25/2024*/
 
 import React, { useState, useEffect } from "react";
 import { auth } from "../firebase";

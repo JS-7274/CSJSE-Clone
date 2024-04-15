@@ -1,4 +1,7 @@
-/* This file will be called to bring up a form to create a new account for a teacher. */
+/* This file will be called to bring up a form to create a new account for a teacher. 
+
+   People who have worked on this file: Josh
+   Last worked on: 3/15/2024*/
 
 import React, { useState } from "react";
 import "../styles/LoginandCreate.css";

@@ -1,5 +1,8 @@
 /* When this file is called it will display the school login page. This page will handle
-   the login functionality. */
+   the login functionality. 
+   
+   People who have worked on this file: Autumn, Josh
+   Last worked on: 3/15/2024*/
 
 import React, { useState } from "react";
 import "../styles/LoginandCreate.css";

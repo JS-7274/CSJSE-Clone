@@ -1,6 +1,7 @@
 /* This file handles the school information that will be displayed in the School Profile file. */
 
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import "../styles/Profiles.css";
 import { auth } from "../firebase";
 
@@ -25,24 +26,51 @@ export default function SchoolProfileInfo({ userData }) {
 
 	// State for managing editing mode
 	const [isEditing, setIsEditing] = useState(false);
-	// State for tracking email input value
-	const [email, setEmail] = useState("");
-	// State for tracking password input value
-	// State for tracking first name input value
-	const [name, setName] = useState("");
-	// State for tracking whether user is hiring
-	const [hiring, setHiring] = useState("");
-	// State for tracking phone number input value
-	const [phoneNumber, setPhoneNumber] = useState("");
-	const [enrollment, setEnrollment] = useState("");
-	const [employed, setEmployed] = useState("");
-	const [statementOfFaith, setStatmentofFaith] = useState("");
-	const [website, setWebsite] = useState("");
-	const [location, setLocation] = useState("");
-	const [zip, setZip] = useState("");
-	const [campuses, setCampuses] = useState("");
-	const [accreditation, setAccreditation] = useState("");
+	//const [id, setId] = useState("");
+	const { school_id } = useParams();
+
+	const [schoolData, setSchoolData] = useState({
+		school_id,
+		school_name: "",
+		location: "",
+		zip: "",
+		campus_number: "",
+		phone: "",
+		looking: "",
+		website: "",
+		statement_of_faith: "",
+		accreditation: "",
+		teachers_employed: "",
+		student_enrollment: "",
+		grade_range: "",
+		contact_email: "",
+	});
+
+	const [campusNumber, setCampusNumber] = useState("");
+	const [lookingToHire, setLookingToHire] = useState("");
+	const [teachersEmployed, setTeachersEmployeed] = useState("");
+	const [studentEnrollment, setStudentEnrollment] = useState("");
 	const [gradeRange, setGradeRange] = useState("");
+
+	useEffect(() => {
+		const fetchSchoolData = async () => {
+			try {
+				const response = await fetch(
+					`http://localhost:5000/api/school/users/${school_id}`
+				);
+				const data = await response.json();
+
+				if (data.success) {
+					setSchoolData(data.user);
+				} else {
+					console.error("Error fetching user data:", data.message);
+				}
+			} catch (error) {
+				console.error("Error fetching user data:", error);
+			}
+		};
+		fetchSchoolData();
+	}, [school_id]);
 
 	// Function to toggle editing mode
 	const toggleEditing = () => {
@@ -50,8 +78,41 @@ export default function SchoolProfileInfo({ userData }) {
 	};
 
 	// Function to handle saving changes
-	const handleSave = () => {
-		setIsEditing(false); // Disable editing mode
+	const handleSave = async (e) => {
+		try {
+			const response = await fetch(
+				"http://localhost:5000/api/updateSchoolProfile/",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						...schoolData,
+						campus_number: campusNumber,
+						looking: lookingToHire,
+						teachers_employed: teachersEmployed,
+						student_enrollment: studentEnrollment,
+						grade_range: gradeRange,
+					}),
+				}
+			);
+
+			// Parse the response as JSON
+			const data = await response.json();
+
+			console.log(data.success);
+
+			// If response is successful, ...
+			if (data.success) {
+				setIsEditing(false);
+				//fetchSchoolData();
+			} else {
+				console.error("Error during job posting creation:", data.error);
+			}
+		} catch (error) {
+			console.error("Error during job posting creation:", error);
+		}
 	};
 
 	// Function to handle input changes
@@ -59,13 +120,21 @@ export default function SchoolProfileInfo({ userData }) {
 		setter(event.target.value);
 	};
 
-	useEffect(() => {
+	/* useEffect(() => {
 		// Update state when userData changes
 		setEmail(userData?.contact_email || "");
 		setName(userData?.school_name || "");
 		setPhoneNumber(userData?.phone || "");
 		// ... (update other state variables)
-	}, [userData]);
+	}, [userData]); */
+
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setSchoolData({
+			...schoolData,
+			[name]: value,
+		});
+	};
 
 	return (
 		<div className="profile-content">
@@ -94,9 +163,11 @@ export default function SchoolProfileInfo({ userData }) {
 				<input
 					className="input-field"
 					type="text"
-					value={name}
+					id="school_name"
+					name="school_name"
+					value={schoolData.school_name}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setName)}
+					onChange={handleChange}
 				/>
 			</div>
 
@@ -105,9 +176,11 @@ export default function SchoolProfileInfo({ userData }) {
 				<input
 					className="input-field"
 					type="text"
-					value={location}
+					id="location"
+					name="location"
+					value={schoolData.location}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setLocation)}
+					onChange={handleChange}
 				/>
 			</div>
 
@@ -117,9 +190,11 @@ export default function SchoolProfileInfo({ userData }) {
 				<input
 					className="input-field"
 					type="text"
-					value={zip}
+					id="zip"
+					name="zip"
+					value={schoolData.zip}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setZip)}
+					onChange={handleChange}
 				/>
 			</div>
 
@@ -128,44 +203,48 @@ export default function SchoolProfileInfo({ userData }) {
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="campuses"
-						id="campuses"
+						id="campus_number"
+						name="campus_number"
 						value="1"
+						checked={campusNumber === "1"}
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setCampuses)}
+						onChange={() => setCampusNumber("1")}
 					/>
 					1
 				</label>
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="campuses"
-						id="campuses"
+						id="campus_number"
+						name="campus_number"
 						value="2"
+						checked={campusNumber === "2"}
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setCampuses)}
+						onChange={() => setCampusNumber("2")}
 					/>
 					2
 				</label>
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="campuses"
-						id="campuses"
+						id="campus_number"
+						name="campus_number"
 						value="3"
+						checked={campusNumber === "3"}
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setCampuses)}
+						onChange={() => setCampusNumber("3")}
 					/>
 					3
 				</label>
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="campuses"
-						id="campuses"
-						value="4-orG-reater"
+						id="campus_number"
+						name="campus_number"
+						value="4 or greater"
+						checked={campusNumber === "4 or greater"}
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setCampuses)}
+						onChange={() => setCampusNumber("4 or greater")}
 					/>
 					4 or Greater
 				</label>
@@ -176,9 +255,11 @@ export default function SchoolProfileInfo({ userData }) {
 				<input
 					className="input-field"
 					type="text"
-					value={phoneNumber}
+					id="phone"
+					name="phone"
+					value={schoolData.phone}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setPhoneNumber)}
+					onChange={handleChange}
 				/>
 			</div>
 
@@ -188,22 +269,24 @@ export default function SchoolProfileInfo({ userData }) {
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="hiring"
-						id="are-you-hiring"
-						value="Yes"
+						id="looking"
+						name="looking"
+						value="yes"
+						checked={lookingToHire === "yes"}
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setHiring)}
+						onChange={() => setLookingToHire("yes")}
 					/>
 					Yes
 				</label>
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="hiring"
-						id="are-you-hiring"
-						value="No"
+						id="looking"
+						name="looking"
+						value="no"
+						checked={lookingToHire === "no"}
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setHiring)}
+						onChange={() => setLookingToHire("no")}
 					/>
 					No
 				</label>
@@ -215,9 +298,11 @@ export default function SchoolProfileInfo({ userData }) {
 				<input
 					className="input-field"
 					type="link"
-					value={website}
+					id="website"
+					name="website"
+					value={schoolData.website}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setWebsite)}
+					onChange={handleChange}
 				/>
 			</div>
 
@@ -227,9 +312,11 @@ export default function SchoolProfileInfo({ userData }) {
 				<input
 					className="input-field"
 					type="link"
-					value={statementOfFaith}
+					id="statement_of_faith"
+					name="statement_of_faith"
+					value={schoolData.statement_of_faith}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setStatmentofFaith)}
+					onChange={handleChange}
 				/>
 			</div>
 
@@ -238,9 +325,11 @@ export default function SchoolProfileInfo({ userData }) {
 				<input
 					className="input-field"
 					type="link"
-					value={accreditation}
+					id="accreditation"
+					name="accreditation"
+					value={schoolData.accreditation}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setAccreditation)}
+					onChange={handleChange}
 				/>
 			</div>
 
@@ -249,44 +338,48 @@ export default function SchoolProfileInfo({ userData }) {
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="employed"
-						id="employed"
-						value="Less than 50"
+						name="teachers_employed"
+						id="teachers_employed"
+						value="less than 50"
+						checked={teachersEmployed === "less than 50"}
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setEmployed)}
+						onChange={() => setTeachersEmployeed("less than 50")}
 					/>
 					Less than 50
 				</label>
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="employed"
-						id="employed"
+						name="teachers_employed"
+						id="teachers_employed"
 						value="51 to 100"
+						checked={teachersEmployed === "51 to 100"}
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setEmployed)}
+						onChange={() => setTeachersEmployeed("51 to 100")}
 					/>
 					51 to 100
 				</label>
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="employed"
-						id="employed"
+						name="teachers_employed"
+						id="teachers_employed"
 						value="101 to 150"
+						checked={teachersEmployed === "101 to 150"}
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setEmployed)}
+						onChange={() => setTeachersEmployeed("101 to 150")}
 					/>
 					101 to 150
 				</label>
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="employed"
-						id="employed"
+						name="teachers_employed"
+						id="teachers_employed"
 						value="151 or Greater"
+						checked={teachersEmployed === "151 or greater"}
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setEmployed)}
+						onChange={() => setTeachersEmployeed("151 or greater")}
 					/>
 					151 or Greater
 				</label>
@@ -298,35 +391,50 @@ export default function SchoolProfileInfo({ userData }) {
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="enrollment"
-						id="enrollment"
-						value="200-500"
+						name="student_enrollment"
+						id="student_enrollment"
+						value="200 to 500"
+						checked={studentEnrollment === "200 to 500"}
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setEnrollment)}
+						onChange={() => setStudentEnrollment("200 to 500")}
 					/>
 					200 to 500
 				</label>
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="enrollment"
-						id="enrollment"
-						value="200-500"
+						name="student_enrollment"
+						id="student_enrollment"
+						value="501 to 1,000"
+						checked={studentEnrollment === "501 to 1,000"}
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setEnrollment)}
+						onChange={() => setStudentEnrollment("501 to 1,000")}
 					/>
 					500 to 1,000
 				</label>
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="enrollment"
-						id="enrollment"
-						value="200-500"
+						name="student_enrollment"
+						id="student_enrollment"
+						value="1,001 to 1,500"
+						checked={studentEnrollment === "1,001 to 1,500"}
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setEnrollment)}
+						onChange={() => setStudentEnrollment("1,001 to 1,500")}
 					/>
 					1,000 to 1,500
+				</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						name="student_enrollment"
+						id="student_enrollment"
+						value="1,501 or greater"
+						checked={studentEnrollment === "1,501 or greater"}
+						disabled={!isEditing}
+						onChange={() => setStudentEnrollment("1,501 or greater")}
+					/>
+					1,501 or Greater
 				</label>
 			</div>
 
@@ -335,35 +443,62 @@ export default function SchoolProfileInfo({ userData }) {
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="grade-range"
-						id="grade-range"
-						value="200-500"
+						name="grade_range"
+						id="grade_range"
+						value="k through 12"
+						checked={gradeRange === "k through 12"}
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setGradeRange)}
+						onChange={() => setGradeRange("k through 12")}
 					/>
-					200 to 500
+					K through 12
 				</label>
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="grade-range"
-						id="grade-range"
-						value="200-500"
+						name="grade_range"
+						id="grade_range"
+						value="elementary"
+						checked={gradeRange === "elementary"}
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setGradeRange)}
+						onChange={() => setGradeRange("elementary")}
 					/>
-					500 to 1,000
+					Elementary
 				</label>
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="grade-range"
-						id="grade-range"
-						value="200-500"
+						name="grade_range"
+						id="grade_range"
+						value="middle"
+						checked={gradeRange === "middle"}
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setGradeRange)}
+						onChange={() => setGradeRange("middle")}
 					/>
-					1,000 to 1,500
+					Middle
+				</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						name="grade_range"
+						id="grade_range"
+						value="high"
+						checked={gradeRange === "high"}
+						disabled={!isEditing}
+						onChange={() => setGradeRange("high")}
+					/>
+					High
+				</label>
+				<label className="radio-label">
+					<input
+						type="radio"
+						name="grade_range"
+						id="grade_range"
+						value="college"
+						checked={gradeRange === "college"}
+						disabled={!isEditing}
+						onChange={() => setGradeRange("college")}
+					/>
+					College
 				</label>
 			</div>
 
@@ -373,9 +508,11 @@ export default function SchoolProfileInfo({ userData }) {
 				<input
 					className="input-field"
 					type="email"
-					value={email}
+					name="contact_email"
+					id="contact_email"
+					value={schoolData.contact_email}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setEmail)}
+					onChange={handleChange}
 				/>
 			</div>
 		</div>

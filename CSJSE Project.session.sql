@@ -1,2 +1,2 @@
 SELECt *
-FROM school_profile;
+FROM job_posting;

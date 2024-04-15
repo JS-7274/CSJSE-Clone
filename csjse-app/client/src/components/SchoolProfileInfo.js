@@ -26,7 +26,6 @@ export default function SchoolProfileInfo({ userData }) {
 
 	// State for managing editing mode
 	const [isEditing, setIsEditing] = useState(false);
-	//const [id, setId] = useState("");
 	const { school_id } = useParams();
 
 	const [schoolData, setSchoolData] = useState({
@@ -108,17 +107,17 @@ export default function SchoolProfileInfo({ userData }) {
 				setIsEditing(false);
 				//fetchSchoolData();
 			} else {
-				console.error("Error during job posting creation:", data.error);
+				console.error("Error during school profile update:", data.error);
 			}
 		} catch (error) {
-			console.error("Error during job posting creation:", error);
+			console.error("Error during school profile update:", error);
 		}
 	};
 
-	// Function to handle input changes
+	/* // Function to handle input changes
 	const handleInputChange = (event, setter) => {
 		setter(event.target.value);
-	};
+	}; */
 
 	/* useEffect(() => {
 		// Update state when userData changes

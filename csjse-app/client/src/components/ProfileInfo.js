@@ -2,6 +2,8 @@
    TeacherStaffProfile file. */
 
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import "../styles/Profiles.css";
 import { auth } from "../firebase";
 
 export default function ProfileInfo({ userData }) {
@@ -24,28 +26,25 @@ export default function ProfileInfo({ userData }) {
 
 	// State for managing editing mode
 	const [isEditing, setIsEditing] = useState(false);
-	// State for tracking contact email input value
-	const [email, setEmail] = useState("");
-	// State for tracking first name input value
-	const [firstName, setFirstName] = useState("");
-	// State for tracking last name input value
-	const [lastName, setLastName] = useState("");
-	// State for tracking whether user is looking for a job
-	const [looking, setLooking] = useState("");
-	// State for tracking phone number input value
-	const [phoneNumber, setPhoneNumber] = useState("");
-	// State for tracking home church input value
-	const [homeChurch, setHomeChurch] = useState("");
-	// State for tracking resume file
-	const [resume, setResume] = useState("");
-	// State for tracking testimony input value
-	const [testimony, setTestimony] = useState("");
-	// State for tracking degreee level input value
-	const [degree, setDegree] = useState("");
-	// State for tracking location input value
-	const [location, setLocation] = useState("");
-	// State for tracking zip input value
-	const [zip, setZip] = useState("");
+	const { teacher_staff_id } = useParams();
+
+	const [teacherStaffData, setTeacherStaffData] = useState({
+		teacher_staff_id,
+		first_name: "",
+		last_name: "",
+		looking: "",
+		phone: "",
+		contact_email: "",
+		location: "",
+		zip: "",
+		home_church: "",
+		degree: "",
+		resume: "",
+		testimony: "",
+	});
+
+	const [lookingForJob, setLookingForJob] = useState("");
+	const [degreeLevel, setDegreeLevel] = useState("");
 
 	// Function to toggle editing mode
 	const toggleEditing = () => {
@@ -53,21 +52,55 @@ export default function ProfileInfo({ userData }) {
 	};
 
 	// Function to handle saving changes
-	const handleSave = () => {
-		setIsEditing(false); // Disable editing mode
+	const handleSave = async (e) => {
+		try {
+			const response = await fetch(
+				"http://localhost:5000/api/updateTeacherStaffProfile/",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						...teacherStaffData,
+						looking: lookingForJob,
+						degree: degreeLevel,
+					}),
+				}
+			);
+
+			// Parse the response as JSON
+			const data = await response.json();
+
+			console.log(data.success);
+
+			// If response is successful, ...
+			if (data.success) {
+				setIsEditing(false);
+				//fetchSchoolData();
+			} else {
+				console.error("Error during teacher staff profile update:", data.error);
+			}
+		} catch (error) {
+			console.error("Error during teacher staff profile update:", error);
+		}
 	};
 
 	// Function to handle input changes
-	const handleInputChange = (event, setter) => {
-		setter(event.target.value);
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setTeacherStaffData({
+			...teacherStaffData,
+			[name]: value,
+		});
 	};
 
-	// Function to handle radio button changes for degree
+	/* 	// Function to handle radio button changes for degree
 	const handleDegreeChange = (event) => {
 		setDegree(event.target.value);
-	};
+	}; */
 
-	useEffect(() => {
+	/* useEffect(() => {
 		// Update state when userData changes
 		setFirstName(userData?.first_name || "");
 		setLastName(userData?.last_name || "");
@@ -81,7 +114,7 @@ export default function ProfileInfo({ userData }) {
 		setResume(userData?.resume || "");
 		setTestimony(userData?.testimony || "");
 		// ... (update other state variables)
-	}, [userData]);
+	}, [userData]); */
 
 	return (
 		<div>
@@ -110,9 +143,11 @@ export default function ProfileInfo({ userData }) {
 				<input
 					className="input-field"
 					type="text"
-					value={firstName}
+					id="first_name"
+					name="first_name"
+					value={teacherStaffData.first_name}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setFirstName)}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="form-group">
@@ -120,9 +155,11 @@ export default function ProfileInfo({ userData }) {
 				<input
 					className="input-field"
 					type="text"
-					value={lastName}
+					id="last_name"
+					name="last_name"
+					value={teacherStaffData.last_name}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setLastName)}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="form-group">
@@ -134,7 +171,7 @@ export default function ProfileInfo({ userData }) {
 						id="looking-for-job"
 						value="Yes"
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setLooking)}
+						//onChange={(event) => handleChange(event, setLooking)}
 					/>
 					Yes
 				</label>
@@ -145,7 +182,7 @@ export default function ProfileInfo({ userData }) {
 						id="looking-for-job"
 						value="No"
 						disabled={!isEditing}
-						onChange={(event) => handleInputChange(event, setLooking)}
+						//onChange={(event) => handleChange(event, setLooking)}
 					/>
 					No
 				</label>
@@ -155,9 +192,11 @@ export default function ProfileInfo({ userData }) {
 				<input
 					className="input-field"
 					type="text"
-					value={phoneNumber}
+					name="phone"
+					id="phone"
+					value={teacherStaffData.phone}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setPhoneNumber)}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="form-group">
@@ -165,9 +204,11 @@ export default function ProfileInfo({ userData }) {
 				<input
 					className="input-field"
 					type="email"
-					value={email}
+					name="contact_email"
+					id="contact_email"
+					value={teacherStaffData.contact_email}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setEmail)}
+					onChange={handleChange}
 				/>
 			</div>
 
@@ -176,9 +217,11 @@ export default function ProfileInfo({ userData }) {
 				<input
 					className="input-field"
 					type="text"
-					value={location}
+					name="location"
+					id="location"
+					value={teacherStaffData.location}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setLocation)}
+					onChange={handleChange}
 				/>
 			</div>
 
@@ -188,9 +231,11 @@ export default function ProfileInfo({ userData }) {
 				<input
 					className="input-field"
 					type="text"
-					value={zip}
+					name="zip"
+					id="zip"
+					value={teacherStaffData.zip}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setZip)}
+					onChange={handleChange}
 				/>
 			</div>
 
@@ -199,9 +244,11 @@ export default function ProfileInfo({ userData }) {
 				<input
 					className="input-field"
 					type="text"
-					value={homeChurch}
+					name="home_church"
+					id="home_church"
+					value={teacherStaffData.home_church}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setHomeChurch)}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="form-group">
@@ -215,7 +262,7 @@ export default function ProfileInfo({ userData }) {
 						value="Associate"
 						disabled={!isEditing}
 						//checked={degree === "Associate's"}
-						onChange={handleDegreeChange}
+						//onChange={handleDegreeChange}
 					/>
 					Associate's
 				</label>
@@ -227,7 +274,7 @@ export default function ProfileInfo({ userData }) {
 						value="Bachelor"
 						disabled={!isEditing}
 						//checked={degree === "Bachelor's"}
-						onChange={handleDegreeChange}
+						//onChange={handleDegreeChange}
 					/>
 					Bachelor's
 				</label>
@@ -239,7 +286,7 @@ export default function ProfileInfo({ userData }) {
 						value="Master"
 						disabled={!isEditing}
 						//checked={degree === "Master's"}
-						onChange={handleDegreeChange}
+						//onChange={handleDegreeChange}
 					/>
 					Master's
 				</label>
@@ -248,11 +295,13 @@ export default function ProfileInfo({ userData }) {
 			<div className="form-group">
 				<label>Resume</label>
 				<input
-					className=""
-					type="file"
-					value={resume}
+					className="input-field"
+					type="link"
+					name="resume"
+					id="resume"
+					value={teacherStaffData.resume}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setResume)}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className="form-group">
@@ -260,9 +309,11 @@ export default function ProfileInfo({ userData }) {
 				<textarea
 					className="input-field"
 					type="text"
-					value={testimony}
+					name="testimony"
+					id="testimony"
+					value={teacherStaffData.testimony}
 					disabled={!isEditing}
-					onChange={(event) => handleInputChange(event, setTestimony)}
+					onChange={handleChange}
 				/>
 			</div>
 		</div>

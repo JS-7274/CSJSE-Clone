@@ -206,7 +206,7 @@ function Schools() {
 								<option value="south_dakota">South Dakota</option>
 								<option value="tennessee">Tennessee</option>
 								<option value="texas">Texas</option>
-								<option value="utah">utah</option>
+								<option value="utah">Utah</option>
 								<option value="vermont">Vermont</option>
 								<option value="virginia">Virginia</option>
 								<option value="washington">Washington</option>

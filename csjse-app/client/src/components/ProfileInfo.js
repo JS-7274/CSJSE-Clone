@@ -46,6 +46,26 @@ export default function ProfileInfo({ userData }) {
 	const [lookingForJob, setLookingForJob] = useState("");
 	const [degreeLevel, setDegreeLevel] = useState("");
 
+	useEffect(() => {
+		const fetchTeacherStaffData = async () => {
+			try {
+				const response = await fetch(
+					`http://localhost:5000/api/teacher/users/${teacher_staff_id}`
+				);
+				const data = await response.json();
+
+				if (data.success) {
+					setTeacherStaffData(data.user);
+				} else {
+					console.error("Error fetching user data:", data.message);
+				}
+			} catch (error) {
+				console.error("Error fetching user data:", error);
+			}
+		};
+		fetchTeacherStaffData();
+	}, [teacher_staff_id]);
+
 	// Function to toggle editing mode
 	const toggleEditing = () => {
 		setIsEditing(!isEditing);
@@ -167,22 +187,24 @@ export default function ProfileInfo({ userData }) {
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="looking-for-job"
-						id="looking-for-job"
-						value="Yes"
+						name="looking"
+						id="looking"
+						value="yes"
+						checked={lookingForJob === "yes"}
 						disabled={!isEditing}
-						//onChange={(event) => handleChange(event, setLooking)}
+						onChange={() => setLookingForJob("yes")}
 					/>
 					Yes
 				</label>
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="looking-for-job"
-						id="looking-for-job"
-						value="No"
+						name="looking"
+						id="looking"
+						value="no"
+						checked={lookingForJob === "no"}
 						disabled={!isEditing}
-						//onChange={(event) => handleChange(event, setLooking)}
+						onChange={() => setLookingForJob("no")}
 					/>
 					No
 				</label>
@@ -257,36 +279,36 @@ export default function ProfileInfo({ userData }) {
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="degree-level"
-						id="degree-level"
-						value="Associate"
+						name="degree"
+						id="degree"
+						value="associate"
+						checked={degreeLevel === "associate"}
 						disabled={!isEditing}
-						//checked={degree === "Associate's"}
-						//onChange={handleDegreeChange}
+						onChange={() => setDegreeLevel("associate")}
 					/>
 					Associate's
 				</label>
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="degree-level"
-						id="degree-level"
-						value="Bachelor"
+						name="degree"
+						id="degree"
+						value="bachelor"
+						checked={degreeLevel === "bachelor"}
 						disabled={!isEditing}
-						//checked={degree === "Bachelor's"}
-						//onChange={handleDegreeChange}
+						onChange={() => setDegreeLevel("bachelor")}
 					/>
 					Bachelor's
 				</label>
 				<label className="radio-label">
 					<input
 						type="radio"
-						name="degree-level"
-						id="degree-level"
-						value="Master"
+						name="degree"
+						id="degree"
+						value="master"
+						checked={degreeLevel === "master"}
 						disabled={!isEditing}
-						//checked={degree === "Master's"}
-						//onChange={handleDegreeChange}
+						onChange={() => setDegreeLevel("master")}
 					/>
 					Master's
 				</label>

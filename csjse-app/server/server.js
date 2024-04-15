@@ -743,86 +743,87 @@ app.post("/api/updateSchoolProfile", (req, res) => {
 
 //api that updates teacher profile
 app.post("/api/updateTeacherStaffProfile", (req, res) => {
-	console.log("Received references update request", req.body);
+	console.log("Received teacher staff profile update request", req.body);
 
 	// Extract information received into variables for database insertion/update
 	const {
-		school_id,
-		school_name,
+		teacher_staff_id,
+		first_name,
+		last_name,
+		looking,
+		phone,
+		contact_email,
 		location,
 		zip,
-		campus_number,
-		phone,
-		looking,
-		website,
-		statement_of_faith,
-		accreditation,
-		teachers_employed,
-		student_enrollment,
-		grade_range,
-		contact_email,
+		home_church,
+		degree,
+		resume,
+		testimony,
 	} = req.body;
 
 	// Check if school exist for the provided school_id
-	const checkSchoolExistSql = `SELECT * FROM school_profile WHERE school_id = ?`;
+	const checkTeacherStaffExistSql = `SELECT * FROM teacher_staff_profile WHERE teacher_staff_id = ?`;
 
-	db.query(checkSchoolExistSql, [school_id], (err, schoolResults) => {
-		if (err) {
-			console.error("Error checking references:", err.message);
-			return res.status(500).json({ error: "Internal Server Error" });
-		}
+	db.query(
+		checkTeacherStaffExistSql,
+		[teacher_staff_id],
+		(err, teacherStaffResults) => {
+			if (err) {
+				console.error("Error checking teacher staff profiile:", err.message);
+				return res.status(500).json({ error: "Internal Server Error" });
+			}
 
-		// If references exist, update them; otherwise, insert new references
-		if (schoolResults.length > 0) {
-			// Update the References table
-			const updateSchoolInfoSql = `
-                UPDATE School_Profile
+			// If references exist, update them; otherwise, insert new references
+			if (teacherStaffResults.length > 0) {
+				// Update the References table
+				const updateTeacherStaffInfoSql = `
+                UPDATE Teacher_Staff_Profile
                 SET
-					school_name = ?,
+					first_name = ?,
+					last_name = ?,
+					looking = ?,
+					phone = ?,
+					contact_email = ?,
 					location = ?,
 					zip = ?,
-					campus_number = ?,
-					phone = ?,
-					looking = ?,
-					website = ?,
-					statement_of_faith = ?,
-					accreditation = ?,
-					teachers_employed = ?,
-					student_enrollment = ?,
-					grade_range = ?,
-					contact_email = ?
-				WHERE school_id = ?
+					home_church = ?,
+					degree = ?,
+					resume = ?,
+					testimony = ?
+				WHERE teacher_staff_id = ?
             `;
 
-			db.query(
-				updateSchoolInfoSql,
-				[
-					school_name,
-					location,
-					zip,
-					campus_number,
-					phone,
-					looking,
-					website,
-					statement_of_faith,
-					accreditation,
-					teachers_employed,
-					student_enrollment,
-					grade_range,
-					contact_email,
-					school_id,
-				],
-				(err, schoolResults) => {
-					if (err) {
-						console.error("Error updating school profile:", err.message);
-						return res.status(500).json({ error: "Internal Server Error" });
-					}
+				db.query(
+					updateTeacherStaffInfoSql,
+					[
+						first_name,
+						last_name,
+						looking,
+						phone,
+						contact_email,
+						location,
+						zip,
+						home_church,
+						degree,
+						resume,
+						testimony,
+						teacher_staff_id,
+					],
+					(err, teacherStaffResults) => {
+						if (err) {
+							console.error(
+								"Error updating teacher staff profile:",
+								err.message
+							);
+							return res.status(500).json({ error: "Internal Server Error" });
+						}
 
-					return res.json({ success: true });
-				}
-			);
+						return res.json({ success: true });
+					}
+				);
+			}
 		}
-	});
+	);
 });
 
 //api that adds or updates the teacher/staff optional uploads in the database

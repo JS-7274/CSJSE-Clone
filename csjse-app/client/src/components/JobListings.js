@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import DeleteConfirmation from "../components/DeleteConfirmation";
 
 export default function JobListings() {
 	// State to manage the visibility of the create job posting form
@@ -10,6 +11,7 @@ export default function JobListings() {
 	const [degreeOptions] = useState(["Bachelor", "Master", "PhD", "Associate"]); // Define degree options
 	const [selectedPreferredDegree, setSelectedPreferredDegree] = useState(""); // State to manage selected degree
 	const [selectedRequiredDegree, setSelectedRequiredDegree] = useState(""); // State to manage selected degree
+	const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
 	const [location, setLocation] = useState(""); // State to manage the location input
 	const [applicationUrl, setApplicationUrl] = useState("");
@@ -275,14 +277,21 @@ export default function JobListings() {
 		}
 	};
 
-	const handleDelete = async (jobId) => {
+	const handleDelete = () => {
+		setShowDeleteConfirmation(true);
+	};
+
+	const confirmDelete = async (jobId) => {
 		try {
-			const response = await fetch(`http://localhost:5000/api/deleteJob/${jobId}`, {
-				method: "DELETE",
-			});
-	
+			const response = await fetch(
+				`http://localhost:5000/api/deleteJob/${jobId}`,
+				{
+					method: "DELETE",
+				}
+			);
+
 			const data = await response.json();
-	
+
 			if (data.success) {
 				// If deletion is successful, fetch the updated job list
 				fetchJobList();
@@ -296,6 +305,8 @@ export default function JobListings() {
 
 	return (
 		<div className="profile-content">
+			{showDeleteConfirmation && <div className="overlay" />}
+
 			<div className="section-header">
 				<h2>Job Postings</h2>
 				{/* Header buttons */}
@@ -653,20 +664,27 @@ export default function JobListings() {
 									<div className="job-buttons">
 										{/*<input type="submit" value="View Applicants"></input>*/}
 										<input
-											type="submit"
-											value="Edit"
-											onClick={() => handleEdit(job.job_id)}
-										></input>
-										<input
+											className="delete-button"
 											type="submit"
 											value="Delete"
 											onClick={() => handleDelete(job.job_id)}
+										></input>
+										<input
+											type="submit"
+											value="Edit"
+											onClick={() => handleEdit(job.job_id)}
 										></input>
 									</div>
 								</div>
 							)}
 						</div>
 					))}
+			{showDeleteConfirmation && (
+				<DeleteConfirmation
+					onCancel={() => setShowDeleteConfirmation(false)}
+					onConfirm={confirmDelete}
+				/>
+			)}
 		</div>
 	);
 }

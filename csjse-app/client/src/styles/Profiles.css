@@ -188,6 +188,14 @@ input[type="submit"]:hover {
 	background-color: #26b170;
 }
 
+input[type="submit"].delete-button {
+	background-color: #cd0001;
+}
+
+input[type="submit"].delete-button:hover {
+	background-color: #8e0000;
+}
+
 input[type="submit"]:disabled {
 	opacity: 0.5;
 	cursor: default;

@@ -92,11 +92,13 @@ export default function ProfileInfo() {
 
 	// Function to handle saving changes
 	const handleSave = async (e) => {
+		e.preventDefault();
+		console.log("http://localhost:5000/api/updateProfileInfo");
 		try {
 			const response = await fetch(
-				`http://localhost:5000/api/updateProfileInfo/`,
+				"http://localhost:5000/api/updateProfileInfo",
 				{
-					method: "POST",
+					method: "PUT",
 					headers: {
 						"Content-Type": "application/json",
 					},
@@ -104,20 +106,31 @@ export default function ProfileInfo() {
 				}
 			);
 			console.log(userData);
+
+			//Check the response.
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
 			// Parse the response as JSON
 			const data = await response.json();
 
 			console.log(data.success);
 
 			// If response is successful, ...
-			if (data.success) {
-				setIsEditing(false);
-				fetchUserData();
+			if (data.success != undefined) {
+				if (data.success) {
+					setIsEditing(false);
+					fetchUserData();
+				} else {
+					console.error("Error saving CHANGES:", data.error);
+				}
+				
 			} else {
-				console.error("Error saving changes:", data.error);
+				console.error("Unexpected response format:", data);
 			}
-		} catch {
-			console.error("Error saving changes:", e);
+		} catch (error) {
+			console.error("Error saving changes:", error);
 		}
 	};
 

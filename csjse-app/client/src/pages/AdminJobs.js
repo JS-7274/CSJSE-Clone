@@ -1,3 +1,9 @@
+/* The purpose of this file is to display a list of jobs to the admin user in conjunction with
+   the joblist file. 
+   
+   People who have worked on this file: Autumn, Josh
+   Last worked on: 4/13/2024*/
+
 import React, { useState, useEffect } from "react";
 import { AdminHeader } from "../components/Headers";
 import "../styles/SearchPage.css";

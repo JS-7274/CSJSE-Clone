@@ -1,4 +1,7 @@
-/* This page will handle a login check for admin users before sending them to their home page. */
+/* This page will handle a login check for admin users before sending them to their home page. 
+
+   People who have worked on this file: Josh
+   Last worked on: 4/11/2024*/
 
 import React, { useEffect } from "react";
 import { auth } from "../firebase";

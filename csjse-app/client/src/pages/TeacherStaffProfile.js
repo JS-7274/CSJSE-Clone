@@ -1,5 +1,8 @@
 /* The purpose of this file is to display information for the teacher user on their own profile.
-   This file works with the ProfileInfo file to display the information correctly. */
+   This file works with the ProfileInfo file to display the information correctly. 
+   
+   People who have worked on this file: Autumn, Matthew, Joseph, Josh
+   Last worked on: 4/8/2024*/
 
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";

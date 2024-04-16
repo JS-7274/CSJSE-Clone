@@ -1,5 +1,8 @@
 /* Unused file, was going to be used for search but issues arised requiring this file to be
-   merged with both search files. */
+   merged with both search files. 
+   
+   People who have worked on this file: Autumn, Matthew, Josh
+   Last worked on: 4/15/2024*/
 
 import React, { useState } from "react";
 import "@fortawesome/fontawesome-free/css/all.css";

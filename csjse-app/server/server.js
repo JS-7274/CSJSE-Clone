@@ -1,5 +1,8 @@
 /* This document will establish a connection to the database as well as
-   create all the APIs that the frontend will call to interact with the database. */
+   create all the APIs that the frontend will call to interact with the database.
+   
+   People who have worked on this file: Autumn, Matthew, Josh, Joseph
+   Last Worked on: 4/15/2024  */
 
 const express = require("express");
 const mysql = require("mysql2");

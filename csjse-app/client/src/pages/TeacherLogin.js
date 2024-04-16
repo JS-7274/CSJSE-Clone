@@ -1,4 +1,7 @@
-/* This file is used to handle a teacher or staff users' login. */
+/* This file is used to handle a teacher or staff users' login. 
+
+   People who have worked on this file: Josh
+   Last worked on: 3/15/2024*/
 
 import React, { useState } from "react";
 import "../styles/LoginandCreate.css";

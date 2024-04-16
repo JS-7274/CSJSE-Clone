@@ -1,4 +1,7 @@
-/* This file is used to display a popup when an admin attempts to delete a job or profile */
+/* This file is used to display a popup when an admin attempts to delete a job or profile 
+
+   People who have worked on this file: Autumn
+   Last worked on: 4/11/2024*/
 
 import React from "react";
 

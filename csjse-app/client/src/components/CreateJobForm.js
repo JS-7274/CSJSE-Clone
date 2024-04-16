@@ -1,3 +1,8 @@
+/* This file will be displayed whenver a job is being created.
+
+   People who have worked on this file: Autumn
+   Last worked on: 3/15/2024*/
+
 import React, { useState } from "react";
 
 export default function CreateJobForm(onSave, onCancel) {

@@ -1,3 +1,8 @@
+/* This page will handle optional uploads for the school user.
+ 
+   People who have worked on this file: Autumn
+   Last worked on: 2/15/2024*/
+
 import React, { useState } from "react";
 
 export default function SchoolOptionalUploads() {

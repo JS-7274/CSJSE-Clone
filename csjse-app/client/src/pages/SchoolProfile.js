@@ -1,5 +1,8 @@
 /* This file will be called when the school user goes to their profile and will work with the
-   SchoolProfileInfo file to display the users information. */
+   SchoolProfileInfo file to display the users information. 
+   
+   People who have worked on this file: Autumn, Josh, Matthew
+   Last worked on: 4/8/2024*/
 
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";

@@ -1,3 +1,8 @@
+/* This file will store optional uploads.
+
+   People who have worked on this file: Autumn
+   Last worked on: 2/15/2024*/
+
 import React, { useState } from "react";
 
 export default function OptionalUploads() {

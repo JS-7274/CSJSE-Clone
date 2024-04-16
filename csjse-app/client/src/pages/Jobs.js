@@ -1,3 +1,10 @@
+/* The purpose of this file is to display the jobs that are being searched for in conjunction with the 
+   joblist file.
+
+   People who have worked on this file: Autumn, Josh
+   Last worked on: 4/15/2024*/
+
+
 import React, { useState, useEffect } from "react";
 import { TeacherStaffHeader } from "../components/Headers";
 import "../styles/SearchPage.css";

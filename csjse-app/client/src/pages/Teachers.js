@@ -1,5 +1,8 @@
 /* The purpose of this file is to display teachers when they are searched and filtered along with
-   the TeacherList.js file. This file handles most of the logic required in the searching and filtering. */
+   the TeacherList.js file. This file handles most of the logic required in the searching and filtering.
+   
+   People who have worked on this file: Josh, Autumn
+   Last worked on: 4/13/2024 */
 
 import React, { useState, useEffect } from "react";
 import { SchoolHeader } from "../components/Headers";

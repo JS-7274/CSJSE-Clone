@@ -172,6 +172,20 @@ function AdminSchools() {
 		}
 	};
 
+	const handleViewWebsite = () => {
+		if (selectedSchool && selectedSchool.website) {
+			window.open(selectedSchool.website, "_blank");
+		} else {
+			alert("No website link has been attached at this time");
+		}
+	};
+
+	const handleEmail = () => {
+		if (selectedSchool && selectedSchool.contact_email) {
+			window.open("mailto:" + selectedSchool.contact_email, "_blank");
+		}
+	};
+
 	return (
 		<div>
 			{showDeleteConfirmation && <div className="overlay" />}
@@ -338,9 +352,7 @@ function AdminSchools() {
 										<p>{selectedSchool.accreditation}</p>
 									</div>
 									<div className="info-group">
-										<a href="{selectedSchool.website}">
-											<button>School Website</button>
-										</a>
+										<button onClick={handleViewWebsite}>School Website</button>
 									</div>
 								</div>
 								<div>
@@ -350,11 +362,10 @@ function AdminSchools() {
 									</div>
 									<div className="info-group">
 										<label>Contact Email:</label>
-										<p>
-											<a href="mailto:{selectedSchool.contact_email}">
-												{selectedSchool.contact_email}
-											</a>
-										</p>
+
+										<button className="link-button" onClick={handleEmail}>
+											{selectedSchool.contact_email}
+										</button>
 									</div>
 									<div className="info-group">
 										<label>Location:</label>

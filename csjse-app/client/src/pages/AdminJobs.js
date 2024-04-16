@@ -113,6 +113,21 @@ function AdminJobs() {
 		}
 	};
 
+	const handleApply = () => {
+		// Implement the apply functionality here
+		if (selectedJob && selectedJob.application_url) {
+			window.open(selectedJob.application_url, "_blank");
+		} else {
+			alert("No application link has been attached at this time");
+		}
+	};
+
+	const handleEmail = () => {
+		if (selectedJob && selectedJob.contact_email) {
+			window.open("mailto:" + selectedJob.contact_email, "_blank");
+		}
+	};
+
 	return (
 		<div>
 			{showDeleteConfirmation && <div className="overlay" />}
@@ -216,17 +231,14 @@ function AdminJobs() {
 									</div>
 									<div className="info-group">
 										<label>Contact Email:</label>
-										<p>
-											<a href="mailto:{selectedJob.contact_email}">
-												{selectedJob.contact_email}
-											</a>
-										</p>
+
+										<button className="link-button" onClick={handleEmail}>
+											{selectedJob.contact_email}
+										</button>
 									</div>
 
 									<div className="info-group">
-										<a href="{selectedJob.application_url}">
-											<button>External Application</button>
-										</a>
+										<button onClick={handleApply}>External Application</button>
 									</div>
 								</div>
 							</div>

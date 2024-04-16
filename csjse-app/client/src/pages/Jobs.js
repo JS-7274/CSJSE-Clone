@@ -4,7 +4,6 @@
    People who have worked on this file: Autumn, Josh
    Last worked on: 4/15/2024*/
 
-
 import React, { useState, useEffect } from "react";
 import { TeacherStaffHeader } from "../components/Headers";
 import "../styles/SearchPage.css";
@@ -97,8 +96,16 @@ function Jobs() {
 
 	const handleApply = () => {
 		// Implement the apply functionality here
-		if (selectedJob && selectedJob.application_link) {
-			window.open(selectedJob.application_link, "_blank");
+		if (selectedJob && selectedJob.application_url) {
+			window.open(selectedJob.application_url, "_blank");
+		} else {
+			alert("No application link has been attached at this time");
+		}
+	};
+
+	const handleEmail = () => {
+		if (selectedJob && selectedJob.contact_email) {
+			window.open("mailto:" + selectedJob.contact_email, "_blank");
 		}
 	};
 
@@ -259,11 +266,10 @@ function Jobs() {
 									</div>
 									<div className="info-group">
 										<label>Contact Email:</label>
-										<p>
-											<a href="mailto:{selectedJob.contact_email}">
-												{selectedJob.contact_email}
-											</a>
-										</p>
+
+										<button className="link-button" onClick={handleEmail}>
+											{selectedJob.contact_email}
+										</button>
 									</div>
 
 									<div className="info-group">

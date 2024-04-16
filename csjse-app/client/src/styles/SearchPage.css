@@ -3,7 +3,6 @@
    People who have worked on this file: Autumn
    Last worked on: 4/13/2024*/
 
-
 .search-and-filter-bar {
 	display: flex;
 	flex-direction: row;
@@ -250,7 +249,9 @@ input {
 }
 
 .info-group a {
-	text-decoration: none;
+	text-decoration: underline;
+	color: #0000ee;
+	cursor: pointer;
 }
 
 .info-group button {
@@ -272,4 +273,20 @@ input {
 .info-group button:hover {
 	background-color: #26b170;
 	color: #fff;
+}
+
+.info-group .link-button {
+	background-color: transparent;
+	border: none;
+	text-decoration: underline;
+	color: #0000ee;
+	margin-bottom: 15px;
+}
+
+.info-group .link-button:hover {
+	background-color: transparent;
+	border: none;
+	text-decoration: underline;
+	color: #0000ee;
+	cursor: pointer;
 }

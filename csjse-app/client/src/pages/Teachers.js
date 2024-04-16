@@ -34,6 +34,8 @@ function Teachers() {
 	// Add state to store the looking filter
 	const [looking, setLooking] = useState(false);
 
+	//const [isViewable, setIsViewable] = useState(false);
+
 	useEffect(() => {
 		// Fetch all teachers when the file is called
 		fetchTeachers();
@@ -146,6 +148,20 @@ function Teachers() {
 		fetchTeachers();
 		setSelectedTeacher(null);
 		setNoSelectedTeacher(true);
+	};
+
+	const handleViewResume = () => {
+		if (selectedTeacher && selectedTeacher.resume) {
+			window.open(selectedTeacher.resume, "_blank");
+		} else {
+			alert("This teacher has not attached a resume at this time");
+		}
+	};
+
+	const handleEmail = () => {
+		if (selectedTeacher && selectedTeacher.contact_email) {
+			window.open("mailto:" + selectedTeacher.contact_email, "_blank");
+		}
 	};
 
 	return (
@@ -291,9 +307,7 @@ function Teachers() {
 										<p>{selectedTeacher.testimony}</p>
 									</div>
 									<div className="info-group">
-										<a href="{selectedTeacher.job_resume}">
-											<button>External Resume</button>
-										</a>
+										<button onClick={handleViewResume}>External Resume</button>
 									</div>
 								</div>
 								<div>
@@ -303,11 +317,10 @@ function Teachers() {
 									</div>
 									<div className="info-group">
 										<label>Contact Email:</label>
-										<p>
-											<a href="mailto:{selectedTeacher.contact_email}">
-												{selectedTeacher.contact_email}
-											</a>
-										</p>
+
+										<button className="link-button" onClick={handleEmail}>
+											{selectedTeacher.contact_email}
+										</button>
 									</div>
 									<div className="info-group">
 										<label>Location:</label>

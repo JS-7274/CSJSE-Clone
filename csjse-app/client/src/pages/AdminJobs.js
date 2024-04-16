@@ -164,7 +164,7 @@ function AdminJobs() {
 								name="job_location"
 								value={filterOptions.job_location}
 								onChange={handleLocationChange}
-								placeholder="Enter State, City"
+								placeholder="Enter State"
 							/>
 						</div>
 

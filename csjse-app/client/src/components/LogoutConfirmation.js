@@ -1,5 +1,8 @@
 /* This file is used to display a popup when a user attempts to log out and is called by the
-   different profile flies. */
+   different profile flies. 
+   
+   People who have worked on this file: Autumn
+   Last worked on: 3/15/2024*/
 
 import React from "react";
 

@@ -1,6 +1,9 @@
 /*LogoutConfirmation.css */
 /* This CSS is used to style both the logout confirmation (LogoutConfirmation.js) 
-and the delete confirmation (DeleteConfirmation.js)*/
+and the delete confirmation (DeleteConfirmation.js)
+
+   People who have worked on this file: Autumn
+   Last worked on: 4/11/2024*/
 
 .logout {
 	display: flex;

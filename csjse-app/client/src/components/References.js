@@ -1,4 +1,7 @@
-/* This file handles the display of references in profiles. */
+/* This file handles the display of references in profiles. 
+
+   People who have worked on this file: Autumn
+   Last worked on: 4/8/15*/
 
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";

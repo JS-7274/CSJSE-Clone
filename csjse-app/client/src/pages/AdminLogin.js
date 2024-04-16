@@ -1,4 +1,7 @@
-/* This page will handle the login functionality for Admin users. */
+/* This page will handle the login functionality for Admin users. 
+
+   People who have worked on this file: Josh
+   Last worked on: 3/15/2024*/
 
 import React, { useState } from "react";
 import "../styles/LoginandCreate.css";

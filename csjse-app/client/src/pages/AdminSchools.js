@@ -1,4 +1,7 @@
-/* Serves as a page that will allow admin users to search for schools. */
+/* Serves as a page that will allow admin users to search for schools. 
+
+   People who have worked on this file: Autumn, Josh
+   Last worked on: 4/13/2024*/
 
 import React, { useState, useEffect } from "react";
 import { AdminHeader } from "../components/Headers";
@@ -246,7 +249,7 @@ function AdminSchools() {
 								<option value="south_dakota">South Dakota</option>
 								<option value="tennessee">Tennessee</option>
 								<option value="texas">Texas</option>
-								<option value="utah">utah</option>
+								<option value="utah">Utah</option>
 								<option value="vermont">Vermont</option>
 								<option value="virginia">Virginia</option>
 								<option value="washington">Washington</option>

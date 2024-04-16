@@ -1,3 +1,10 @@
+/* The purpose of this file is to display the jobs that are being searched for in conjunction with the 
+   joblist file.
+
+   People who have worked on this file: Autumn, Josh
+   Last worked on: 4/15/2024*/
+
+
 import React, { useState, useEffect } from "react";
 import { TeacherStaffHeader } from "../components/Headers";
 import "../styles/SearchPage.css";
@@ -171,7 +178,7 @@ function Jobs() {
 								<option value="south_dakota">South Dakota</option>
 								<option value="tennessee">Tennessee</option>
 								<option value="texas">Texas</option>
-								<option value="utah">utah</option>
+								<option value="utah">Utah</option>
 								<option value="vermont">Vermont</option>
 								<option value="virginia">Virginia</option>
 								<option value="washington">Washington</option>

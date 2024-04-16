@@ -1,4 +1,7 @@
-/* This file defines a generic error popup. */
+/* This file defines a generic error popup. 
+
+   People who have worked on this file: Josh
+   Last worked on: 11/20/2023*/
 
 import React from "react";
 

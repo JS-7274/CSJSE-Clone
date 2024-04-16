@@ -1,4 +1,7 @@
-/* This file handles the school information that will be displayed in the School Profile file. */
+/* This file handles the school information that will be displayed in the School Profile file. 
+
+   People who have worked on this file: Autumn, Matthew, Josh
+   Last worked on: 4/11/2024*/
 
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";

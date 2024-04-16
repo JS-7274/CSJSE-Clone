@@ -1,4 +1,7 @@
-/* This function will be called to bring up a form to create a new account for a school. */
+/* This function will be called to bring up a form to create a new account for a school. 
+
+   People who have worked on this file: Autumn, Josh
+   Last worked on: 3/15/2024*/
 
 import React, { useState } from "react";
 import "../styles/LoginandCreate.css";

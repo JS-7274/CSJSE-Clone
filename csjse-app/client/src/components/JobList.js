@@ -1,3 +1,9 @@
+/* This file will handle displaying a list of jobs in conjunction with other files. 
+
+   People who have worked on this file: Autumn, Josh
+   Last worked on: 4/4/2024*/
+
+
 import React, { useEffect, useState } from "react";
 
 function JobList({ onSelectJob, searchResult, searchTerm, filterOptions }) {

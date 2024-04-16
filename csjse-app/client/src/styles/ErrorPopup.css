@@ -1,4 +1,9 @@
-/* ErrorPopup.css */
+/* ErrorPopup.css 
+
+   This file sets the styling for the popup that occurs whenever there is an error.
+   
+   People who have worked on this file: Autumn, Josh
+   Last worked on: 3/15/2024*/
 
 .errorpopup {
 	display: flex;

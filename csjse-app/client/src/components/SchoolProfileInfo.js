@@ -310,10 +310,10 @@ export default function SchoolProfileInfo({ userData }) {
 
 			{/*Statement of Faith*/}
 			<div className="form-group">
-				<label>Link to Statement of Faith</label>
+				<label>Statement of Faith</label>
 				<input
 					className="input-field"
-					type="link"
+					type="text"
 					id="statement_of_faith"
 					name="statement_of_faith"
 					value={schoolData.statement_of_faith}
